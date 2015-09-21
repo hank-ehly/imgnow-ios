@@ -45,6 +45,7 @@
 		33E915781BAFAB7700A44BE1 /* Upload-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 33E9155C1BAFAB7700A44BE1 /* Upload-100.png */; settings = {ASSET_TAGS = (); }; };
 		33E915791BAFAB7700A44BE1 /* Xlarge Icons-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 33E9155D1BAFAB7700A44BE1 /* Xlarge Icons-50.png */; settings = {ASSET_TAGS = (); }; };
 		33E9157D1BAFABA500A44BE1 /* button.png in Resources */ = {isa = PBXBuildFile; fileRef = 33E9157C1BAFABA500A44BE1 /* button.png */; settings = {ASSET_TAGS = (); }; };
+		33E9157F1BAFAF0E00A44BE1 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33E9157E1BAFAF0E00A44BE1 /* AVFoundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -111,6 +112,7 @@
 		33E9155C1BAFAB7700A44BE1 /* Upload-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Upload-100.png"; sourceTree = "<group>"; };
 		33E9155D1BAFAB7700A44BE1 /* Xlarge Icons-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Xlarge Icons-50.png"; sourceTree = "<group>"; };
 		33E9157C1BAFABA500A44BE1 /* button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button.png; sourceTree = "<group>"; };
+		33E9157E1BAFAF0E00A44BE1 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +120,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33E9157F1BAFAF0E00A44BE1 /* AVFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,6 +144,7 @@
 		33987D851BAF63DD00D728C2 = {
 			isa = PBXGroup;
 			children = (
+				33E9157E1BAFAF0E00A44BE1 /* AVFoundation.framework */,
 				33987D901BAF63DD00D728C2 /* imgnow-ios */,
 				33987DAD1BAF63DD00D728C2 /* imgnow-iosTests */,
 				33987DB81BAF63DD00D728C2 /* imgnow-iosUITests */,
