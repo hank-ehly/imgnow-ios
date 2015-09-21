@@ -14,21 +14,31 @@
 @property AVCaptureSession *captureSession;
 @property AVCaptureStillImageOutput *stillImageOutput;
 
-@property (weak, nonatomic) IBOutlet UIView *previewLayer;
+@property UIAlertController *alertController;
+@property UIAlertAction *alertActionHtmlOk;
+@property UIAlertAction *alertActionSendEmail;
+
+@property UIAlertAction *alertActionEmailOk;
+
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIButton *btnTakePhoto;
 @property (weak, nonatomic) IBOutlet UIButton *btnCancel;
 @property (weak, nonatomic) IBOutlet UIButton *btnSwitchCamera;
 @property (weak, nonatomic) IBOutlet UIButton *btnMenu;
 @property (weak, nonatomic) IBOutlet UIButton *btnFlashOff;
+@property (weak, nonatomic) IBOutlet UIButton *btnUpload;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *uploadActivityIndicator;
 
 - (IBAction)takePhoto:(id)sender;
 - (IBAction)cancel:(id)sender;
 - (IBAction)switchCamera:(id)sender;
 - (IBAction)goToImageList:(id)sender;
 - (IBAction)flashOff:(id)sender;
+- (IBAction)upload:(id)sender;
 
 - (void)changeWindowState:(NSString *)state;
+- (void)uploadAlertResult;
+- (void)sendEmail;
 
 @end
 
