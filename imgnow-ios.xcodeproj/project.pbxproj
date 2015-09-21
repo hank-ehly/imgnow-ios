@@ -60,6 +60,9 @@
 		33E915991BB0029600A44BE1 /* travel-0050.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 33E915981BB0029600A44BE1 /* travel-0050.jpg */; settings = {ASSET_TAGS = (); }; };
 		33E9159C1BB016AB00A44BE1 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E9159B1BB016AB00A44BE1 /* SettingsViewController.m */; settings = {ASSET_TAGS = (); }; };
 		33E9159F1BB01BD100A44BE1 /* SettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E9159E1BB01BD100A44BE1 /* SettingsTableViewController.m */; settings = {ASSET_TAGS = (); }; };
+		33E915A11BB02B8900A44BE1 /* generate-img.png in Resources */ = {isa = PBXBuildFile; fileRef = 33E915A01BB02B8900A44BE1 /* generate-img.png */; settings = {ASSET_TAGS = (); }; };
+		33E915A31BB02D9C00A44BE1 /* blur-bg-portrait.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 33E915A21BB02D9C00A44BE1 /* blur-bg-portrait.jpg */; settings = {ASSET_TAGS = (); }; };
+		33E915A61BB02EB700A44BE1 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E915A51BB02EB700A44BE1 /* LoginViewController.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -145,6 +148,10 @@
 		33E9159B1BB016AB00A44BE1 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		33E9159D1BB01BD100A44BE1 /* SettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsTableViewController.h; sourceTree = "<group>"; };
 		33E9159E1BB01BD100A44BE1 /* SettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsTableViewController.m; sourceTree = "<group>"; };
+		33E915A01BB02B8900A44BE1 /* generate-img.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "generate-img.png"; sourceTree = "<group>"; };
+		33E915A21BB02D9C00A44BE1 /* blur-bg-portrait.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "blur-bg-portrait.jpg"; sourceTree = "<group>"; };
+		33E915A41BB02EB700A44BE1 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		33E915A51BB02EB700A44BE1 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -200,6 +207,8 @@
 				33E915411BAFAB4B00A44BE1 /* img */,
 				33987D941BAF63DD00D728C2 /* AppDelegate.h */,
 				33987D951BAF63DD00D728C2 /* AppDelegate.m */,
+				33E915A41BB02EB700A44BE1 /* LoginViewController.h */,
+				33E915A51BB02EB700A44BE1 /* LoginViewController.m */,
 				33987D971BAF63DD00D728C2 /* ViewController.h */,
 				33987D981BAF63DD00D728C2 /* ViewController.m */,
 				33E915801BAFDBEB00A44BE1 /* ImageTopViewController.h */,
@@ -249,6 +258,7 @@
 		33E915411BAFAB4B00A44BE1 /* img */ = {
 			isa = PBXGroup;
 			children = (
+				33E915A21BB02D9C00A44BE1 /* blur-bg-portrait.jpg */,
 				33E915981BB0029600A44BE1 /* travel-0050.jpg */,
 				33E9157B1BAFAB8D00A44BE1 /* buttons */,
 				33E9157A1BAFAB8000A44BE1 /* icons */,
@@ -300,6 +310,7 @@
 		33E9157B1BAFAB8D00A44BE1 /* buttons */ = {
 			isa = PBXGroup;
 			children = (
+				33E915A01BB02B8900A44BE1 /* generate-img.png */,
 				33E9158F1BAFEEBC00A44BE1 /* delete.png */,
 				33E915901BAFEEBC00A44BE1 /* email.png */,
 				33E915911BAFEEBC00A44BE1 /* extend.png */,
@@ -419,6 +430,7 @@
 				33E915791BAFAB7700A44BE1 /* Xlarge Icons-50.png in Resources */,
 				33E915921BAFEEBC00A44BE1 /* delete.png in Resources */,
 				33E915751BAFAB7700A44BE1 /* Settings-100.png in Resources */,
+				33E915A31BB02D9C00A44BE1 /* blur-bg-portrait.jpg in Resources */,
 				33E915871BAFE0DC00A44BE1 /* Back-25.png in Resources */,
 				33E9156E1BAFAB7700A44BE1 /* Menu Filled-50 (1).png in Resources */,
 				33E915761BAFAB7700A44BE1 /* Switch Camera-50.png in Resources */,
@@ -446,6 +458,7 @@
 				33E9156D1BAFAB7700A44BE1 /* Flash On-50.png in Resources */,
 				33E9156F1BAFAB7700A44BE1 /* Menu Filled-50.png in Resources */,
 				33E9157D1BAFABA500A44BE1 /* button.png in Resources */,
+				33E915A11BB02B8900A44BE1 /* generate-img.png in Resources */,
 				33E915641BAFAB7700A44BE1 /* Delete-50 (2).png in Resources */,
 				33E915731BAFAB7700A44BE1 /* Rotate Camera-50 (1).png in Resources */,
 				33E915941BAFEEBC00A44BE1 /* extend.png in Resources */,
@@ -482,6 +495,7 @@
 				33987D961BAF63DD00D728C2 /* AppDelegate.m in Sources */,
 				33987D9F1BAF63DD00D728C2 /* imgnow_ios.xcdatamodeld in Sources */,
 				33987D931BAF63DD00D728C2 /* main.m in Sources */,
+				33E915A61BB02EB700A44BE1 /* LoginViewController.m in Sources */,
 				33E915821BAFDBEB00A44BE1 /* ImageTopViewController.m in Sources */,
 				33E915971BAFF04900A44BE1 /* ImageDetailViewController.m in Sources */,
 				33E9159C1BB016AB00A44BE1 /* SettingsViewController.m in Sources */,

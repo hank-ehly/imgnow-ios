@@ -1,10 +1,73 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="T2P-p9-REv">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
+        <!--Login View Controller-->
+        <scene sceneID="7r9-XF-XLm">
+            <objects>
+                <viewController id="T2P-p9-REv" customClass="LoginViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="DLc-p7-h0S"/>
+                        <viewControllerLayoutGuide type="bottom" id="Rbq-P4-fyL"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="qLG-qh-Guc">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="MUz-70-qR1">
+                                <rect key="frame" x="50" y="211.5" width="500" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="O22-Sd-PSs">
+                                <rect key="frame" x="50" y="256.5" width="500" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zNb-oI-VqQ">
+                                <rect key="frame" x="272" y="550" width="57" height="30"/>
+                                <state key="normal" title="Register"/>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pSc-I6-ntP">
+                                <rect key="frame" x="279" y="173" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Suv-Td-deK">
+                                <rect key="frame" x="281" y="305" width="38" height="30"/>
+                                <state key="normal" title="Login"/>
+                                <connections>
+                                    <segue destination="BYZ-38-t0r" kind="presentation" id="dBO-83-LQC"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="MUz-70-qR1" firstAttribute="centerX" secondItem="qLG-qh-Guc" secondAttribute="centerX" id="4Zw-hC-1Eq"/>
+                            <constraint firstItem="pSc-I6-ntP" firstAttribute="top" secondItem="DLc-p7-h0S" secondAttribute="bottom" constant="153" id="50U-PZ-KSn"/>
+                            <constraint firstAttribute="trailing" secondItem="MUz-70-qR1" secondAttribute="trailing" constant="50" id="HLT-sX-YpW"/>
+                            <constraint firstAttribute="trailing" secondItem="O22-Sd-PSs" secondAttribute="trailing" constant="50" id="IZe-Sn-k09"/>
+                            <constraint firstItem="MUz-70-qR1" firstAttribute="leading" secondItem="qLG-qh-Guc" secondAttribute="leading" constant="50" id="Izl-Qm-z0W"/>
+                            <constraint firstItem="Suv-Td-deK" firstAttribute="centerX" secondItem="qLG-qh-Guc" secondAttribute="centerX" id="NS8-wB-PZ1"/>
+                            <constraint firstItem="Rbq-P4-fyL" firstAttribute="top" secondItem="zNb-oI-VqQ" secondAttribute="bottom" constant="20" id="Sx8-tC-48C"/>
+                            <constraint firstItem="O22-Sd-PSs" firstAttribute="top" secondItem="MUz-70-qR1" secondAttribute="bottom" constant="15" id="a38-KW-wGO"/>
+                            <constraint firstItem="O22-Sd-PSs" firstAttribute="leading" secondItem="qLG-qh-Guc" secondAttribute="leading" constant="50" id="eyD-1O-3Sb"/>
+                            <constraint firstItem="zNb-oI-VqQ" firstAttribute="centerX" secondItem="qLG-qh-Guc" secondAttribute="centerX" id="fMK-gc-5Rr"/>
+                            <constraint firstItem="pSc-I6-ntP" firstAttribute="centerX" secondItem="qLG-qh-Guc" secondAttribute="centerX" id="kPI-hy-ym9"/>
+                            <constraint firstItem="Suv-Td-deK" firstAttribute="top" secondItem="O22-Sd-PSs" secondAttribute="bottom" constant="19" id="kgb-sr-2Io"/>
+                            <constraint firstItem="O22-Sd-PSs" firstAttribute="centerX" secondItem="qLG-qh-Guc" secondAttribute="centerX" id="mhV-4X-bYV"/>
+                            <constraint firstItem="MUz-70-qR1" firstAttribute="top" secondItem="pSc-I6-ntP" secondAttribute="bottom" constant="18" id="suX-Z5-HTD"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6m9-rL-a3n" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-293" y="377"/>
+        </scene>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
@@ -82,9 +145,9 @@
                                     <constraint firstAttribute="height" constant="100" id="oS0-sX-AIK"/>
                                 </constraints>
                             </activityIndicatorView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xQg-FF-NZP">
-                                <rect key="frame" x="270" y="510" width="60" height="30"/>
-                                <state key="normal" title="UPLOAD"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xQg-FF-NZP">
+                                <rect key="frame" x="110" y="462" width="381" height="78"/>
+                                <state key="normal" image="generate-img.png"/>
                                 <connections>
                                     <action selector="upload:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Phd-uc-gyE"/>
                                 </connections>
@@ -125,7 +188,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="340" y="377"/>
+            <point key="canvasLocation" x="388" y="377"/>
         </scene>
         <!--Settings View Controller-->
         <scene sceneID="OMR-FD-nWk">
@@ -180,7 +243,7 @@
                     </view>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="1883" y="-334"/>
+            <point key="canvasLocation" x="1849" y="-334"/>
         </scene>
         <!--Settings Table View Controller-->
         <scene sceneID="CPm-fc-MV3">
@@ -312,7 +375,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="pfv-i1-7I2"/>
                                 </constraints>
-                                <color key="barTintColor" red="0.0" green="0.8161103586171311" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="barTintColor" red="0.0" green="0.81568627450980391" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <textAttributes key="titleTextAttributes">
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </textAttributes>
@@ -504,7 +567,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PoH-Wt-Xyl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1901" y="377"/>
+            <point key="canvasLocation" x="1849" y="377"/>
         </scene>
     </scenes>
     <resources>
@@ -519,5 +582,9 @@
         <image name="delete.png" width="762" height="150"/>
         <image name="email.png" width="762" height="150"/>
         <image name="extend.png" width="762" height="150"/>
+        <image name="generate-img.png" width="381" height="78"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="dBO-83-LQC"/>
+    </inferredMetricsTieBreakers>
 </document>
