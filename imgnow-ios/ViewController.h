@@ -10,6 +10,17 @@
 
 @interface ViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UIView *previewLayer;
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (weak, nonatomic) IBOutlet UIButton *btnTakePhoto;
+@property (weak, nonatomic) IBOutlet UIButton *btnCancel;
+@property (weak, nonatomic) IBOutlet UIButton *btnSwitchCamera;
+@property (weak, nonatomic) IBOutlet UIButton *btnMenu;
+
+- (IBAction)takePhoto:(id)sender;
+- (IBAction)cancel:(id)sender;
+- (IBAction)switchCamera:(id)sender;
+- (IBAction)goToImageList:(id)sender;
 
 @end
 

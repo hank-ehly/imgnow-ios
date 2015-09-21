@@ -19,6 +19,18 @@
     // Do any additional setup after loading the view, typically from a nib.
 }
 
+- (IBAction)takePhoto:(id)sender {
+}
+
+- (IBAction)cancel:(id)sender {
+}
+
+- (IBAction)switchCamera:(id)sender {
+}
+
+- (IBAction)goToImageList:(id)sender {
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

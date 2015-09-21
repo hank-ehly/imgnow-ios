@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -15,11 +16,102 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fe9-1o-8oR">
+                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oLH-UD-jlD">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Dj-sn-GCh">
+                                <rect key="frame" x="250" y="470" width="100" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="Ii1-RP-xyN"/>
+                                    <constraint firstAttribute="height" constant="100" id="SXY-Yw-vbK"/>
+                                </constraints>
+                                <state key="normal" image="button.png"/>
+                                <connections>
+                                    <action selector="takePhoto:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0gD-7d-7Nr"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kim-L0-MVD">
+                                <rect key="frame" x="545" y="20" width="35" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="35" id="02W-mp-WeZ"/>
+                                    <constraint firstAttribute="height" constant="35" id="Xu7-zy-PIv"/>
+                                </constraints>
+                                <state key="normal" image="Delete-50 (2).png"/>
+                                <connections>
+                                    <action selector="cancel:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Iol-Xl-iF4"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Px2-EX-Eik">
+                                <rect key="frame" x="545" y="20" width="35" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="35" id="5O2-m3-qen"/>
+                                    <constraint firstAttribute="height" constant="35" id="coe-cb-Al0"/>
+                                </constraints>
+                                <state key="normal" image="Rotate Camera-50 (1).png"/>
+                                <connections>
+                                    <action selector="switchCamera:" destination="BYZ-38-t0r" eventType="touchUpInside" id="oVg-ob-tMX"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3NF-Yo-YnD">
+                                <rect key="frame" x="525" y="535" width="35" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="35" id="ef6-Nd-3Bq"/>
+                                    <constraint firstAttribute="height" constant="35" id="g6e-xS-mzJ"/>
+                                </constraints>
+                                <state key="normal" image="Menu-50 (1).png"/>
+                                <connections>
+                                    <action selector="goToImageList:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0jZ-U5-Teb"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="3NF-Yo-YnD" secondAttribute="trailing" constant="20" id="2Xq-Uh-QL0"/>
+                            <constraint firstItem="Px2-EX-Eik" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="8ox-QV-tHS"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="oLH-UD-jlD" secondAttribute="bottom" id="ERh-es-ibe"/>
+                            <constraint firstItem="oLH-UD-jlD" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="IFa-5l-BDh"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="7Dj-sn-GCh" secondAttribute="bottom" constant="30" id="IeQ-WL-aCo"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Kim-L0-MVD" secondAttribute="trailing" id="KtF-bc-MtB"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="3NF-Yo-YnD" secondAttribute="bottom" constant="30" id="O0D-dV-a09"/>
+                            <constraint firstItem="7Dj-sn-GCh" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="O74-kv-srd"/>
+                            <constraint firstAttribute="trailing" secondItem="Fe9-1o-8oR" secondAttribute="trailing" id="T7h-ce-eIT"/>
+                            <constraint firstItem="7Dj-sn-GCh" firstAttribute="top" secondItem="3NF-Yo-YnD" secondAttribute="bottom" id="b0v-Mv-xxk"/>
+                            <constraint firstAttribute="trailing" secondItem="oLH-UD-jlD" secondAttribute="trailing" id="bwU-xq-VeI"/>
+                            <constraint firstItem="Fe9-1o-8oR" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="g15-Rp-Nvj"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Fe9-1o-8oR" secondAttribute="bottom" id="iSf-h1-OAl"/>
+                            <constraint firstItem="oLH-UD-jlD" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="ib9-EE-Hab"/>
+                            <constraint firstItem="Fe9-1o-8oR" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="lPt-pl-lWb"/>
+                            <constraint firstItem="Kim-L0-MVD" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="mCL-qs-tqT"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Px2-EX-Eik" secondAttribute="trailing" id="vC7-cj-iIW"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="b0v-Mv-xxk"/>
+                            </mask>
+                        </variation>
                     </view>
+                    <connections>
+                        <outlet property="btnCancel" destination="Kim-L0-MVD" id="fhN-Uw-DVV"/>
+                        <outlet property="btnMenu" destination="3NF-Yo-YnD" id="3JT-wu-Z8X"/>
+                        <outlet property="btnSwitchCamera" destination="Px2-EX-Eik" id="rc9-Qy-Kty"/>
+                        <outlet property="btnTakePhoto" destination="7Dj-sn-GCh" id="yJK-B1-85J"/>
+                        <outlet property="imageView" destination="oLH-UD-jlD" id="tYo-6V-Dn0"/>
+                        <outlet property="previewLayer" destination="Fe9-1o-8oR" id="ecD-ME-i7v"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
         </scene>
     </scenes>
+    <resources>
+        <image name="Delete-50 (2).png" width="50" height="50"/>
+        <image name="Menu-50 (1).png" width="50" height="50"/>
+        <image name="Rotate Camera-50 (1).png" width="50" height="50"/>
+        <image name="button.png" width="225" height="225"/>
+    </resources>
 </document>
