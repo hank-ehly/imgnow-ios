@@ -42,8 +42,8 @@
     AVCaptureVideoPreviewLayer *previewLayer = [AVCaptureVideoPreviewLayer layerWithSession:captureSession];
     previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
     
-    CGRect bounds = self.view.layer.bounds;
-    previewLayer.bounds = bounds;
+    CGRect bounds         = self.view.layer.bounds;
+    previewLayer.bounds   = bounds;
     previewLayer.position = CGPointMake(CGRectGetMidX(bounds), CGRectGetMidY(bounds));
     
     [self.view.layer insertSublayer:previewLayer atIndex:0];
@@ -94,7 +94,8 @@
 - (IBAction)switchCamera:(id)sender {
 }
 
-- (IBAction)goToImageList:(id)sender {
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+//    NSLog(@"foo");
 }
 
 - (IBAction)flashOff:(id)sender {
@@ -137,38 +138,41 @@
 }
 
 - (void)sendEmail {
+    
+    NSString *title   = @"Sent you an email at:";
+    NSString *message = @"foobar@email.com";
 
-    alertController = [UIAlertController alertControllerWithTitle:@"heyhey" message:@"whwhw" preferredStyle:UIAlertControllerStyleAlert];
-    alertActionEmailOk = [UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        //
+    alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+    alertActionEmailOk = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        // pressed ok
     }];
     [alertController addAction:alertActionEmailOk];
     [self presentViewController:alertController animated:YES completion:^{
-        //
+        // showed email sent alert
     }];
     
 }
 
 
--(void)changeWindowState:(NSString *)state {
+- (void)changeWindowState:(NSString *)state {
     
     if ([state isEqualToString:@"pretake"]) {
-        self.btnCancel.hidden = YES;
-        self.imageView.hidden = YES;
-        self.btnUpload.hidden = YES;
+        self.btnCancel.hidden               = YES;
+        self.imageView.hidden               = YES;
+        self.btnUpload.hidden               = YES;
         self.uploadActivityIndicator.hidden = YES;
-        self.btnTakePhoto.hidden = NO;
-        self.btnSwitchCamera.hidden = NO;
-        self.btnMenu.hidden = NO;
-        self.btnFlashOff.hidden = NO;
+        self.btnTakePhoto.hidden            = NO;
+        self.btnSwitchCamera.hidden         = NO;
+        self.btnMenu.hidden                 = NO;
+        self.btnFlashOff.hidden             = NO;
     } else if ([state isEqualToString:@"posttake"]) {
-        self.btnCancel.hidden = NO;
-        self.imageView.hidden = NO;
-        self.btnUpload.hidden = NO;
-        self.btnTakePhoto.hidden = YES;
+        self.btnCancel.hidden       = NO;
+        self.imageView.hidden       = NO;
+        self.btnUpload.hidden       = NO;
+        self.btnTakePhoto.hidden    = YES;
         self.btnSwitchCamera.hidden = YES;
-        self.btnMenu.hidden = YES;
-        self.btnFlashOff.hidden = YES;
+        self.btnMenu.hidden         = YES;
+        self.btnFlashOff.hidden     = YES;
     }
     
 }

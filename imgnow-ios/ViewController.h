@@ -32,7 +32,6 @@
 - (IBAction)takePhoto:(id)sender;
 - (IBAction)cancel:(id)sender;
 - (IBAction)switchCamera:(id)sender;
-- (IBAction)goToImageList:(id)sender;
 - (IBAction)flashOff:(id)sender;
 - (IBAction)upload:(id)sender;
 

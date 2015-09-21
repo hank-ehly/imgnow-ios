@@ -46,6 +46,17 @@
 		33E915791BAFAB7700A44BE1 /* Xlarge Icons-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 33E9155D1BAFAB7700A44BE1 /* Xlarge Icons-50.png */; settings = {ASSET_TAGS = (); }; };
 		33E9157D1BAFABA500A44BE1 /* button.png in Resources */ = {isa = PBXBuildFile; fileRef = 33E9157C1BAFABA500A44BE1 /* button.png */; settings = {ASSET_TAGS = (); }; };
 		33E9157F1BAFAF0E00A44BE1 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33E9157E1BAFAF0E00A44BE1 /* AVFoundation.framework */; };
+		33E915821BAFDBEB00A44BE1 /* ImageTopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E915811BAFDBEB00A44BE1 /* ImageTopViewController.m */; settings = {ASSET_TAGS = (); }; };
+		33E915871BAFE0DC00A44BE1 /* Back-25.png in Resources */ = {isa = PBXBuildFile; fileRef = 33E915831BAFE0DC00A44BE1 /* Back-25.png */; settings = {ASSET_TAGS = (); }; };
+		33E915881BAFE0DC00A44BE1 /* Back-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 33E915841BAFE0DC00A44BE1 /* Back-32.png */; settings = {ASSET_TAGS = (); }; };
+		33E915891BAFE0DC00A44BE1 /* Settings-25.png in Resources */ = {isa = PBXBuildFile; fileRef = 33E915851BAFE0DC00A44BE1 /* Settings-25.png */; settings = {ASSET_TAGS = (); }; };
+		33E9158A1BAFE0DC00A44BE1 /* Settings-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 33E915861BAFE0DC00A44BE1 /* Settings-32.png */; settings = {ASSET_TAGS = (); }; };
+		33E9158D1BAFEC6500A44BE1 /* Download-25.png in Resources */ = {isa = PBXBuildFile; fileRef = 33E9158B1BAFEC6500A44BE1 /* Download-25.png */; settings = {ASSET_TAGS = (); }; };
+		33E9158E1BAFEC6500A44BE1 /* Download-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 33E9158C1BAFEC6500A44BE1 /* Download-32.png */; settings = {ASSET_TAGS = (); }; };
+		33E915921BAFEEBC00A44BE1 /* delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 33E9158F1BAFEEBC00A44BE1 /* delete.png */; settings = {ASSET_TAGS = (); }; };
+		33E915931BAFEEBC00A44BE1 /* email.png in Resources */ = {isa = PBXBuildFile; fileRef = 33E915901BAFEEBC00A44BE1 /* email.png */; settings = {ASSET_TAGS = (); }; };
+		33E915941BAFEEBC00A44BE1 /* extend.png in Resources */ = {isa = PBXBuildFile; fileRef = 33E915911BAFEEBC00A44BE1 /* extend.png */; settings = {ASSET_TAGS = (); }; };
+		33E915971BAFF04900A44BE1 /* ImageDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E915961BAFF04900A44BE1 /* ImageDetailViewController.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -113,6 +124,19 @@
 		33E9155D1BAFAB7700A44BE1 /* Xlarge Icons-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Xlarge Icons-50.png"; sourceTree = "<group>"; };
 		33E9157C1BAFABA500A44BE1 /* button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button.png; sourceTree = "<group>"; };
 		33E9157E1BAFAF0E00A44BE1 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		33E915801BAFDBEB00A44BE1 /* ImageTopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageTopViewController.h; sourceTree = "<group>"; };
+		33E915811BAFDBEB00A44BE1 /* ImageTopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageTopViewController.m; sourceTree = "<group>"; };
+		33E915831BAFE0DC00A44BE1 /* Back-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Back-25.png"; sourceTree = "<group>"; };
+		33E915841BAFE0DC00A44BE1 /* Back-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Back-32.png"; sourceTree = "<group>"; };
+		33E915851BAFE0DC00A44BE1 /* Settings-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Settings-25.png"; sourceTree = "<group>"; };
+		33E915861BAFE0DC00A44BE1 /* Settings-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Settings-32.png"; sourceTree = "<group>"; };
+		33E9158B1BAFEC6500A44BE1 /* Download-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Download-25.png"; sourceTree = "<group>"; };
+		33E9158C1BAFEC6500A44BE1 /* Download-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Download-32.png"; sourceTree = "<group>"; };
+		33E9158F1BAFEEBC00A44BE1 /* delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete.png; sourceTree = "<group>"; };
+		33E915901BAFEEBC00A44BE1 /* email.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = email.png; sourceTree = "<group>"; };
+		33E915911BAFEEBC00A44BE1 /* extend.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = extend.png; sourceTree = "<group>"; };
+		33E915951BAFF04900A44BE1 /* ImageDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDetailViewController.h; sourceTree = "<group>"; };
+		33E915961BAFF04900A44BE1 /* ImageDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageDetailViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,6 +194,10 @@
 				33987D951BAF63DD00D728C2 /* AppDelegate.m */,
 				33987D971BAF63DD00D728C2 /* ViewController.h */,
 				33987D981BAF63DD00D728C2 /* ViewController.m */,
+				33E915801BAFDBEB00A44BE1 /* ImageTopViewController.h */,
+				33E915811BAFDBEB00A44BE1 /* ImageTopViewController.m */,
+				33E915951BAFF04900A44BE1 /* ImageDetailViewController.h */,
+				33E915961BAFF04900A44BE1 /* ImageDetailViewController.m */,
 				33987D9A1BAF63DD00D728C2 /* Main.storyboard */,
 				33987DA01BAF63DD00D728C2 /* Assets.xcassets */,
 				33987DA21BAF63DD00D728C2 /* LaunchScreen.storyboard */,
@@ -218,6 +246,12 @@
 		33E9157A1BAFAB8000A44BE1 /* icons */ = {
 			isa = PBXGroup;
 			children = (
+				33E9158B1BAFEC6500A44BE1 /* Download-25.png */,
+				33E9158C1BAFEC6500A44BE1 /* Download-32.png */,
+				33E915831BAFE0DC00A44BE1 /* Back-25.png */,
+				33E915841BAFE0DC00A44BE1 /* Back-32.png */,
+				33E915851BAFE0DC00A44BE1 /* Settings-25.png */,
+				33E915861BAFE0DC00A44BE1 /* Settings-32.png */,
 				33E915421BAFAB7700A44BE1 /* Arrow-50.png */,
 				33E915431BAFAB7700A44BE1 /* Back-50.png */,
 				33E915441BAFAB7700A44BE1 /* Camera-50.png */,
@@ -253,6 +287,9 @@
 		33E9157B1BAFAB8D00A44BE1 /* buttons */ = {
 			isa = PBXGroup;
 			children = (
+				33E9158F1BAFEEBC00A44BE1 /* delete.png */,
+				33E915901BAFEEBC00A44BE1 /* email.png */,
+				33E915911BAFEEBC00A44BE1 /* extend.png */,
 				33E9157C1BAFABA500A44BE1 /* button.png */,
 			);
 			name = buttons;
@@ -362,12 +399,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				33E9155F1BAFAB7700A44BE1 /* Back-50.png in Resources */,
+				33E9158D1BAFEC6500A44BE1 /* Download-25.png in Resources */,
+				33E915881BAFE0DC00A44BE1 /* Back-32.png in Resources */,
 				33E915771BAFAB7700A44BE1 /* Upload-50.png in Resources */,
 				33E915681BAFAB7700A44BE1 /* Download-100.png in Resources */,
 				33E915791BAFAB7700A44BE1 /* Xlarge Icons-50.png in Resources */,
+				33E915921BAFEEBC00A44BE1 /* delete.png in Resources */,
 				33E915751BAFAB7700A44BE1 /* Settings-100.png in Resources */,
+				33E915871BAFE0DC00A44BE1 /* Back-25.png in Resources */,
 				33E9156E1BAFAB7700A44BE1 /* Menu Filled-50 (1).png in Resources */,
 				33E915761BAFAB7700A44BE1 /* Switch Camera-50.png in Resources */,
+				33E915891BAFE0DC00A44BE1 /* Settings-25.png in Resources */,
 				33E915671BAFAB7700A44BE1 /* Download-50.png in Resources */,
 				33E915611BAFAB7700A44BE1 /* Checkmark-100.png in Resources */,
 				33E9156A1BAFAB7700A44BE1 /* Flash Off-50 (1).png in Resources */,
@@ -377,18 +419,22 @@
 				33E915651BAFAB7700A44BE1 /* Delete-50.png in Resources */,
 				33E9155E1BAFAB7700A44BE1 /* Arrow-50.png in Resources */,
 				33E915631BAFAB7700A44BE1 /* Delete-50 (1).png in Resources */,
+				33E9158E1BAFEC6500A44BE1 /* Download-32.png in Resources */,
 				33E915621BAFAB7700A44BE1 /* Delete Filled-50.png in Resources */,
 				33E9156B1BAFAB7700A44BE1 /* Flash Off-50.png in Resources */,
 				33E915701BAFAB7700A44BE1 /* Menu-50 (1).png in Resources */,
 				33E9156C1BAFAB7700A44BE1 /* Flash On Filled-50.png in Resources */,
 				33987DA41BAF63DD00D728C2 /* LaunchScreen.storyboard in Resources */,
 				33E915781BAFAB7700A44BE1 /* Upload-100.png in Resources */,
+				33E915931BAFEEBC00A44BE1 /* email.png in Resources */,
+				33E9158A1BAFE0DC00A44BE1 /* Settings-32.png in Resources */,
 				33987DA11BAF63DD00D728C2 /* Assets.xcassets in Resources */,
 				33E9156D1BAFAB7700A44BE1 /* Flash On-50.png in Resources */,
 				33E9156F1BAFAB7700A44BE1 /* Menu Filled-50.png in Resources */,
 				33E9157D1BAFABA500A44BE1 /* button.png in Resources */,
 				33E915641BAFAB7700A44BE1 /* Delete-50 (2).png in Resources */,
 				33E915731BAFAB7700A44BE1 /* Rotate Camera-50 (1).png in Resources */,
+				33E915941BAFEEBC00A44BE1 /* extend.png in Resources */,
 				33987D9C1BAF63DD00D728C2 /* Main.storyboard in Resources */,
 				33E915741BAFAB7700A44BE1 /* Rotate Camera-50.png in Resources */,
 				33E915661BAFAB7700A44BE1 /* Download Filled-50.png in Resources */,
@@ -421,6 +467,8 @@
 				33987D961BAF63DD00D728C2 /* AppDelegate.m in Sources */,
 				33987D9F1BAF63DD00D728C2 /* imgnow_ios.xcdatamodeld in Sources */,
 				33987D931BAF63DD00D728C2 /* main.m in Sources */,
+				33E915821BAFDBEB00A44BE1 /* ImageTopViewController.m in Sources */,
+				33E915971BAFF04900A44BE1 /* ImageDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
