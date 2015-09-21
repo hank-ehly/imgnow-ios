@@ -37,13 +37,15 @@
     AVCaptureDevice *captureDevise = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
     AVCaptureDeviceInput *captureDeviseInput = [AVCaptureDeviceInput deviceInputWithDevice:captureDevise error:&error];
     
-    [captureSession canAddInput:captureDeviseInput] ? [captureSession addInput:captureDeviseInput] : NULL;
+    if ([captureSession canAddInput:captureDeviseInput]) {
+        [captureSession addInput:captureDeviseInput];
+    }
     
     AVCaptureVideoPreviewLayer *previewLayer = [AVCaptureVideoPreviewLayer layerWithSession:captureSession];
     previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
     
-    CGRect bounds         = self.view.layer.bounds;
-    previewLayer.bounds   = bounds;
+    CGRect bounds = self.view.layer.bounds;
+    previewLayer.bounds = bounds;
     previewLayer.position = CGPointMake(CGRectGetMidX(bounds), CGRectGetMidY(bounds));
     
     [self.view.layer insertSublayer:previewLayer atIndex:0];
@@ -52,7 +54,9 @@
     NSDictionary *stillImageOutputSettings = [NSDictionary dictionaryWithObjectsAndKeys:AVVideoCodecJPEG, AVVideoCodecKey, nil];
     stillImageOutput.outputSettings = stillImageOutputSettings;
     
-    [captureSession canAddOutput:stillImageOutput] ? [captureSession addOutput:stillImageOutput] : NULL;
+    if ([captureSession canAddOutput:stillImageOutput]) {
+        [captureSession addOutput:stillImageOutput];
+    }
     
     [captureSession startRunning];
     

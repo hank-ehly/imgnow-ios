@@ -17,7 +17,6 @@
 @property UIAlertController *alertController;
 @property UIAlertAction *alertActionHtmlOk;
 @property UIAlertAction *alertActionSendEmail;
-
 @property UIAlertAction *alertActionEmailOk;
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
