@@ -17,6 +17,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    [self.navTitle setTitle:@"foobar"];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -41,16 +43,7 @@
 - (IBAction)handleSendEmailTouch:(id)sender {
 }
 
-- (IBAction)sendEmail:(id)sender {
-}
-
 - (IBAction)handleExtendDeletionDateTouch:(id)sender {
-}
-
-- (IBAction)handleExtendDeletionDateTap:(id)sender {
-}
-
-- (IBAction)handleExtendDeletionDateButtonTap:(id)sender {
 }
 
 - (IBAction)handleDeleteTouch:(id)sender {

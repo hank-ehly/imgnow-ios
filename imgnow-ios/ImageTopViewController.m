@@ -8,6 +8,7 @@
 
 #import "ImageTopViewController.h"
 #import "ViewController.h"
+#import "ImageDetailViewController.h"
 
 @interface ImageTopViewController ()
 
@@ -15,13 +16,15 @@
 
 @implementation ImageTopViewController
 
-NSArray *fakeData;
+NSArray *fakeTitles;
+NSArray *fakeDetails;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    fakeData = [NSArray arrayWithObjects:@"foo", @"bar", @"hoge", nil];
+    fakeTitles = [NSArray arrayWithObjects:@"6f73hf84", @"u57s21k0", @"7f82hcmx", @"7d51k8m0", @"0sg1nna4", @"8h92h7vu", nil];
+    fakeDetails = [NSArray arrayWithObjects:@"28 days left", @"23 days left", @"19 days left", @"17 days left", @"10 days left", @"1 day left", nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -33,34 +36,43 @@ NSArray *fakeData;
     return YES;
 }
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    // Return the number of sections.
+    return 1;
+}
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 64.0f;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 5;
+    return [fakeTitles count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-    
-    
-    cell.textLabel.text = @"hfhfhf";
-    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+    cell.textLabel.text = [fakeTitles objectAtIndex:indexPath.row];
+    cell.detailTextLabel.text = [fakeDetails objectAtIndex:indexPath.row];
     return cell;
 }
 
-/*
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self performSegueWithIdentifier:@"imageDetail" sender:nil];
+    NSLog(@"you sent %@", [fakeTitles objectAtIndex:indexPath.row]);
+}
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    if ([segue.identifier isEqualToString:@"imageDetail"]) {
+        
+        ImageDetailViewController *idvc = (ImageDetailViewController *)segue.destinationViewController;
+        
+        
+    }
 }
-*/
 
-- (IBAction)goToSettings:(id)sender {
-}
 @end

@@ -154,9 +154,6 @@
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" image="Settings-25.png" id="VC9-0I-Lzi">
                                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <connections>
-                                                <segue destination="DzO-Kq-NeS" kind="presentation" id="8IL-Br-8xL"/>
-                                            </connections>
                                         </barButtonItem>
                                     </navigationItem>
                                 </items>
@@ -165,15 +162,38 @@
                                 <rect key="frame" x="0.0" y="60" width="600" height="540"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="T21-zq-dBE">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" textLabel="6au-wH-i2S" detailTextLabel="YQg-ww-ULH" style="IBUITableViewCellStyleSubtitle" id="T21-zq-dBE">
                                         <rect key="frame" x="0.0" y="28" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="T21-zq-dBE" id="3ed-LT-eSQ">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="567" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6au-wH-i2S">
+                                                    <rect key="frame" x="15" y="6" width="31.5" height="19.5"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="YQg-ww-ULH">
+                                                    <rect key="frame" x="15" y="25.5" width="30.5" height="13.5"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="DzO-Kq-NeS" kind="presentation" identifier="imageDetail" id="ABM-2C-REV"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="j5p-qp-wSI" id="uin-NP-O7Y"/>
+                                    <outlet property="delegate" destination="j5p-qp-wSI" id="Is8-kc-A0l"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -187,6 +207,9 @@
                             <constraint firstItem="5h8-We-1Gf" firstAttribute="top" secondItem="Nzq-Px-Ofd" secondAttribute="bottom" id="rfl-hx-EdF"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="tableView" destination="Nzq-Px-Ofd" id="azW-UQ-Tjj"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="imY-C4-eaf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -311,6 +334,7 @@
                     </view>
                     <connections>
                         <outlet property="imageView" destination="UbK-Zu-gRd" id="A9v-vy-P1R"/>
+                        <outlet property="navTitle" destination="Vi8-8c-QLj" id="bNg-dB-cFF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PoH-Wt-Xyl" userLabel="First Responder" sceneMemberID="firstResponder"/>
