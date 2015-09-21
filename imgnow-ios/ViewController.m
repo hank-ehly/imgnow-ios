@@ -20,6 +20,10 @@
     // Do any additional setup after loading the view, typically from a nib.
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    
+}
+
 - (IBAction)takePhoto:(id)sender {
 }
 
@@ -30,6 +34,9 @@
 }
 
 - (IBAction)goToImageList:(id)sender {
+}
+
+- (IBAction)flashOff:(id)sender {
 }
 
 - (void)didReceiveMemoryWarning {

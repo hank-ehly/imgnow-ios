@@ -16,11 +16,13 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnCancel;
 @property (weak, nonatomic) IBOutlet UIButton *btnSwitchCamera;
 @property (weak, nonatomic) IBOutlet UIButton *btnMenu;
+@property (weak, nonatomic) IBOutlet UIButton *btnFlashOff;
 
 - (IBAction)takePhoto:(id)sender;
 - (IBAction)cancel:(id)sender;
 - (IBAction)switchCamera:(id)sender;
 - (IBAction)goToImageList:(id)sender;
+- (IBAction)flashOff:(id)sender;
 
 @end
 
