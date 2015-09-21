@@ -17,15 +17,22 @@
 // delegate
 @property (weak, nonatomic) id <ImageDetailViewControllerDelegate> delegate;
 
+@property UIAlertController *alertController;
+@property UIAlertAction *actionEmailOk;
+@property UIAlertAction *actionDownloadOk;
+@property UIAlertAction *actionExtendOk;
+@property UIAlertAction *actionDelete;
+@property UIAlertAction *actionCancelDelete;
+
 - (IBAction)goBack:(id)sender;
 - (IBAction)handleSendEmailTouch:(id)sender;
 - (IBAction)handleExtendDeletionDateTouch:(id)sender;
 - (IBAction)handleDeleteTouch:(id)sender;
+- (IBAction)handleDownloadTouch:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UINavigationItem *navTitle;
 
 @end
-
 
 @protocol ImageDetailViewControllerDelegate <NSObject>
 // - (void) imageDetailViewControllerDidPressBack;
