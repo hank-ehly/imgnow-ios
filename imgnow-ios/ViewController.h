@@ -7,8 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AVFoundation/AVFoundation.h>
 
 @interface ViewController : UIViewController
+
+@property AVCaptureSession *captureSession;
+@property AVCaptureStillImageOutput *stillImageOutput;
 
 @property (weak, nonatomic) IBOutlet UIView *previewLayer;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
@@ -23,6 +27,8 @@
 - (IBAction)switchCamera:(id)sender;
 - (IBAction)goToImageList:(id)sender;
 - (IBAction)flashOff:(id)sender;
+
+- (void)changeWindowState:(NSString *)state;
 
 @end
 
