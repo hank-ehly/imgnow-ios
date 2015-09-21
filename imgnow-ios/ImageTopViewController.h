@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ImageDetailViewController.h"
 
-@interface ImageTopViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface ImageTopViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, ImageDetailViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 

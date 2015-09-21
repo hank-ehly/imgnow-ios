@@ -36,12 +36,6 @@ NSArray *fakeDetails;
     return YES;
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    // Return the number of sections.
-    return 1;
-}
-
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 64.0f;
 }
@@ -59,8 +53,7 @@ NSArray *fakeDetails;
 }
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self performSegueWithIdentifier:@"imageDetail" sender:nil];
-    NSLog(@"you sent %@", [fakeTitles objectAtIndex:indexPath.row]);
+//
 }
 
 #pragma mark - Navigation
@@ -69,8 +62,11 @@ NSArray *fakeDetails;
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"imageDetail"]) {
         
-        ImageDetailViewController *idvc = (ImageDetailViewController *)segue.destinationViewController;
+        ImageDetailViewController *idvc = (ImageDetailViewController *)[segue destinationViewController];
+        idvc.delegate = self;
         
+        [_tableView deselectRowAtIndexPath:[_tableView indexPathForSelectedRow] animated:YES];
+
         
     }
 }

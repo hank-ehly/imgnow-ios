@@ -57,6 +57,9 @@
 		33E915931BAFEEBC00A44BE1 /* email.png in Resources */ = {isa = PBXBuildFile; fileRef = 33E915901BAFEEBC00A44BE1 /* email.png */; settings = {ASSET_TAGS = (); }; };
 		33E915941BAFEEBC00A44BE1 /* extend.png in Resources */ = {isa = PBXBuildFile; fileRef = 33E915911BAFEEBC00A44BE1 /* extend.png */; settings = {ASSET_TAGS = (); }; };
 		33E915971BAFF04900A44BE1 /* ImageDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E915961BAFF04900A44BE1 /* ImageDetailViewController.m */; settings = {ASSET_TAGS = (); }; };
+		33E915991BB0029600A44BE1 /* travel-0050.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 33E915981BB0029600A44BE1 /* travel-0050.jpg */; settings = {ASSET_TAGS = (); }; };
+		33E9159C1BB016AB00A44BE1 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E9159B1BB016AB00A44BE1 /* SettingsViewController.m */; settings = {ASSET_TAGS = (); }; };
+		33E9159F1BB01BD100A44BE1 /* SettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E9159E1BB01BD100A44BE1 /* SettingsTableViewController.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -137,6 +140,11 @@
 		33E915911BAFEEBC00A44BE1 /* extend.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = extend.png; sourceTree = "<group>"; };
 		33E915951BAFF04900A44BE1 /* ImageDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDetailViewController.h; sourceTree = "<group>"; };
 		33E915961BAFF04900A44BE1 /* ImageDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageDetailViewController.m; sourceTree = "<group>"; };
+		33E915981BB0029600A44BE1 /* travel-0050.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "travel-0050.jpg"; sourceTree = "<group>"; };
+		33E9159A1BB016AB00A44BE1 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		33E9159B1BB016AB00A44BE1 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		33E9159D1BB01BD100A44BE1 /* SettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsTableViewController.h; sourceTree = "<group>"; };
+		33E9159E1BB01BD100A44BE1 /* SettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,6 +206,10 @@
 				33E915811BAFDBEB00A44BE1 /* ImageTopViewController.m */,
 				33E915951BAFF04900A44BE1 /* ImageDetailViewController.h */,
 				33E915961BAFF04900A44BE1 /* ImageDetailViewController.m */,
+				33E9159A1BB016AB00A44BE1 /* SettingsViewController.h */,
+				33E9159B1BB016AB00A44BE1 /* SettingsViewController.m */,
+				33E9159D1BB01BD100A44BE1 /* SettingsTableViewController.h */,
+				33E9159E1BB01BD100A44BE1 /* SettingsTableViewController.m */,
 				33987D9A1BAF63DD00D728C2 /* Main.storyboard */,
 				33987DA01BAF63DD00D728C2 /* Assets.xcassets */,
 				33987DA21BAF63DD00D728C2 /* LaunchScreen.storyboard */,
@@ -237,6 +249,7 @@
 		33E915411BAFAB4B00A44BE1 /* img */ = {
 			isa = PBXGroup;
 			children = (
+				33E915981BB0029600A44BE1 /* travel-0050.jpg */,
 				33E9157B1BAFAB8D00A44BE1 /* buttons */,
 				33E9157A1BAFAB8000A44BE1 /* icons */,
 			);
@@ -422,6 +435,7 @@
 				33E9158E1BAFEC6500A44BE1 /* Download-32.png in Resources */,
 				33E915621BAFAB7700A44BE1 /* Delete Filled-50.png in Resources */,
 				33E9156B1BAFAB7700A44BE1 /* Flash Off-50.png in Resources */,
+				33E915991BB0029600A44BE1 /* travel-0050.jpg in Resources */,
 				33E915701BAFAB7700A44BE1 /* Menu-50 (1).png in Resources */,
 				33E9156C1BAFAB7700A44BE1 /* Flash On Filled-50.png in Resources */,
 				33987DA41BAF63DD00D728C2 /* LaunchScreen.storyboard in Resources */,
@@ -463,12 +477,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33E9159F1BB01BD100A44BE1 /* SettingsTableViewController.m in Sources */,
 				33987D991BAF63DD00D728C2 /* ViewController.m in Sources */,
 				33987D961BAF63DD00D728C2 /* AppDelegate.m in Sources */,
 				33987D9F1BAF63DD00D728C2 /* imgnow_ios.xcdatamodeld in Sources */,
 				33987D931BAF63DD00D728C2 /* main.m in Sources */,
 				33E915821BAFDBEB00A44BE1 /* ImageTopViewController.m in Sources */,
 				33E915971BAFF04900A44BE1 /* ImageDetailViewController.m in Sources */,
+				33E9159C1BB016AB00A44BE1 /* SettingsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

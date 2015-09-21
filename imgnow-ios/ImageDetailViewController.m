@@ -7,6 +7,7 @@
 //
 
 #import "ImageDetailViewController.h"
+#import "ImageTopViewController.h"
 
 @interface ImageDetailViewController ()
 
@@ -18,7 +19,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [self.navTitle setTitle:@"foobar"];
+    _imageView.image = [UIImage imageNamed:@"travel-0050.jpg"];
+    
 }
 
 - (void)didReceiveMemoryWarning {
