@@ -135,7 +135,7 @@
                                 </constraints>
                                 <state key="normal" image="Flash Off-50 (1).png"/>
                                 <connections>
-                                    <action selector="flashOff:" destination="BYZ-38-t0r" eventType="touchUpInside" id="pEY-ws-x14"/>
+                                    <action selector="toggleFlash:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Eyb-eI-tz5"/>
                                 </connections>
                             </button>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="ZqG-t2-Rde">
@@ -177,10 +177,10 @@
                     </view>
                     <connections>
                         <outlet property="btnCancel" destination="Kim-L0-MVD" id="fhN-Uw-DVV"/>
-                        <outlet property="btnFlashOff" destination="ST8-Wg-7Pa" id="IcG-wT-edo"/>
                         <outlet property="btnMenu" destination="3NF-Yo-YnD" id="3JT-wu-Z8X"/>
                         <outlet property="btnSwitchCamera" destination="Px2-EX-Eik" id="rc9-Qy-Kty"/>
                         <outlet property="btnTakePhoto" destination="7Dj-sn-GCh" id="yJK-B1-85J"/>
+                        <outlet property="btnToggleFlash" destination="ST8-Wg-7Pa" id="4x2-we-X0t"/>
                         <outlet property="btnUpload" destination="xQg-FF-NZP" id="sTI-Bh-r1m"/>
                         <outlet property="imageView" destination="oLH-UD-jlD" id="tYo-6V-Dn0"/>
                         <outlet property="uploadActivityIndicator" destination="ZqG-t2-Rde" id="yXb-gK-JLL"/>
@@ -193,7 +193,6 @@
         <!--Settings View Controller-->
         <scene sceneID="OMR-FD-nWk">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="DLJ-fh-4QW" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="oT7-aW-AQ6" customClass="SettingsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="JGR-09-QVc"/>
@@ -242,6 +241,7 @@
                         </constraints>
                     </view>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DLJ-fh-4QW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1849" y="-334"/>
         </scene>
@@ -271,7 +271,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="foobar" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="rK5-oN-uXt">
-                                                    <rect key="frame" x="537" y="12" width="48" height="20"/>
+                                                    <rect key="frame" x="537.5" y="12" width="47.5" height="19.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="calibratedRGB"/>
@@ -312,7 +312,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="foobar@email.com" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="rd7-nf-EIb">
-                                                    <rect key="frame" x="449" y="12" width="136" height="20"/>
+                                                    <rect key="frame" x="449.5" y="12" width="135.5" height="19.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="calibratedRGB"/>

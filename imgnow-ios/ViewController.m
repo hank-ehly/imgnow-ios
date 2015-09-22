@@ -21,12 +21,18 @@
 @synthesize alertController;
 @synthesize alertActionSendEmail;
 @synthesize alertActionEmailOk;
+@synthesize captureDevise;
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _torchIsOn = NO;
+    _facingFront = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    
+    [self turnTorchOn:NO];
     
     [self changeWindowState:@"pretake"];
     
@@ -34,7 +40,8 @@
     captureSession.sessionPreset = AVCaptureSessionPresetPhoto;
     
     NSError *error = nil;
-    AVCaptureDevice *captureDevise = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    captureDevise = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    
     AVCaptureDeviceInput *captureDeviseInput = [AVCaptureDeviceInput deviceInputWithDevice:captureDevise error:&error];
     
     if ([captureSession canAddInput:captureDeviseInput]) {
@@ -62,6 +69,56 @@
     
 }
 
+- (IBAction)switchCamera:(id)sender
+{
+    //Change camera source
+    if(captureSession) {
+        //Indicate that some changes will be made to the session
+        [captureSession beginConfiguration];
+        
+        //Remove existing input
+        AVCaptureInput *currentCameraInput = [captureSession.inputs objectAtIndex:0];
+        [captureSession removeInput:currentCameraInput];
+        
+        //Get new input
+        AVCaptureDevice *newCamera = nil;
+        if(((AVCaptureDeviceInput*)currentCameraInput).device.position == AVCaptureDevicePositionBack) {
+            newCamera = [self cameraWithPosition:AVCaptureDevicePositionFront];
+            self.imageView.transform = CGAffineTransformMakeScale(-1, 1);
+            _facingFront = YES;
+            self.btnToggleFlash.hidden  = YES;
+        } else {
+            newCamera = [self cameraWithPosition:AVCaptureDevicePositionBack];
+            self.imageView.transform = CGAffineTransformMakeScale(1, 1);
+            self.btnToggleFlash.hidden  = NO;
+            _facingFront = NO;
+        }
+        
+        //Add input to session
+        NSError *err = nil;
+        AVCaptureDeviceInput *newVideoInput = [[AVCaptureDeviceInput alloc] initWithDevice:newCamera error:&err];
+        if(!newVideoInput || err) {
+            NSLog(@"Error creating capture device input: %@", err.localizedDescription);
+        } else {
+            [captureSession addInput:newVideoInput];
+        }
+        
+        //Commit all the configuration changes at once
+        [captureSession commitConfiguration];
+    }
+}
+
+// Find a camera with the specified AVCaptureDevicePosition, returning nil if one is not found
+- (AVCaptureDevice *) cameraWithPosition:(AVCaptureDevicePosition) position
+{
+    NSArray *devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
+    for (AVCaptureDevice *device in devices)
+    {
+        if ([device position] == position) return device;
+    }
+    return nil;
+}
+
 - (IBAction)takePhoto:(id)sender {
     
     AVCaptureConnection *videoConnection = nil;
@@ -84,8 +141,8 @@
             NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
             UIImage *image = [UIImage imageWithData:imageData];
             self.imageView.image = image;
-            
             [self changeWindowState:@"posttake"];
+
         }
     }];
     
@@ -95,14 +152,40 @@
     [self changeWindowState:@"pretake"];
 }
 
-- (IBAction)switchCamera:(id)sender {
-}
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 //    NSLog(@"foo");
 }
 
-- (IBAction)flashOff:(id)sender {
+- (IBAction)toggleFlash:(id)sender {
+    if (!_torchIsOn) {
+        [self turnTorchOn:YES];
+        [_btnToggleFlash setImage:[UIImage imageNamed:@"Flash-On-50-white.png"] forState:UIControlStateNormal];
+    } else {
+        [self turnTorchOn:NO];
+        [_btnToggleFlash setImage:[UIImage imageNamed:@"Flash Off-50 (1).png"] forState:UIControlStateNormal];
+    }
+}
+
+- (void) turnTorchOn: (bool) on {
+    
+    Class captureDeviceClass = NSClassFromString(@"AVCaptureDevice");
+    if (captureDeviceClass != nil) {
+        AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+        if ([device hasTorch] && [device hasFlash]){
+            
+            [device lockForConfiguration:nil];
+            if (on) {
+//                [device setTorchMode:AVCaptureTorchModeOn];
+                [device setFlashMode:AVCaptureFlashModeOn];
+                _torchIsOn = YES;
+            } else {
+//                [device setTorchMode:AVCaptureTorchModeOff];
+                [device setFlashMode:AVCaptureFlashModeOff];
+                _torchIsOn = NO;
+            }
+            [device unlockForConfiguration];
+        }
+    }
 }
 
 - (IBAction)upload:(id)sender {
@@ -168,7 +251,7 @@
         self.btnTakePhoto.hidden            = NO;
         self.btnSwitchCamera.hidden         = NO;
         self.btnMenu.hidden                 = NO;
-        self.btnFlashOff.hidden             = NO;
+        self.btnToggleFlash.hidden = _facingFront ? YES : NO;
     } else if ([state isEqualToString:@"posttake"]) {
         self.btnCancel.hidden       = NO;
         self.imageView.hidden       = NO;
@@ -176,7 +259,7 @@
         self.btnTakePhoto.hidden    = YES;
         self.btnSwitchCamera.hidden = YES;
         self.btnMenu.hidden         = YES;
-        self.btnFlashOff.hidden     = YES;
+        self.btnToggleFlash.hidden = _facingFront ? YES : NO;
     }
     
 }

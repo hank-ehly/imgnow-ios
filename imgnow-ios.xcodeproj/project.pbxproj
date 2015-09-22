@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3326F64C1BB0C19800578DEB /* Flash-On-50-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 3326F64B1BB0C19800578DEB /* Flash-On-50-white.png */; settings = {ASSET_TAGS = (); }; };
 		33987D931BAF63DD00D728C2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 33987D921BAF63DD00D728C2 /* main.m */; };
 		33987D961BAF63DD00D728C2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 33987D951BAF63DD00D728C2 /* AppDelegate.m */; };
 		33987D991BAF63DD00D728C2 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33987D981BAF63DD00D728C2 /* ViewController.m */; };
@@ -83,6 +84,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3326F64B1BB0C19800578DEB /* Flash-On-50-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Flash-On-50-white.png"; sourceTree = "<group>"; };
 		33987D8E1BAF63DD00D728C2 /* imgnow-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "imgnow-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		33987D921BAF63DD00D728C2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		33987D941BAF63DD00D728C2 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -269,6 +271,7 @@
 		33E9157A1BAFAB8000A44BE1 /* icons */ = {
 			isa = PBXGroup;
 			children = (
+				3326F64B1BB0C19800578DEB /* Flash-On-50-white.png */,
 				33E9158B1BAFEC6500A44BE1 /* Download-25.png */,
 				33E9158C1BAFEC6500A44BE1 /* Download-32.png */,
 				33E915831BAFE0DC00A44BE1 /* Back-25.png */,
@@ -444,6 +447,7 @@
 				33E915651BAFAB7700A44BE1 /* Delete-50.png in Resources */,
 				33E9155E1BAFAB7700A44BE1 /* Arrow-50.png in Resources */,
 				33E915631BAFAB7700A44BE1 /* Delete-50 (1).png in Resources */,
+				3326F64C1BB0C19800578DEB /* Flash-On-50-white.png in Resources */,
 				33E9158E1BAFEC6500A44BE1 /* Download-32.png in Resources */,
 				33E915621BAFAB7700A44BE1 /* Delete Filled-50.png in Resources */,
 				33E9156B1BAFAB7700A44BE1 /* Flash Off-50.png in Resources */,
