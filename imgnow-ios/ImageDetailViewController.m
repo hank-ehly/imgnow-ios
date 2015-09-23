@@ -8,6 +8,7 @@
 
 #import "ImageDetailViewController.h"
 #import "ImageTopViewController.h"
+@import MessageUI;
 
 @interface ImageDetailViewController ()
 
@@ -60,19 +61,52 @@
 
 - (IBAction)handleSendEmailTouch:(id)sender {
     
-    alertController = [UIAlertController alertControllerWithTitle:@"We emailed you at:" message:@"foobar@email.com" preferredStyle:UIAlertControllerStyleAlert];
-    
-    actionEmailOk = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        // sent email
-    }];
-    
-    [alertController addAction:actionEmailOk];
-    
-    [self presentViewController:alertController animated:YES completion:^{
-        // presented view controller
-    }];
+    [self sendEmail:_imgSrcLabel.text];
     
 }
+
+
+- (void)sendEmail:(NSString *)message {
+    
+    
+    MFMailComposeViewController *mfvc = [[MFMailComposeViewController alloc] init];
+    [mfvc setMailComposeDelegate:self];
+    [mfvc setToRecipients:[NSArray arrayWithObject:[[NSUserDefaults standardUserDefaults] valueForKey:@"user_email"]]];
+    [mfvc setSubject:@"Your placeholder <img> tag"];
+    [mfvc setMessageBody:message isHTML:NO];
+    
+    if ([MFMailComposeViewController canSendMail]) {
+        [self presentViewController:mfvc animated:YES completion:nil];
+    } else {
+        NSString *title = @"Could Not Send Email";
+        NSString *message = @"Your device could not send e-mail. Please check your e-mail configuration and try again";
+        UIAlertController *ac = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *aok = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            // pressed ok
+        }];
+        [alertController addAction:aok];
+        [self presentViewController:ac animated:YES completion:^{
+            // showed email sent alert
+        }];
+    }
+    
+    
+}
+
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
+    [controller dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+
+
+
+
+
+
+
+
+
 
 - (IBAction)handleExtendDeletionDateTouch:(id)sender {
     

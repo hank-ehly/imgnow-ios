@@ -89,9 +89,7 @@ NSString *imageString;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    
 
-    
 }
 
 - (IBAction)switchCamera:(id)sender
@@ -231,7 +229,10 @@ NSString *imageString;
     
     alertActionSendEmail = [UIAlertAction actionWithTitle:titleEmail style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         // send email
-        [self sendEmail:html];
+        NSString *beg = @"<img src=\"";
+        NSString *end = @"\"></img>";
+        NSString *body = [NSString stringWithFormat:@"%@%@%@", beg, html, end];
+        [self sendEmail:body];
     }];
     
     [alertController addAction:alertActionHtmlOk];
@@ -247,7 +248,7 @@ NSString *imageString;
     
     MFMailComposeViewController *mfvc = [[MFMailComposeViewController alloc] init];
     [mfvc setMailComposeDelegate:self];
-    [mfvc setToRecipients:[NSArray arrayWithObject:@"henry.ehly@gmail.com"]];
+    [mfvc setToRecipients:[NSArray arrayWithObject:[[NSUserDefaults standardUserDefaults] valueForKey:@"user_email"]]];
     [mfvc setSubject:@"message from outer space"];
     [mfvc setMessageBody:message isHTML:NO];
     

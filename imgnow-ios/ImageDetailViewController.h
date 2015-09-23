@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+@import MessageUI;
 
 @protocol ImageDetailViewControllerDelegate;
 
-@interface ImageDetailViewController : UIViewController
+@interface ImageDetailViewController : UIViewController <MFMailComposeViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UILabel *imgSrcLabel;
@@ -31,6 +32,7 @@
 - (IBAction)handleExtendDeletionDateTouch:(id)sender;
 - (IBAction)handleDeleteTouch:(id)sender;
 - (IBAction)handleDownloadTouch:(id)sender;
+- (void)sendEmail:(NSString *)message;
 
 @property (weak, nonatomic) IBOutlet UINavigationItem *navTitle;
 
