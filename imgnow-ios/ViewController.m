@@ -28,6 +28,26 @@
     [super viewDidLoad];
     _torchIsOn = NO;
     _facingFront = NO;
+    
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    if ([defaults valueForKey:@"user_email"]) {
+        
+        NSString *msg = [NSString stringWithFormat:@"Welcome, %@", [defaults valueForKey:@"user_email"]];
+        
+        UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"Logged in successfully" message:msg preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *ok = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault handler:nil];
+        
+        [ac addAction:ok];
+        
+        [self presentViewController:ac animated:YES completion:nil];
+        
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3326F64C1BB0C19800578DEB /* Flash-On-50-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 3326F64B1BB0C19800578DEB /* Flash-On-50-white.png */; settings = {ASSET_TAGS = (); }; };
+		335477311BB21DB8000FABCE /* NSUserDefaults+Session.m in Sources */ = {isa = PBXBuildFile; fileRef = 335477301BB21DB8000FABCE /* NSUserDefaults+Session.m */; settings = {ASSET_TAGS = (); }; };
 		33987D931BAF63DD00D728C2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 33987D921BAF63DD00D728C2 /* main.m */; };
 		33987D961BAF63DD00D728C2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 33987D951BAF63DD00D728C2 /* AppDelegate.m */; };
 		33987D991BAF63DD00D728C2 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33987D981BAF63DD00D728C2 /* ViewController.m */; };
@@ -18,6 +19,7 @@
 		33987DAF1BAF63DD00D728C2 /* imgnow_iosTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 33987DAE1BAF63DD00D728C2 /* imgnow_iosTests.m */; };
 		33987DBA1BAF63DD00D728C2 /* imgnow_iosUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 33987DB91BAF63DD00D728C2 /* imgnow_iosUITests.m */; };
 		33CA7D621BB170AE007B175C /* login-button.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 33CA7D611BB170AE007B175C /* login-button.jpg */; settings = {ASSET_TAGS = (); }; };
+		33CA7D641BB17ED0007B175C /* api-routes.plist in Resources */ = {isa = PBXBuildFile; fileRef = 33CA7D631BB17ED0007B175C /* api-routes.plist */; settings = {ASSET_TAGS = (); }; };
 		33E9155E1BAFAB7700A44BE1 /* Arrow-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 33E915421BAFAB7700A44BE1 /* Arrow-50.png */; settings = {ASSET_TAGS = (); }; };
 		33E9155F1BAFAB7700A44BE1 /* Back-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 33E915431BAFAB7700A44BE1 /* Back-50.png */; settings = {ASSET_TAGS = (); }; };
 		33E915601BAFAB7700A44BE1 /* Camera-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 33E915441BAFAB7700A44BE1 /* Camera-50.png */; settings = {ASSET_TAGS = (); }; };
@@ -86,6 +88,8 @@
 
 /* Begin PBXFileReference section */
 		3326F64B1BB0C19800578DEB /* Flash-On-50-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Flash-On-50-white.png"; sourceTree = "<group>"; };
+		3354772F1BB21DB8000FABCE /* NSUserDefaults+Session.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+Session.h"; sourceTree = "<group>"; };
+		335477301BB21DB8000FABCE /* NSUserDefaults+Session.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+Session.m"; sourceTree = "<group>"; };
 		33987D8E1BAF63DD00D728C2 /* imgnow-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "imgnow-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		33987D921BAF63DD00D728C2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		33987D941BAF63DD00D728C2 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -104,6 +108,7 @@
 		33987DB91BAF63DD00D728C2 /* imgnow_iosUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = imgnow_iosUITests.m; sourceTree = "<group>"; };
 		33987DBB1BAF63DD00D728C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		33CA7D611BB170AE007B175C /* login-button.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "login-button.jpg"; sourceTree = "<group>"; };
+		33CA7D631BB17ED0007B175C /* api-routes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "api-routes.plist"; sourceTree = "<group>"; };
 		33E915421BAFAB7700A44BE1 /* Arrow-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Arrow-50.png"; sourceTree = "<group>"; };
 		33E915431BAFAB7700A44BE1 /* Back-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Back-50.png"; sourceTree = "<group>"; };
 		33E915441BAFAB7700A44BE1 /* Camera-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Camera-50.png"; sourceTree = "<group>"; };
@@ -224,11 +229,10 @@
 				33E9159D1BB01BD100A44BE1 /* SettingsTableViewController.h */,
 				33E9159E1BB01BD100A44BE1 /* SettingsTableViewController.m */,
 				33987D9A1BAF63DD00D728C2 /* Main.storyboard */,
-				33987DA01BAF63DD00D728C2 /* Assets.xcassets */,
-				33987DA21BAF63DD00D728C2 /* LaunchScreen.storyboard */,
-				33987DA51BAF63DD00D728C2 /* Info.plist */,
-				33987D9D1BAF63DD00D728C2 /* imgnow_ios.xcdatamodeld */,
 				33987D911BAF63DD00D728C2 /* Supporting Files */,
+				33CA7D631BB17ED0007B175C /* api-routes.plist */,
+				3354772F1BB21DB8000FABCE /* NSUserDefaults+Session.h */,
+				335477301BB21DB8000FABCE /* NSUserDefaults+Session.m */,
 			);
 			path = "imgnow-ios";
 			sourceTree = "<group>";
@@ -236,6 +240,10 @@
 		33987D911BAF63DD00D728C2 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				33987DA01BAF63DD00D728C2 /* Assets.xcassets */,
+				33987DA21BAF63DD00D728C2 /* LaunchScreen.storyboard */,
+				33987D9D1BAF63DD00D728C2 /* imgnow_ios.xcdatamodeld */,
+				33987DA51BAF63DD00D728C2 /* Info.plist */,
 				33987D921BAF63DD00D728C2 /* main.m */,
 			);
 			name = "Supporting Files";
@@ -464,6 +472,7 @@
 				33987DA11BAF63DD00D728C2 /* Assets.xcassets in Resources */,
 				33E9156D1BAFAB7700A44BE1 /* Flash On-50.png in Resources */,
 				33E9156F1BAFAB7700A44BE1 /* Menu Filled-50.png in Resources */,
+				33CA7D641BB17ED0007B175C /* api-routes.plist in Resources */,
 				33E9157D1BAFABA500A44BE1 /* button.png in Resources */,
 				33E915A11BB02B8900A44BE1 /* generate-img.png in Resources */,
 				33E915641BAFAB7700A44BE1 /* Delete-50 (2).png in Resources */,
@@ -500,6 +509,7 @@
 			files = (
 				33E9159F1BB01BD100A44BE1 /* SettingsTableViewController.m in Sources */,
 				33987D991BAF63DD00D728C2 /* ViewController.m in Sources */,
+				335477311BB21DB8000FABCE /* NSUserDefaults+Session.m in Sources */,
 				33987D961BAF63DD00D728C2 /* AppDelegate.m in Sources */,
 				33987D9F1BAF63DD00D728C2 /* imgnow_ios.xcdatamodeld in Sources */,
 				33987D931BAF63DD00D728C2 /* main.m in Sources */,

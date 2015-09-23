@@ -8,16 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol LoginViewControllerDelegate;
-
 @interface LoginViewController : UIViewController
 
-@property (weak, nonatomic) id <LoginViewControllerDelegate> delegate;
+- (IBAction)touchedLogin:(id)sender;
 
-@end
-
-@protocol LoginViewControllerDelegate <NSObject>
-
-// methods
+@property (weak, nonatomic) IBOutlet UITextField *emailTextField;
+@property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
 
 @end

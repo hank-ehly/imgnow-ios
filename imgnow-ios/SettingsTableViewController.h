@@ -9,7 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface SettingsTableViewController : UITableViewController
-@property (weak, nonatomic) IBOutlet UITableViewCell *userIdCell;
+
+- (void) logoutUser;
+
 @property (weak, nonatomic) IBOutlet UITableViewCell *passwordCell;
 @property (weak, nonatomic) IBOutlet UITableViewCell *emailCell;
 @property (weak, nonatomic) IBOutlet UITableViewCell *logoutCell;
