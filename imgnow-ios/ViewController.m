@@ -72,6 +72,11 @@ UIImage *image;
     
 }
 
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    NSLog(@"%@", size);
+    NSLog(@"%@", coordinator);
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];

@@ -162,8 +162,6 @@ NSMutableArray *images;
         
         idvc.imageObject = [NSDictionary dictionaryWithObjectsAndKeys:created_at, @"created_at", url, @"url", updated_at, @"updated_at", user_id, @"user_id", image_id, @"image_id", nil];
         
-//        idvc.image_url = [_tableView cellForRowAtIndexPath:[_tableView indexPathForSelectedRow]].textLabel.text;
-        
         [_tableView deselectRowAtIndexPath:[_tableView indexPathForSelectedRow] animated:NO];
 
     }
