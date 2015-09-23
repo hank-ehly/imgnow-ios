@@ -141,10 +141,6 @@ NSString *imageString;
 }
 
 
-
-
-
-
 - (IBAction)takePhoto:(id)sender {
     
     AVCaptureConnection *videoConnection = nil;
@@ -164,6 +160,7 @@ NSString *imageString;
     [stillImageOutput captureStillImageAsynchronouslyFromConnection:videoConnection completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
 
         if (imageDataSampleBuffer != NULL) {
+            
             NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
             
             imageString = [NSString stringWithFormat:@"%@", imageData];
@@ -191,11 +188,11 @@ NSString *imageString;
     self.uploadActivityIndicator.hidden = NO;
     [self.uploadActivityIndicator startAnimating];
     
-    // format data
-    NSString *imgStr = [NSString stringWithFormat:@"{\"image\": \"%@\", \"authenticity_token\": \"\", \"utf8\": \"✓\"}", imageString];
-    NSData   *data   = [imgStr dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *email = [[NSUserDefaults standardUserDefaults] valueForKey:@"user_email"];
     
-    NSLog(@"%@", imageString);
+    // format data
+    NSString *imgStr = [NSString stringWithFormat:@"{\"image\": \"%@\",\"authenticity_token\": \"\", \"utf8\": \"✓\",\"email\":\"%@\"}", imageString, email];
+    NSData   *data   = [imgStr dataUsingEncoding:NSUTF8StringEncoding];
     
     // http request
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
@@ -204,16 +201,10 @@ NSString *imageString;
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [request setHTTPBody:data];
     
-    //    NSError *requestError;
-    //    NSURLResponse *response = nil;
-    //    NSData *result = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&requestError];
-    //    NSLog(@"%@", result);
-    
     // ajax
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
 
         NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-        NSLog(@"%@", [json valueForKey:@"url"]);
         
         [self.uploadActivityIndicator stopAnimating];
         [self uploadAlertResultWithHtml:[json valueForKey:@"url"]];

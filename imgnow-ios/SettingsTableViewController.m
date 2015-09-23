@@ -63,7 +63,6 @@
     
     NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         
-//        NSData *responseJsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
         NSHTTPURLResponse *res = (NSHTTPURLResponse *)response;
         long statusCode = [res statusCode];
         

@@ -24,9 +24,20 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     
-    _imageView.image = [UIImage imageNamed:@"travel-0050.jpg"];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    // set background image
+    NSString *routesFile = [[NSBundle mainBundle] pathForResource:@"api-routes" ofType:@"plist"];
+    NSDictionary *routes = [NSDictionary dictionaryWithContentsOfFile:routesFile];
+    NSString *url = [NSString stringWithFormat:@"%@%@", [routes objectForKey:@"base"], _image_url];
+    NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
+    _imageView.image = [UIImage imageWithData:data];
+    
+    NSString *beg = @"<img src=\"";
+    NSString *end = @"\"></img>";
+    _imgSrcLabel.text = [NSString stringWithFormat:@"%@%@%@", beg, url, end];
     
 }
 

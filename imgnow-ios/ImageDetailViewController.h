@@ -13,6 +13,8 @@
 @interface ImageDetailViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (weak, nonatomic) IBOutlet UILabel *imgSrcLabel;
+@property NSString *image_url;
 
 // delegate
 @property (weak, nonatomic) id <ImageDetailViewControllerDelegate> delegate;

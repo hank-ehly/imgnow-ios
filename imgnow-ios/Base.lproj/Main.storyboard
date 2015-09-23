@@ -17,8 +17,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="default@email.com" borderStyle="roundedRect" placeholder="email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="MUz-70-qR1">
-                                <rect key="frame" x="20" y="150" width="560" height="50"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="default@email.com" borderStyle="roundedRect" placeholder="email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="MUz-70-qR1">
+                                <rect key="frame" x="20" y="170" width="560" height="50"/>
                                 <color key="backgroundColor" white="1" alpha="0.25" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="pVL-I5-er8"/>
@@ -26,8 +26,8 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="28"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="password" borderStyle="roundedRect" placeholder="password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="O22-Sd-PSs">
-                                <rect key="frame" x="20" y="207" width="560" height="50"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="password" borderStyle="roundedRect" placeholder="password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="O22-Sd-PSs">
+                                <rect key="frame" x="20" y="227" width="560" height="50"/>
                                 <color key="backgroundColor" white="1" alpha="0.25" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="cR9-2t-M1W"/>
@@ -35,8 +35,8 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="28"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Suv-Td-deK">
-                                <rect key="frame" x="150" y="295" width="300" height="57"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Suv-Td-deK">
+                                <rect key="frame" x="150" y="315" width="300" height="57"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="57" id="OSl-rZ-jXs"/>
                                     <constraint firstAttribute="width" constant="300" id="YTc-z8-7SX"/>
@@ -49,8 +49,8 @@
                                     <action selector="touchedLogin:" destination="T2P-p9-REv" eventType="touchUpInside" id="QKY-9s-chU"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="HTML &lt;img&gt; tags... automagically" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uv2-S6-bXn">
-                                <rect key="frame" x="169" y="60" width="262" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="HTML &lt;img&gt; tags... automagically" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uv2-S6-bXn">
+                                <rect key="frame" x="169" y="80" width="262" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -636,17 +636,17 @@
                                     <constraint firstAttribute="height" constant="247" id="IRB-RZ-AKX"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&lt;img src=&quot;http://placeholdnow/5h8d72h8.jpeg&quot;&gt;&lt;/img&gt;" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bsu-Ys-WHt">
-                                <rect key="frame" x="20" y="317" width="560" height="20"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&lt;img src=&quot;http://placeholdnow/5h8d72h8.jpeg&quot;&gt;&lt;/img&gt;" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bsu-Ys-WHt">
+                                <rect key="frame" x="20" y="317" width="560" height="60"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="20" id="Pnq-Pl-eXh"/>
+                                    <constraint firstAttribute="height" constant="60" id="Pnq-Pl-eXh"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dft-ar-sQd">
-                                <rect key="frame" x="149" y="347" width="302" height="58"/>
+                                <rect key="frame" x="149" y="387" width="302" height="58"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="58" id="0G8-1A-8Va"/>
                                     <constraint firstAttribute="width" constant="302" id="TsO-aL-FzY"/>
@@ -657,7 +657,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gu1-Jj-u8y">
-                                <rect key="frame" x="149" y="483" width="302" height="58"/>
+                                <rect key="frame" x="149" y="523" width="302" height="58"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="302" id="3Ne-bU-UWS"/>
                                     <constraint firstAttribute="height" constant="58" id="Kc4-gq-7kk"/>
@@ -668,7 +668,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8rM-fs-5cc">
-                                <rect key="frame" x="149" y="415" width="302" height="58"/>
+                                <rect key="frame" x="149" y="455" width="302" height="58"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="302" id="7H0-LH-Qi6"/>
                                     <constraint firstAttribute="height" constant="58" id="lWf-GV-vX3"/>
@@ -701,6 +701,7 @@
                     </view>
                     <connections>
                         <outlet property="imageView" destination="lNv-7k-4eY" id="V4M-c7-dAL"/>
+                        <outlet property="imgSrcLabel" destination="bsu-Ys-WHt" id="1dG-V1-oyr"/>
                         <outlet property="navTitle" destination="Vi8-8c-QLj" id="bNg-dB-cFF"/>
                     </connections>
                 </viewController>
