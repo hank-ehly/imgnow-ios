@@ -39,7 +39,7 @@
 - (IBAction)toggleFlash:(id)sender;
 
 - (void)changeWindowState:(NSString *)state;
-- (void)uploadAlertResult;
+- (void)uploadAlertResultWithHtml:(NSString *)html;
 - (void)sendEmail;
 
 @end

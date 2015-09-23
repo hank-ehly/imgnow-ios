@@ -2,12 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>api_images_upload</key>
+	<string>/api/images/upload.json</string>
 	<key>base</key>
 	<string>http://192.168.0.10:3000</string>
 	<key>destroy_user_session</key>
 	<string>/users/sign_out.json</string>
 	<key>user_registration</key>
-	<string>/users</string>
+	<string>/users.json</string>
 	<key>user_session</key>
 	<string>/users/sign_in.json</string>
 </dict>

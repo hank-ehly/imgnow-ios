@@ -50,7 +50,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="HTML &lt;img&gt; tags... automagically" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uv2-S6-bXn">
-                                <rect key="frame" x="169" y="60" width="262" height="20.5"/>
+                                <rect key="frame" x="169" y="60" width="262" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -123,7 +123,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Register" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Qk-zp-UCC">
-                                <rect key="frame" x="268" y="140" width="63.5" height="20.5"/>
+                                <rect key="frame" x="268" y="140" width="64" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -657,7 +657,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gu1-Jj-u8y">
-                                <rect key="frame" x="148.5" y="483" width="302" height="58"/>
+                                <rect key="frame" x="149" y="483" width="302" height="58"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="302" id="3Ne-bU-UWS"/>
                                     <constraint firstAttribute="height" constant="58" id="Kc4-gq-7kk"/>
@@ -668,7 +668,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8rM-fs-5cc">
-                                <rect key="frame" x="148.5" y="415" width="302" height="58"/>
+                                <rect key="frame" x="149" y="415" width="302" height="58"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="302" id="7H0-LH-Qi6"/>
                                     <constraint firstAttribute="height" constant="58" id="lWf-GV-vX3"/>

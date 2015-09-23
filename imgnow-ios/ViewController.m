@@ -23,12 +23,13 @@
 @synthesize alertActionEmailOk;
 @synthesize captureDevise;
 
+NSString *imageString;
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     _torchIsOn = NO;
     _facingFront = NO;
-    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -139,6 +140,11 @@
     return nil;
 }
 
+
+
+
+
+
 - (IBAction)takePhoto:(id)sender {
     
     AVCaptureConnection *videoConnection = nil;
@@ -159,6 +165,11 @@
 
         if (imageDataSampleBuffer != NULL) {
             NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
+            
+            imageString = [NSString stringWithFormat:@"%@", imageData];
+            imageString = [imageString stringByReplacingOccurrencesOfString:@" " withString:@""];
+            imageString = [imageString substringWithRange:NSMakeRange(1, [imageString length] - 2)];
+            
             UIImage *image = [UIImage imageWithData:imageData];
             self.imageView.image = image;
             [self changeWindowState:@"posttake"];
@@ -168,60 +179,53 @@
     
 }
 
-- (IBAction)cancel:(id)sender {
-    [self changeWindowState:@"pretake"];
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-//    NSLog(@"foo");
-}
-
-- (IBAction)toggleFlash:(id)sender {
-    if (!_torchIsOn) {
-        [self turnTorchOn:YES];
-        [_btnToggleFlash setImage:[UIImage imageNamed:@"Flash-On-50-white.png"] forState:UIControlStateNormal];
-    } else {
-        [self turnTorchOn:NO];
-        [_btnToggleFlash setImage:[UIImage imageNamed:@"Flash Off-50 (1).png"] forState:UIControlStateNormal];
-    }
-}
-
-- (void) turnTorchOn: (bool) on {
-    
-    Class captureDeviceClass = NSClassFromString(@"AVCaptureDevice");
-    if (captureDeviceClass != nil) {
-        AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-        if ([device hasTorch] && [device hasFlash]){
-            
-            [device lockForConfiguration:nil];
-            if (on) {
-//                [device setTorchMode:AVCaptureTorchModeOn];
-                [device setFlashMode:AVCaptureFlashModeOn];
-                _torchIsOn = YES;
-            } else {
-//                [device setTorchMode:AVCaptureTorchModeOff];
-                [device setFlashMode:AVCaptureFlashModeOff];
-                _torchIsOn = NO;
-            }
-            [device unlockForConfiguration];
-        }
-    }
-}
-
 - (IBAction)upload:(id)sender {
     
+    // set url
+    NSString *routesFile = [[NSBundle mainBundle] pathForResource:@"api-routes" ofType:@"plist"];
+    NSDictionary *routes = [NSDictionary dictionaryWithContentsOfFile:routesFile];
+    NSString *urlString = [NSString stringWithFormat:@"%@%@", [routes objectForKey:@"base"], [routes objectForKey:@"api_images_upload"]];
+    NSURL *url = [NSURL URLWithString:urlString];
+    
+    // loading wheel
     self.uploadActivityIndicator.hidden = NO;
     [self.uploadActivityIndicator startAnimating];
     
-    // perform the actual upload
-    [NSTimer scheduledTimerWithTimeInterval:2.0f target:self selector:@selector(uploadAlertResult) userInfo:nil repeats:NO];
+    // format data
+    NSString *imgStr = [NSString stringWithFormat:@"{\"image\": \"%@\", \"authenticity_token\": \"\", \"utf8\": \"✓\"}", imageString];
+    NSData   *data   = [imgStr dataUsingEncoding:NSUTF8StringEncoding];
+    
+    NSLog(@"%@", imageString);
+    
+    // http request
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request setHTTPBody:data];
+    
+    //    NSError *requestError;
+    //    NSURLResponse *response = nil;
+    //    NSData *result = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&requestError];
+    //    NSLog(@"%@", result);
+    
+    // ajax
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+
+        NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+        NSLog(@"%@", [json valueForKey:@"url"]);
+        
+        [self.uploadActivityIndicator stopAnimating];
+        [self uploadAlertResultWithHtml:[json valueForKey:@"url"]];
+        
+    }];
     
 }
 
--(void)uploadAlertResult {
+- (void)uploadAlertResultWithHtml:(NSString *)html {
     
     NSString *title   = @"Plug this into your HTML";
-    NSString *message = @"<img src=\"http://placeholdnow.com/4j8d92je.jpeg\">";
+    NSString *message = html;
     NSString *titleOk = @"OK";
     NSString *titleEmail = @"Email it to me";
     
@@ -260,6 +264,39 @@
     
 }
 
+- (IBAction)cancel:(id)sender {
+    [self changeWindowState:@"pretake"];
+}
+
+- (IBAction)toggleFlash:(id)sender {
+    if (!_torchIsOn) {
+        [self turnTorchOn:YES];
+        [_btnToggleFlash setImage:[UIImage imageNamed:@"Flash-On-50-white.png"] forState:UIControlStateNormal];
+    } else {
+        [self turnTorchOn:NO];
+        [_btnToggleFlash setImage:[UIImage imageNamed:@"Flash Off-50 (1).png"] forState:UIControlStateNormal];
+    }
+}
+
+- (void) turnTorchOn: (bool) on {
+    
+    Class captureDeviceClass = NSClassFromString(@"AVCaptureDevice");
+    if (captureDeviceClass != nil) {
+        AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+        if ([device hasTorch] && [device hasFlash]){
+            
+            [device lockForConfiguration:nil];
+            if (on) {
+                [device setFlashMode:AVCaptureFlashModeOn];
+                _torchIsOn = YES;
+            } else {
+                [device setFlashMode:AVCaptureFlashModeOff];
+                _torchIsOn = NO;
+            }
+            [device unlockForConfiguration];
+        }
+    }
+}
 
 - (void)changeWindowState:(NSString *)state {
     
