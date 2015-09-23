@@ -17,9 +17,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"blur-bg-portrait.jpg"]];
-    
 }
 
 - (void)didReceiveMemoryWarning {[super didReceiveMemoryWarning];}
@@ -56,7 +54,7 @@
         
         if (statusCode == 201) {
             
-            [[NSUserDefaults sharedInstance] createUserSessionWith:responseJsonData];
+            [[NSUserDefaults sharedInstance] createUserSessionWith:responseJsonData andStatus:@"loggedin"];
             
             // have to perform segue on main block (gets switched after logout looks like..)
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
@@ -69,6 +67,10 @@
     
     [dataTask resume];
     
+}
+
+- (IBAction)segueToRegistration:(id)sender {
+    [self performSegueWithIdentifier:@"toRegistration" sender:nil];
 }
 
 @end

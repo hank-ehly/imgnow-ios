@@ -20,9 +20,15 @@
     return defaults;
 }
 
-- (void)createUserSessionWith:(NSData *)data {
+- (void)createUserSessionWith:(NSData *)data andStatus:(NSString *)status {
+    
     [self setObject:[data valueForKey:@"email"] forKey:@"user_email"];
-
+    
+    if ([status isEqualToString:@"loggedin"]) {
+        [self setObject:@"Successfully logged in." forKey:@"welcomeMessage"];
+    } else if ([status isEqualToString:@"registered"]) {
+        [self setObject:@"Account created successfully." forKey:@"welcomeMessage"];
+    }
 }
 
 @end

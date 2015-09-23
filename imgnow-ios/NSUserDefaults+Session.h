@@ -12,6 +12,6 @@
 
 + (id)sharedInstance;
 
-- (void)createUserSessionWith:(NSData *)data;
+- (void)createUserSessionWith:(NSData *)data andStatus:(NSString *)status;
 
 @end

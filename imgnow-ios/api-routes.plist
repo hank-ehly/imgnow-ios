@@ -6,6 +6,8 @@
 	<string>http://192.168.0.10:3000</string>
 	<key>destroy_user_session</key>
 	<string>/users/sign_out.json</string>
+	<key>user_registration</key>
+	<string>/users</string>
 	<key>user_session</key>
 	<string>/users/sign_in.json</string>
 </dict>

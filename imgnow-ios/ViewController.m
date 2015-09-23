@@ -39,7 +39,7 @@
         
         NSString *msg = [NSString stringWithFormat:@"Welcome, %@", [defaults valueForKey:@"user_email"]];
         
-        UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"Logged in successfully" message:msg preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController *ac = [UIAlertController alertControllerWithTitle:[[NSUserDefaults standardUserDefaults] valueForKey:@"welcomeMessage"] message:msg preferredStyle:UIAlertControllerStyleAlert];
         
         UIAlertAction *ok = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault handler:nil];
         
