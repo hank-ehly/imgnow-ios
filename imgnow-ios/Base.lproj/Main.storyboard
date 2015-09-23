@@ -102,7 +102,7 @@
                     <connections>
                         <outlet property="emailTextField" destination="MUz-70-qR1" id="T0s-FQ-yfy"/>
                         <outlet property="passwordTextField" destination="O22-Sd-PSs" id="xYe-bQ-9U8"/>
-                        <segue destination="BYZ-38-t0r" kind="presentation" identifier="loggedIn" id="73f-he-qFX"/>
+                        <segue destination="BYZ-38-t0r" kind="presentation" identifier="loggedIn" modalPresentationStyle="fullScreen" modalTransitionStyle="flipHorizontal" id="73f-he-qFX"/>
                         <segue destination="i3L-7g-zIk" kind="presentation" identifier="toRegistration" id="wJh-b9-18n"/>
                     </connections>
                 </viewController>
@@ -351,7 +351,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="388" y="377"/>
+            <point key="canvasLocation" x="426" y="475"/>
         </scene>
         <!--Settings View Controller-->
         <scene sceneID="OMR-FD-nWk">
@@ -523,13 +523,13 @@
                                         <barButtonItem key="leftBarButtonItem" image="Back-25.png" id="9c4-F2-Kay">
                                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <connections>
-                                                <segue destination="BYZ-38-t0r" kind="show" animates="NO" id="xb3-w8-wBJ"/>
+                                                <segue destination="BYZ-38-t0r" kind="show" id="xb3-w8-wBJ"/>
                                             </connections>
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" image="Settings-25.png" id="VC9-0I-Lzi">
                                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <connections>
-                                                <segue destination="oT7-aW-AQ6" kind="presentation" id="U5X-g7-FH7"/>
+                                                <segue destination="oT7-aW-AQ6" kind="presentation" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="U5X-g7-FH7"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
@@ -563,7 +563,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="DzO-Kq-NeS" kind="presentation" identifier="imageDetail" id="ABM-2C-REV"/>
+                                            <segue destination="DzO-Kq-NeS" kind="custom" identifier="imageDetail" customClass="SlideLeftCustomSegue" animates="NO" id="ELm-Dj-3ew"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -590,7 +590,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="imY-C4-eaf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1143" y="377"/>
+            <point key="canvasLocation" x="1125" y="377"/>
         </scene>
         <!--Image Detail View Controller-->
         <scene sceneID="1MF-cd-Zq8">
@@ -726,7 +726,7 @@
         <image name="login-button.jpg" width="388" height="75"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="jWY-oW-4va"/>
+        <segue reference="73f-he-qFX"/>
         <segue reference="TyZ-iJ-7cz"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -44,7 +44,18 @@
 }
 
 - (void)didReceiveMemoryWarning {[super didReceiveMemoryWarning];}
-- (IBAction)goBack:(id)sender {[self dismissViewControllerAnimated:YES completion:nil];}
+
+- (IBAction)goBack:(id)sender {
+    
+    CATransition *transition = [CATransition animation];
+    transition.duration = 0.3;
+    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    transition.type = kCATransitionPush;
+    transition.subtype = kCATransitionFromLeft;
+    [self.view.window.layer addAnimation:transition forKey:nil];
+    
+    [self dismissViewControllerAnimated:NO completion:nil];
+}
 
 
 - (IBAction)handleSendEmailTouch:(id)sender {
@@ -93,9 +104,13 @@
         
         [self deleteImage];
         
-        [self dismissViewControllerAnimated:YES completion:^{
-            // dismissed
-        }];
+        CATransition *transition = [CATransition animation];
+        transition.duration = 0.3;
+        transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        transition.type = kCATransitionPush;
+        transition.subtype = kCATransitionFromLeft;
+        [self.view.window.layer addAnimation:transition forKey:nil];
+        [self dismissViewControllerAnimated:NO completion:nil];
         
     }];
     
@@ -139,19 +154,13 @@
     request.HTTPMethod = @"DELETE";
     
     NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        NSData *responseJsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-//        NSHTTPURLResponse *res = (NSHTTPURLResponse *)response;
-//        long statusCode = [res statusCode];
         
-        if (error) {
-            NSLog(@"%@", error);
-        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSData *responseJsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+            if (error) { NSLog(@"%@", error); }
+            [_delegate removeDeletedImage:[responseJsonData valueForKey:@"destroyed_image"]];
+        });
         
-//        NSLog(@"%@", responseJsonData);
-//        NSLog(@"%lu", statusCode);
-        
-        [_delegate removeDeletedImage:[responseJsonData valueForKey:@"destroyed_image"]];
-                
     }];
     
     [dataTask resume];

@@ -10,6 +10,8 @@
 		3326F64C1BB0C19800578DEB /* Flash-On-50-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 3326F64B1BB0C19800578DEB /* Flash-On-50-white.png */; settings = {ASSET_TAGS = (); }; };
 		335477311BB21DB8000FABCE /* NSUserDefaults+Session.m in Sources */ = {isa = PBXBuildFile; fileRef = 335477301BB21DB8000FABCE /* NSUserDefaults+Session.m */; settings = {ASSET_TAGS = (); }; };
 		335477341BB23CB1000FABCE /* RegistrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 335477331BB23CB1000FABCE /* RegistrationViewController.m */; settings = {ASSET_TAGS = (); }; };
+		3354773A1BB2AB55000FABCE /* SlideLeftCustomSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 335477391BB2AB55000FABCE /* SlideLeftCustomSegue.m */; settings = {ASSET_TAGS = (); }; };
+		3354773C1BB2AB80000FABCE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3354773B1BB2AB80000FABCE /* QuartzCore.framework */; };
 		33987D931BAF63DD00D728C2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 33987D921BAF63DD00D728C2 /* main.m */; };
 		33987D961BAF63DD00D728C2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 33987D951BAF63DD00D728C2 /* AppDelegate.m */; };
 		33987D991BAF63DD00D728C2 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33987D981BAF63DD00D728C2 /* ViewController.m */; };
@@ -93,6 +95,9 @@
 		335477301BB21DB8000FABCE /* NSUserDefaults+Session.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+Session.m"; sourceTree = "<group>"; };
 		335477321BB23CB1000FABCE /* RegistrationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegistrationViewController.h; sourceTree = "<group>"; };
 		335477331BB23CB1000FABCE /* RegistrationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegistrationViewController.m; sourceTree = "<group>"; };
+		335477381BB2AB55000FABCE /* SlideLeftCustomSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlideLeftCustomSegue.h; sourceTree = "<group>"; };
+		335477391BB2AB55000FABCE /* SlideLeftCustomSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlideLeftCustomSegue.m; sourceTree = "<group>"; };
+		3354773B1BB2AB80000FABCE /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		33987D8E1BAF63DD00D728C2 /* imgnow-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "imgnow-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		33987D921BAF63DD00D728C2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		33987D941BAF63DD00D728C2 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -171,6 +176,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3354773C1BB2AB80000FABCE /* QuartzCore.framework in Frameworks */,
 				33E9157F1BAFAF0E00A44BE1 /* AVFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -195,6 +201,7 @@
 		33987D851BAF63DD00D728C2 = {
 			isa = PBXGroup;
 			children = (
+				3354773B1BB2AB80000FABCE /* QuartzCore.framework */,
 				33E9157E1BAFAF0E00A44BE1 /* AVFoundation.framework */,
 				33987D901BAF63DD00D728C2 /* imgnow-ios */,
 				33987DAD1BAF63DD00D728C2 /* imgnow-iosTests */,
@@ -238,6 +245,8 @@
 				33CA7D631BB17ED0007B175C /* api-routes.plist */,
 				3354772F1BB21DB8000FABCE /* NSUserDefaults+Session.h */,
 				335477301BB21DB8000FABCE /* NSUserDefaults+Session.m */,
+				335477381BB2AB55000FABCE /* SlideLeftCustomSegue.h */,
+				335477391BB2AB55000FABCE /* SlideLeftCustomSegue.m */,
 			);
 			path = "imgnow-ios";
 			sourceTree = "<group>";
@@ -517,6 +526,7 @@
 				335477311BB21DB8000FABCE /* NSUserDefaults+Session.m in Sources */,
 				335477341BB23CB1000FABCE /* RegistrationViewController.m in Sources */,
 				33987D961BAF63DD00D728C2 /* AppDelegate.m in Sources */,
+				3354773A1BB2AB55000FABCE /* SlideLeftCustomSegue.m in Sources */,
 				33987D9F1BAF63DD00D728C2 /* imgnow_ios.xcdatamodeld in Sources */,
 				33987D931BAF63DD00D728C2 /* main.m in Sources */,
 				33E915A61BB02EB700A44BE1 /* LoginViewController.m in Sources */,
