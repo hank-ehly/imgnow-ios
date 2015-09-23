@@ -35,13 +35,26 @@
     
     if ([[[selectedCell textLabel] text] isEqualToString:@"logout"] && indexPath.row == 2) {
         
-        [self logoutUser];
+        [self confirmLogout];
         
     }
     
 }
 
-#pragma mark - Table view data source
+- (void) confirmLogout {
+    
+    
+    UIAlertController *ac = [UIAlertController alertControllerWithTitle:nil message:@"Are you sure you wanna logout?" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *yes = [UIAlertAction actionWithTitle:@"yeah" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+        [self logoutUser];
+    }];
+    UIAlertAction *no = [UIAlertAction actionWithTitle:@"no" style:UIAlertActionStyleCancel handler:nil];
+    
+    [ac addAction:yes];
+    [ac addAction:no];
+    [self presentViewController:ac animated:YES completion:nil];
+    
+}
 
 - (void)logoutUser {
     
