@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import <AVFoundation/AVFoundation.h>
+@import MessageUI;
 
 @interface ViewController ()
 
@@ -30,30 +31,7 @@ NSString *imageString;
     [super viewDidLoad];
     _torchIsOn = NO;
     _facingFront = NO;
-}
-
-- (void)viewDidAppear:(BOOL)animated {
     
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    
-    if ([defaults valueForKey:@"welcomeMessage"]) {
-        
-        NSString *msg = [NSString stringWithFormat:@"Welcome, %@", [defaults valueForKey:@"user_email"]];
-        
-        UIAlertController *ac = [UIAlertController alertControllerWithTitle:[[NSUserDefaults standardUserDefaults] valueForKey:@"welcomeMessage"] message:msg preferredStyle:UIAlertControllerStyleAlert];
-        
-        UIAlertAction *ok = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault handler:nil];
-        
-        [ac addAction:ok];
-        
-        [self presentViewController:ac animated:YES completion:^{
-            [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"welcomeMessage"];
-        }];
-        
-    }
-}
-
-- (void)viewWillAppear:(BOOL)animated {
     
     [self turnTorchOn:NO];
     
@@ -89,6 +67,30 @@ NSString *imageString;
     }
     
     [captureSession startRunning];
+    
+    
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    if ([defaults valueForKey:@"welcomeMessage"]) {
+        
+        NSString *msg = [NSString stringWithFormat:@"Welcome, %@", [defaults valueForKey:@"user_email"]];
+        UIAlertController *ac = [UIAlertController alertControllerWithTitle:[[NSUserDefaults standardUserDefaults] valueForKey:@"welcomeMessage"] message:msg preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *ok = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault handler:nil];
+        [ac addAction:ok];
+        [self presentViewController:ac animated:YES completion:^{
+            [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"welcomeMessage"];
+        }];
+        
+    }
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    
+
     
 }
 
@@ -229,7 +231,7 @@ NSString *imageString;
     
     alertActionSendEmail = [UIAlertAction actionWithTitle:titleEmail style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         // send email
-        [self sendEmail];
+        [self sendEmail:html];
     }];
     
     [alertController addAction:alertActionHtmlOk];
@@ -240,21 +242,41 @@ NSString *imageString;
     [self changeWindowState:@"pretake"];
     
 }
+- (void)sendEmail:(NSString *)message {
 
-- (void)sendEmail {
     
-    NSString *title   = @"Sent you an email at:";
-    NSString *message = @"foobar@email.com";
+    MFMailComposeViewController *mfvc = [[MFMailComposeViewController alloc] init];
+    [mfvc setMailComposeDelegate:self];
+    [mfvc setToRecipients:[NSArray arrayWithObject:@"henry.ehly@gmail.com"]];
+    [mfvc setSubject:@"message from outer space"];
+    [mfvc setMessageBody:message isHTML:NO];
+    
+    if ([MFMailComposeViewController canSendMail]) {
+        [self presentViewController:mfvc animated:YES completion:nil];
+    } else {
+        NSString *title = @"Could Not Send Email";
+        NSString *message = @"Your device could not send e-mail. Please check your e-mail configuration and try again";
+        alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+        alertActionEmailOk = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            // pressed ok
+        }];
+        [alertController addAction:alertActionEmailOk];
+        [self presentViewController:alertController animated:YES completion:^{
+            // showed email sent alert
+        }];
+    }
 
-    alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
-    alertActionEmailOk = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        // pressed ok
-    }];
-    [alertController addAction:alertActionEmailOk];
-    [self presentViewController:alertController animated:YES completion:^{
-        // showed email sent alert
-    }];
     
+}
+
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
+    [controller dismissViewControllerAnimated:YES completion:^{
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self changeWindowState:@"pretake"];
+        });
+        
+    }];
 }
 
 - (IBAction)cancel:(id)sender {

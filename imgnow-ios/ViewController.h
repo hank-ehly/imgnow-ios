@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
+@import MessageUI;
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController <MFMailComposeViewControllerDelegate>
 
 @property AVCaptureSession *captureSession;
 @property AVCaptureStillImageOutput *stillImageOutput;
@@ -40,7 +41,7 @@
 
 - (void)changeWindowState:(NSString *)state;
 - (void)uploadAlertResultWithHtml:(NSString *)html;
-- (void)sendEmail;
+- (void)sendEmail:(NSString*)message;
 
 @end
 
