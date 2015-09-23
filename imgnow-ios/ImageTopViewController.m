@@ -26,6 +26,10 @@ NSMutableArray *images;
     [self queryForImages];
 }
 
+- (IBAction)goBack:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 - (void) queryForImages {
     
     NSString *routesFile = [[NSBundle mainBundle] pathForResource:@"api-routes" ofType:@"plist"];

@@ -12,6 +12,7 @@
 @interface ImageTopViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, ImageDetailViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+- (IBAction)goBack:(id)sender;
 
 - (void) queryForImages;
 

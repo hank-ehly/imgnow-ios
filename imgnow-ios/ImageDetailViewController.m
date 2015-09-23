@@ -159,18 +159,47 @@
 
 - (IBAction)handleDownloadTouch:(id)sender {
     
-    alertController = [UIAlertController alertControllerWithTitle:nil message:@"Downloaded to CameraRoll" preferredStyle:UIAlertControllerStyleAlert];
+    // get img
+    NSString *routesFile = [[NSBundle mainBundle] pathForResource:@"api-routes" ofType:@"plist"];
+    NSDictionary *routes = [NSDictionary dictionaryWithContentsOfFile:routesFile];
+    NSString *url = [NSString stringWithFormat:@"%@%@", [routes objectForKey:@"base"], [_imageObject objectForKey:@"url"]];
+    NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
+    UIImage *image = [UIImage imageWithData:data];
+
     
-    actionDownloadOk = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        // did press ok
-    }];
+    UIImageWriteToSavedPhotosAlbum(image, self, @selector(thisImage:hasBeenSavedInPhotoAlbumWithError:usingContextInfo:), NULL);
     
-    [alertController addAction:actionDownloadOk];
+}
+
+- (void)thisImage:(UIImage *)image hasBeenSavedInPhotoAlbumWithError:(NSError *)error usingContextInfo:(void*)ctxInfo {
+    if (error) {
+        NSLog(@"%@", error);
+        // error
+        alertController = [UIAlertController alertControllerWithTitle:@"Error" message:@"Unable to save to camera roll. Please try again." preferredStyle:UIAlertControllerStyleAlert];
+        
+        actionDownloadOk = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            // did press ok
+        }];
+        
+        [alertController addAction:actionDownloadOk];
+        
+        [self presentViewController:alertController animated:YES completion:^{
+            // presented view controller
+        }];
+    } else {
+        // saved successfully
+        alertController = [UIAlertController alertControllerWithTitle:nil message:@"Downloaded to CameraRoll" preferredStyle:UIAlertControllerStyleAlert];
     
-    [self presentViewController:alertController animated:YES completion:^{
-        // presented view controller
-    }];
+        actionDownloadOk = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            // did press ok
+        }];
     
+        [alertController addAction:actionDownloadOk];
+    
+        [self presentViewController:alertController animated:YES completion:^{
+            // presented view controller
+        }];
+    }
 }
 
 - (void) deleteImage {

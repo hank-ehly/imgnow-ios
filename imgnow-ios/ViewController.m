@@ -25,6 +25,7 @@
 @synthesize captureDevise;
 
 NSString *imageString;
+UIImage *image;
 
 
 - (void)viewDidLoad {
@@ -169,7 +170,7 @@ NSString *imageString;
             imageString = [imageString stringByReplacingOccurrencesOfString:@" " withString:@""];
             imageString = [imageString substringWithRange:NSMakeRange(1, [imageString length] - 2)];
             
-            UIImage *image = [UIImage imageWithData:imageData];
+            image = [UIImage imageWithData:imageData];
             self.imageView.image = image;
             [self changeWindowState:@"posttake"];
 
@@ -235,14 +236,55 @@ NSString *imageString;
         [self sendEmail:body];
     }];
     
+    UIAlertAction *saveToCameraRoll = [UIAlertAction actionWithTitle:@"Save to CameraRoll" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+
+        // get img
+        UIImageWriteToSavedPhotosAlbum(image, self, @selector(thisImage:hasBeenSavedInPhotoAlbumWithError:usingContextInfo:), NULL);
+    }];
+    
     [alertController addAction:alertActionHtmlOk];
     [alertController addAction:alertActionSendEmail];
+    [alertController addAction:saveToCameraRoll];
     
     [self presentViewController:alertController animated:YES completion:nil];
 
     [self changeWindowState:@"pretake"];
     
 }
+
+- (void)thisImage:(UIImage *)image hasBeenSavedInPhotoAlbumWithError:(NSError *)error usingContextInfo:(void*)ctxInfo {
+    if (error) {
+        NSLog(@"%@", error);
+        // error
+        alertController = [UIAlertController alertControllerWithTitle:@"Error" message:@"Unable to save to camera roll. Please try again." preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *actionDownloadOk = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            // did press ok
+        }];
+        
+        [alertController addAction:actionDownloadOk];
+        
+        [self presentViewController:alertController animated:YES completion:^{
+            // presented view controller
+        }];
+    } else {
+        // saved successfully
+        alertController = [UIAlertController alertControllerWithTitle:nil message:@"Downloaded to CameraRoll" preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *actionDownloadOk = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            // did press ok
+        }];
+        
+        [alertController addAction:actionDownloadOk];
+        
+        [self presentViewController:alertController animated:YES completion:^{
+            // presented view controller
+        }];
+    }
+}
+
+
+
 - (void)sendEmail:(NSString *)message {
 
     
