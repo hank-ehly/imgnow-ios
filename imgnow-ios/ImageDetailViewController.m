@@ -28,37 +28,24 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    // set background image
+    
+    // set bg-image
     NSString *routesFile = [[NSBundle mainBundle] pathForResource:@"api-routes" ofType:@"plist"];
     NSDictionary *routes = [NSDictionary dictionaryWithContentsOfFile:routesFile];
-    NSString *url = [NSString stringWithFormat:@"%@%@", [routes objectForKey:@"base"], _image_url];
+    NSString *url = [NSString stringWithFormat:@"%@%@", [routes objectForKey:@"base"], [_imageObject objectForKey:@"url"]];
     NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
     _imageView.image = [UIImage imageWithData:data];
     
+    // set <img> label
     NSString *beg = @"<img src=\"";
     NSString *end = @"\"></img>";
     _imgSrcLabel.text = [NSString stringWithFormat:@"%@%@%@", beg, url, end];
     
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
+- (void)didReceiveMemoryWarning {[super didReceiveMemoryWarning];}
+- (IBAction)goBack:(id)sender {[self dismissViewControllerAnimated:YES completion:nil];}
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
-- (IBAction)goBack:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
 
 - (IBAction)handleSendEmailTouch:(id)sender {
     
@@ -104,6 +91,8 @@
     actionDelete = [UIAlertAction actionWithTitle:@"yea" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
         // did delete
         
+        [self deleteImage];
+        
         [self dismissViewControllerAnimated:YES completion:^{
             // dismissed
         }];
@@ -132,6 +121,40 @@
     [self presentViewController:alertController animated:YES completion:^{
         // presented view controller
     }];
+    
+}
+
+- (void) deleteImage {
+    
+    NSString *routesFile = [[NSBundle mainBundle] pathForResource:@"api-routes" ofType:@"plist"];
+    NSDictionary *routes = [NSDictionary dictionaryWithContentsOfFile:routesFile];
+    NSString *urlString = [NSString stringWithFormat:@"%@%@%@.json", [routes objectForKey:@"base"], [routes objectForKey:@"api_image_delete"], [_imageObject objectForKey:@"image_id"]];
+    NSURL *url = [NSURL URLWithString:urlString];
+    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    NSURLSession *urlSession = [NSURLSession sharedSession];
+    
+    [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    request.HTTPMethod = @"DELETE";
+    
+    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        NSData *responseJsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+//        NSHTTPURLResponse *res = (NSHTTPURLResponse *)response;
+//        long statusCode = [res statusCode];
+        
+        if (error) {
+            NSLog(@"%@", error);
+        }
+        
+//        NSLog(@"%@", responseJsonData);
+//        NSLog(@"%lu", statusCode);
+        
+        [_delegate removeDeletedImage:[responseJsonData valueForKey:@"destroyed_image"]];
+                
+    }];
+    
+    [dataTask resume];
     
 }
 

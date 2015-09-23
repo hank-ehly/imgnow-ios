@@ -36,7 +36,7 @@ NSString *imageString;
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
-    if ([defaults valueForKey:@"user_email"]) {
+    if ([defaults valueForKey:@"welcomeMessage"]) {
         
         NSString *msg = [NSString stringWithFormat:@"Welcome, %@", [defaults valueForKey:@"user_email"]];
         
@@ -46,7 +46,9 @@ NSString *imageString;
         
         [ac addAction:ok];
         
-        [self presentViewController:ac animated:YES completion:nil];
+        [self presentViewController:ac animated:YES completion:^{
+            [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"welcomeMessage"];
+        }];
         
     }
 }
@@ -181,7 +183,7 @@ NSString *imageString;
     // set url
     NSString *routesFile = [[NSBundle mainBundle] pathForResource:@"api-routes" ofType:@"plist"];
     NSDictionary *routes = [NSDictionary dictionaryWithContentsOfFile:routesFile];
-    NSString *urlString = [NSString stringWithFormat:@"%@%@", [routes objectForKey:@"base"], [routes objectForKey:@"api_images_upload"]];
+    NSString *urlString = [NSString stringWithFormat:@"%@%@", [routes objectForKey:@"base"], [routes objectForKey:@"api_images_create"]];
     NSURL *url = [NSURL URLWithString:urlString];
     
     // loading wheel

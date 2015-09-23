@@ -14,7 +14,7 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UILabel *imgSrcLabel;
-@property NSString *image_url;
+@property NSDictionary *imageObject;
 
 // delegate
 @property (weak, nonatomic) id <ImageDetailViewControllerDelegate> delegate;
@@ -37,5 +37,7 @@
 @end
 
 @protocol ImageDetailViewControllerDelegate <NSObject>
-// - (void) imageDetailViewControllerDidPressBack;
+
+- (void) removeDeletedImage:(NSDictionary *)imageObject;
+
 @end
