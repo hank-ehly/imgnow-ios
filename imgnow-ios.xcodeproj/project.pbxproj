@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3326F64C1BB0C19800578DEB /* Flash-On-50-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 3326F64B1BB0C19800578DEB /* Flash-On-50-white.png */; settings = {ASSET_TAGS = (); }; };
 		335477311BB21DB8000FABCE /* NSUserDefaults+Session.m in Sources */ = {isa = PBXBuildFile; fileRef = 335477301BB21DB8000FABCE /* NSUserDefaults+Session.m */; settings = {ASSET_TAGS = (); }; };
+		335477341BB23CB1000FABCE /* RegistrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 335477331BB23CB1000FABCE /* RegistrationViewController.m */; settings = {ASSET_TAGS = (); }; };
 		33987D931BAF63DD00D728C2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 33987D921BAF63DD00D728C2 /* main.m */; };
 		33987D961BAF63DD00D728C2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 33987D951BAF63DD00D728C2 /* AppDelegate.m */; };
 		33987D991BAF63DD00D728C2 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33987D981BAF63DD00D728C2 /* ViewController.m */; };
@@ -90,6 +91,8 @@
 		3326F64B1BB0C19800578DEB /* Flash-On-50-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Flash-On-50-white.png"; sourceTree = "<group>"; };
 		3354772F1BB21DB8000FABCE /* NSUserDefaults+Session.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+Session.h"; sourceTree = "<group>"; };
 		335477301BB21DB8000FABCE /* NSUserDefaults+Session.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+Session.m"; sourceTree = "<group>"; };
+		335477321BB23CB1000FABCE /* RegistrationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegistrationViewController.h; sourceTree = "<group>"; };
+		335477331BB23CB1000FABCE /* RegistrationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegistrationViewController.m; sourceTree = "<group>"; };
 		33987D8E1BAF63DD00D728C2 /* imgnow-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "imgnow-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		33987D921BAF63DD00D728C2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		33987D941BAF63DD00D728C2 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -218,6 +221,8 @@
 				33987D951BAF63DD00D728C2 /* AppDelegate.m */,
 				33E915A41BB02EB700A44BE1 /* LoginViewController.h */,
 				33E915A51BB02EB700A44BE1 /* LoginViewController.m */,
+				335477321BB23CB1000FABCE /* RegistrationViewController.h */,
+				335477331BB23CB1000FABCE /* RegistrationViewController.m */,
 				33987D971BAF63DD00D728C2 /* ViewController.h */,
 				33987D981BAF63DD00D728C2 /* ViewController.m */,
 				33E915801BAFDBEB00A44BE1 /* ImageTopViewController.h */,
@@ -510,6 +515,7 @@
 				33E9159F1BB01BD100A44BE1 /* SettingsTableViewController.m in Sources */,
 				33987D991BAF63DD00D728C2 /* ViewController.m in Sources */,
 				335477311BB21DB8000FABCE /* NSUserDefaults+Session.m in Sources */,
+				335477341BB23CB1000FABCE /* RegistrationViewController.m in Sources */,
 				33987D961BAF63DD00D728C2 /* AppDelegate.m in Sources */,
 				33987D9F1BAF63DD00D728C2 /* imgnow_ios.xcdatamodeld in Sources */,
 				33987D931BAF63DD00D728C2 /* main.m in Sources */,
