@@ -26,6 +26,7 @@
 
 NSString *imageString;
 UIImage *image;
+AVCaptureVideoPreviewLayer *previewLayer;
 
 
 - (void)viewDidLoad {
@@ -33,7 +34,7 @@ UIImage *image;
     _torchIsOn = NO;
     _facingFront = NO;
     
-    
+
     [self turnTorchOn:NO];
     
     [self changeWindowState:@"pretake"];
@@ -50,13 +51,11 @@ UIImage *image;
         [captureSession addInput:captureDeviseInput];
     }
     
-    AVCaptureVideoPreviewLayer *previewLayer = [AVCaptureVideoPreviewLayer layerWithSession:captureSession];
+    previewLayer = [AVCaptureVideoPreviewLayer layerWithSession:captureSession];
     previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
-    
-    CGRect bounds = self.view.layer.bounds;
-    previewLayer.bounds = bounds;
+    CGRect bounds = self.view.bounds;
+    previewLayer.frame = self.view.bounds;
     previewLayer.position = CGPointMake(CGRectGetMidX(bounds), CGRectGetMidY(bounds));
-    
     [self.view.layer insertSublayer:previewLayer atIndex:0];
     
     stillImageOutput = [[AVCaptureStillImageOutput alloc] init];
@@ -72,9 +71,42 @@ UIImage *image;
     
 }
 
-- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
-    NSLog(@"%@", size);
-    NSLog(@"%@", coordinator);
+//
+//- (BOOL)shouldAutorotate {
+//    id currentViewController = self.topViewController;
+//    
+//    if ([currentViewController isKindOfClass:[DetailViewController class]])
+//        return NO;
+//    
+//    return YES;
+//}
+
+
+// gotta have this to fully update previewLayer on screen rotation
+- (void)viewWillLayoutSubviews {
+    previewLayer.frame = self.view.bounds;
+}
+
+-(void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    long orientation = [[UIDevice currentDevice] orientation];
+    
+    switch (orientation) {
+        case 1:
+            [previewLayer.connection setVideoOrientation:AVCaptureVideoOrientationPortrait];
+            break;
+        case 2:
+            break;
+        case 3:
+            [previewLayer.connection setVideoOrientation:AVCaptureVideoOrientationLandscapeRight];
+            break;
+        case 4:
+            [previewLayer.connection setVideoOrientation:AVCaptureVideoOrientationLandscapeLeft];
+            break;
+        default:
+            NSLog(@"Orientation unknown");
+            break;
+    }
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -92,10 +124,6 @@ UIImage *image;
         }];
         
     }
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-
 }
 
 - (IBAction)switchCamera:(id)sender
@@ -137,6 +165,7 @@ UIImage *image;
     }
 }
 
+// needed for switch camera method
 // Find a camera with the specified AVCaptureDevicePosition, returning nil if one is not found
 - (AVCaptureDevice *) cameraWithPosition:(AVCaptureDevicePosition) position
 {
@@ -215,7 +244,7 @@ UIImage *image;
         NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
         
         [self.uploadActivityIndicator stopAnimating];
-        [self uploadAlertResultWithHtml:[json valueForKey:@"url"]];
+        [self uploadAlertResultWithHtml:[NSString stringWithFormat:@"%@%@", [routes valueForKey:@"base"], [json valueForKey:@"url"]]];
         
     }];
     
