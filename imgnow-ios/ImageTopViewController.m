@@ -46,18 +46,19 @@ NSMutableArray *images;
     NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            NSData *responseJsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+            
             NSHTTPURLResponse *res = (NSHTTPURLResponse *)response;
             long statusCode = [res statusCode];
             
-            if (error) {
+            if (error || data == nil) {
                 NSLog(@"%@", error);
             }
             
             if (statusCode == 200) {
-                
+                NSData *responseJsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
                 images = [responseJsonData valueForKey:@"images"];
                 [_tableView reloadData];
+//                NSLog(@"%@", responseJsonData);
                 
             }
             
@@ -66,9 +67,35 @@ NSMutableArray *images;
         }];
     
     [dataTask resume];
-    
-    
+}
 
+- (NSDictionary*)timeLeftString:(int)timeUntilDeletion {
+    
+    NSDate *date = [NSDate dateWithTimeIntervalSinceReferenceDate:timeUntilDeletion];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    
+    NSString *format = [[NSString alloc] init];
+    NSString *counter = [[NSString alloc] init];
+    
+    if (timeUntilDeletion >= 86400) {
+        format = @"dd";
+        counter = @"days";
+    } else if (timeUntilDeletion >= 3600 && timeUntilDeletion < 86400) {
+        format = @"hh";
+        counter = @"hours";
+    } else if (timeUntilDeletion >= 60 && timeUntilDeletion < 3600) {
+        format = @"mm";
+        counter = @"minutes";
+    } else if (timeUntilDeletion < 60) {
+        format = @"ss";
+        counter = @"seconds";
+    }
+    
+    [formatter setDateFormat:format];
+    [formatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"]];
+    
+    NSDictionary *result = [NSDictionary dictionaryWithObjectsAndKeys:[formatter stringFromDate:date], @"time", counter, @"counter", nil];
+    return result;
 }
 
 
@@ -79,11 +106,14 @@ NSMutableArray *images;
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     
     NSMutableDictionary *currentRecord = [images objectAtIndex:indexPath.row];
-    NSString *created_at = [currentRecord valueForKey:@"created_at"];
+//    NSString *created_at = [currentRecord valueForKey:@"created_at"];
+    int timeUntilDeletion = [[currentRecord valueForKey:@"time_until_deletion"] intValue];
     NSString *url = [[currentRecord valueForKey:@"file"] valueForKey:@"url"];
     
+    NSDictionary *timeObject = [self timeLeftString:timeUntilDeletion];
+    
     cell.textLabel.text = url;
-    cell.detailTextLabel.text = created_at;
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ %@ left", [timeObject valueForKey:@"time"], [timeObject valueForKey:@"counter"]];
 
     return cell;
 }
@@ -117,7 +147,7 @@ NSMutableArray *images;
             
             dispatch_async(dispatch_get_main_queue(), ^{
 
-                NSData *responseJsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+//                NSData *responseJsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
                 //        NSHTTPURLResponse *res = (NSHTTPURLResponse *)response;
                 //        long statusCode = [res statusCode];
                 
@@ -125,7 +155,7 @@ NSMutableArray *images;
                     NSLog(@"%@", error);
                 }
                 
-                NSLog(@"%@", responseJsonData);
+//                NSLog(@"%@", responseJsonData);
 
                 [self queryForImages];
                 
@@ -158,9 +188,11 @@ NSMutableArray *images;
         NSString *updated_at = [currentRecord valueForKey:@"updated_at"];
         NSString *user_id = [currentRecord valueForKey:@"user_id"];
         NSString *image_id = [currentRecord valueForKey:@"id"];
+        NSString *scheduledDeletionDate = [currentRecord valueForKey:@"scheduled_deletion_date"];
+        NSDictionary *timeUntilDeletionObject = [self timeLeftString:[[currentRecord valueForKey:@"time_until_deletion"]intValue]];
         
         
-        idvc.imageObject = [NSDictionary dictionaryWithObjectsAndKeys:created_at, @"created_at", url, @"url", updated_at, @"updated_at", user_id, @"user_id", image_id, @"image_id", nil];
+        idvc.imageObject = [NSDictionary dictionaryWithObjectsAndKeys:created_at, @"created_at", url, @"url", updated_at, @"updated_at", user_id, @"user_id", image_id, @"image_id", scheduledDeletionDate, @"scheduledDeletionDate", timeUntilDeletionObject, @"timeUntilDeletionObject", nil];
         
         [_tableView deselectRowAtIndexPath:[_tableView indexPathForSelectedRow] animated:NO];
 

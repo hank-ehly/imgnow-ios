@@ -6,12 +6,14 @@
 	<string>http://192.168.0.10:3000</string>
 	<key>neymar</key>
 	<string>http://10.10.25.142:3000</string>
+	<key>api_images_create</key>
+	<string>/api/images.json</string>
 	<key>api_image_delete</key>
 	<string>/api/images/</string>
 	<key>api_images_index</key>
 	<string>/api/images.json</string>
-	<key>api_images_create</key>
-	<string>/api/images.json</string>
+	<key>api_images_update</key>
+	<string>/api/images/</string>
 	<key>base</key>
 	<string>http://192.168.0.10:3000</string>
 	<key>destroy_user_session</key>

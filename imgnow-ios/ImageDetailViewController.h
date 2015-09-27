@@ -15,6 +15,7 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UILabel *imgSrcLabel;
+@property (weak, nonatomic) IBOutlet UILabel *deletionDateLabel;
 @property NSDictionary *imageObject;
 
 // delegate
@@ -33,6 +34,7 @@
 - (IBAction)handleDeleteTouch:(id)sender;
 - (IBAction)handleDownloadTouch:(id)sender;
 - (void)sendEmail:(NSString *)message;
+- (void)extendDeletionDateOfImage:(NSString*)id;
 
 @property (weak, nonatomic) IBOutlet UINavigationItem *navTitle;
 
