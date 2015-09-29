@@ -20,6 +20,12 @@ NSMutableArray *images;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _refreshControl = [[UIRefreshControl alloc] init];
+    _refreshControl.backgroundColor = [UIColor purpleColor];
+    _refreshControl.tintColor = [UIColor whiteColor];
+    [_refreshControl addTarget:self action:@selector(queryForImages) forControlEvents:UIControlEventValueChanged];
+    [_tableView addSubview:_refreshControl];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -58,7 +64,10 @@ NSMutableArray *images;
                 NSData *responseJsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
                 images = [responseJsonData valueForKey:@"images"];
                 [_tableView reloadData];
-//                NSLog(@"%@", responseJsonData);
+                
+                if (_refreshControl) {
+                    [_refreshControl endRefreshing];
+                }
                 
             }
             
