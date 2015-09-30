@@ -58,17 +58,36 @@
             NSHTTPURLResponse *res = (NSHTTPURLResponse *)response;
             long statusCode = [res statusCode];
             
-            if (statusCode == 201 && data != nil) {
-                NSData *responseJsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                [[NSUserDefaults sharedInstance] createUserSessionWith:responseJsonData andStatus:@"loggedin"];
-                [self performSegueWithIdentifier:@"loggedIn" sender:nil];
+            switch (statusCode) {
+                case 201:
+                    [self sessionCreatedSuccessfully:data];
+                    break;
+                case 401:
+                    [self sessionCreationUnauthorized:data];
+                    break;
+                default:
+                    break;
             }
+            
         });
         
         
     }];
     
     [dataTask resume];
+}
+
+- (void) sessionCreatedSuccessfully:(NSData*)data {
+    NSData *responseJsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    [[NSUserDefaults sharedInstance] createUserSessionWith:responseJsonData andStatus:@"loggedin"];
+    [self performSegueWithIdentifier:@"loggedIn" sender:nil];
+}
+- (void) sessionCreationUnauthorized:(NSData*)data {
+    NSString *msg = @"Email and/or password is incorrect. Please try again.";
+    UIAlertController *c = [UIAlertController alertControllerWithTitle:@"Whoops!" message:msg preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *a = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault handler:nil];
+    [c addAction:a];
+    [self presentViewController:c animated:YES completion:nil];
 }
 
 - (void)displayLoginError:(NSError *)error {
@@ -84,9 +103,13 @@
     
 }
 
-
 - (IBAction)segueToRegistration:(id)sender {
     [self performSegueWithIdentifier:@"toRegistration" sender:nil];
+    NSLog(@"toRegistration");
+}
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [self.view endEditing:YES];
 }
 
 @end

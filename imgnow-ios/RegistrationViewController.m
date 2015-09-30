@@ -17,16 +17,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    NSLog(@"view did load registration");
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"blur-bg-portrait.jpg"]];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     // this must be here, or else ViewController -> viewWillAppear gets called! (weird..)
+    NSLog(@"resitrtation");
 }
 
 - (void)didReceiveMemoryWarning {[super didReceiveMemoryWarning];}
-
-
 
 - (IBAction)submitRegistration:(id)sender {
     

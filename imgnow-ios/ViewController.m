@@ -27,14 +27,18 @@
 NSString *imageString;
 UIImage *image;
 AVCaptureVideoPreviewLayer *previewLayer;
+AVCaptureSession *captureSession;
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+}
+
+- (void) setupCamera {
+    
     _torchIsOn = NO;
     _facingFront = NO;
     
-
     [self turnTorchOn:NO];
     
     [self changeWindowState:@"pretake"];
@@ -68,19 +72,7 @@ AVCaptureVideoPreviewLayer *previewLayer;
     
     [captureSession startRunning];
     
-    
 }
-
-//
-//- (BOOL)shouldAutorotate {
-//    id currentViewController = self.topViewController;
-//    
-//    if ([currentViewController isKindOfClass:[DetailViewController class]])
-//        return NO;
-//    
-//    return YES;
-//}
-
 
 // gotta have this to fully update previewLayer on screen rotation
 - (void)viewWillLayoutSubviews {
@@ -109,7 +101,12 @@ AVCaptureVideoPreviewLayer *previewLayer;
     
 }
 
-- (void)viewDidAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated {
+    NSLog(@"view controller");
+    
+    if (![captureSession isRunning]) {
+        [self setupCamera];
+    }
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
