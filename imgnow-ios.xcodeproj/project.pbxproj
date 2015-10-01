@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		330ECAC91BBDF039002D0310 /* Validator.m in Sources */ = {isa = PBXBuildFile; fileRef = 330ECAC81BBDF039002D0310 /* Validator.m */; settings = {ASSET_TAGS = (); }; };
 		3326F64C1BB0C19800578DEB /* Flash-On-50-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 3326F64B1BB0C19800578DEB /* Flash-On-50-white.png */; settings = {ASSET_TAGS = (); }; };
 		335477311BB21DB8000FABCE /* NSUserDefaults+Session.m in Sources */ = {isa = PBXBuildFile; fileRef = 335477301BB21DB8000FABCE /* NSUserDefaults+Session.m */; settings = {ASSET_TAGS = (); }; };
 		335477341BB23CB1000FABCE /* RegistrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 335477331BB23CB1000FABCE /* RegistrationViewController.m */; settings = {ASSET_TAGS = (); }; };
@@ -90,6 +91,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		330ECAC71BBDF039002D0310 /* Validator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Validator.h; sourceTree = "<group>"; };
+		330ECAC81BBDF039002D0310 /* Validator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Validator.m; sourceTree = "<group>"; };
 		3326F64B1BB0C19800578DEB /* Flash-On-50-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Flash-On-50-white.png"; sourceTree = "<group>"; };
 		3354772F1BB21DB8000FABCE /* NSUserDefaults+Session.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+Session.h"; sourceTree = "<group>"; };
 		335477301BB21DB8000FABCE /* NSUserDefaults+Session.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+Session.m"; sourceTree = "<group>"; };
@@ -228,6 +231,8 @@
 				33987D951BAF63DD00D728C2 /* AppDelegate.m */,
 				33E915A41BB02EB700A44BE1 /* LoginViewController.h */,
 				33E915A51BB02EB700A44BE1 /* LoginViewController.m */,
+				330ECAC71BBDF039002D0310 /* Validator.h */,
+				330ECAC81BBDF039002D0310 /* Validator.m */,
 				335477321BB23CB1000FABCE /* RegistrationViewController.h */,
 				335477331BB23CB1000FABCE /* RegistrationViewController.m */,
 				33987D971BAF63DD00D728C2 /* ViewController.h */,
@@ -530,6 +535,7 @@
 				33987D9F1BAF63DD00D728C2 /* imgnow_ios.xcdatamodeld in Sources */,
 				33987D931BAF63DD00D728C2 /* main.m in Sources */,
 				33E915A61BB02EB700A44BE1 /* LoginViewController.m in Sources */,
+				330ECAC91BBDF039002D0310 /* Validator.m in Sources */,
 				33E915821BAFDBEB00A44BE1 /* ImageTopViewController.m in Sources */,
 				33E915971BAFF04900A44BE1 /* ImageDetailViewController.m in Sources */,
 				33E9159C1BB016AB00A44BE1 /* SettingsViewController.m in Sources */,
