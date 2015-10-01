@@ -28,6 +28,8 @@
 
 - (void)attemptLogin {
     
+    [_activityIndicator startAnimating];
+    
     NSString *routesFile = [[NSBundle mainBundle] pathForResource:@"api-routes" ofType:@"plist"];
     NSDictionary *routes = [NSDictionary dictionaryWithContentsOfFile:routesFile];
     NSString *urlString = [NSString stringWithFormat:@"%@%@", [routes objectForKey:@"base"], [routes objectForKey:@"user_session"]];
@@ -45,7 +47,7 @@
     
     [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    [request setTimeoutInterval:7];
+    [request setTimeoutInterval:10];
     request.HTTPMethod = @"POST";
     
     NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
@@ -81,20 +83,23 @@
     NSData *responseJsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
     [[NSUserDefaults sharedInstance] createUserSessionWith:responseJsonData andStatus:@"loggedin"];
     [self performSegueWithIdentifier:@"loggedIn" sender:nil];
+    [_activityIndicator stopAnimating];
 }
 - (void) sessionCreationUnauthorized:(NSData*)data {
     NSString *msg = @"Email and/or password is incorrect. Please try again.";
     UIAlertController *c = [UIAlertController alertControllerWithTitle:@"Whoops!" message:msg preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *a = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault handler:nil];
     [c addAction:a];
+    [_activityIndicator stopAnimating];
     [self presentViewController:c animated:YES completion:nil];
 }
 
 - (void)displayLoginError:(NSError *)error {
-    
+        [_activityIndicator stopAnimating];
     UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"Connection error" message:[error localizedDescription] preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *ok = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault handler:nil];
     UIAlertAction *retry = [UIAlertAction actionWithTitle:@"Don't give up!" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [_activityIndicator startAnimating];
         [self attemptLogin];
     }];
     [controller addAction:ok];
@@ -105,7 +110,6 @@
 
 - (IBAction)segueToRegistration:(id)sender {
     [self performSegueWithIdentifier:@"toRegistration" sender:nil];
-    NSLog(@"toRegistration");
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {

@@ -15,4 +15,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *submitButton;
 - (IBAction)submitRegistration:(id)sender;
 
+- (void) presentErrorResponseAlert:(NSError*)error;
+
 @end

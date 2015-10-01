@@ -17,13 +17,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSLog(@"view did load registration");
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"blur-bg-portrait.jpg"]];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     // this must be here, or else ViewController -> viewWillAppear gets called! (weird..)
-    NSLog(@"resitrtation");
 }
 
 - (void)didReceiveMemoryWarning {[super didReceiveMemoryWarning];}
@@ -44,32 +42,43 @@
     
     [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request setTimeoutInterval:10];
     request.HTTPMethod = @"POST";
     
     NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        NSData *responseJsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+        
         NSHTTPURLResponse *res = (NSHTTPURLResponse *)response;
         long statusCode = [res statusCode];
         
-        if (error) {
-            NSLog(@"%@", error);
-        }
-        
-        if (statusCode == 201) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+
+            if (error) {
+                [self presentErrorResponseAlert:error];
+            }
             
-            [[NSUserDefaults sharedInstance] createUserSessionWith:responseJsonData andStatus:@"registered"];
+            NSLog(@"%lu", statusCode);
             
-            // have to perform segue on main block (gets switched after logout looks like..)
-            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            if (statusCode == 201) {
+                NSData *responseJsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                [[NSUserDefaults sharedInstance] createUserSessionWith:responseJsonData andStatus:@"registered"];
                 [self performSegueWithIdentifier:@"registered" sender:nil];
-            }];
+            }
             
-        }
+        });
         
     }];
     
     [dataTask resume];
+    
+}
 
+- (void)presentErrorResponseAlert:(NSError*)error {
+    
+    NSString *msg = [[error localizedDescription] stringByAppendingString:@" Please try again."];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Whoops!" message:msg preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault handler:nil];
+    [alertController addAction:ok];
+    [self presentViewController:alertController animated:YES completion:nil];
     
 }
 
