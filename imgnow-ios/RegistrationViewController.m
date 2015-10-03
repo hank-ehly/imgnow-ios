@@ -32,6 +32,8 @@
 }
 
 
+#pragma mark - API Registration Call
+
 - (IBAction)submitRegistration:(id)sender {
   
   NSMutableURLRequest *request = [Api accessRequestForUser:_emailTextField.text
@@ -56,10 +58,11 @@
                        
                      });
                      
-                     
                    }];
   
 }
+
+#pragma mark - Async Completion
 
 - (void)userRegistrationSuccess:(NSData*)data {
   NSData *responseJsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
@@ -68,10 +71,19 @@
 }
 
 - (void)presentErrorResponseAlert:(NSError*)error {
+  
   NSString *msg = [[error localizedDescription] stringByAppendingString:@" Please try again."];
-  UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Whoops!" message:msg preferredStyle:UIAlertControllerStyleAlert];
-  UIAlertAction *ok = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault handler:nil];
+  
+  UIAlertController *alertController =
+  [UIAlertController alertControllerWithTitle:@"Whoops!"
+                                      message:msg
+                               preferredStyle:UIAlertControllerStyleAlert];
+  
+  UIAlertAction *ok = [UIAlertAction actionWithTitle:@"ok"
+                                               style:UIAlertActionStyleDefault
+                                             handler:nil];
   [alertController addAction:ok];
+  
   [self presentViewController:alertController animated:YES completion:nil];
 }
 

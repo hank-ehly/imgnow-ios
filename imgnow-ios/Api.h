@@ -30,6 +30,9 @@
                                 identifiedBy:(NSString*)password
        isRegisteringWithPasswordConfirmation:(NSString*)passwordConfirmation;
 
+// this method returns the request object used to create a new image for a user
++ (NSMutableURLRequest*)requestToCreateNewImage:(NSString*)imageString forUser:(NSString*)uid;
+
 // takes a request and performs it
 + (void)fetchContentsOfRequest:(NSMutableURLRequest *)request
                     completion:(void (^)(NSData *data,

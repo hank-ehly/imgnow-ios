@@ -28,9 +28,26 @@
   // create HTTP request object
   NSMutableURLRequest *request = [self jsonRequestWithUrl:(NSURL*)url
                                                    ofType:@"POST"
-                                      withTimeoutInterval:10
-                                     withLoginCredentials:credentials];
+                                             withHTTPBody:credentials
+                                      andTimeoutInSeconds:10];
   
+  return request;
+  
+}
+
++ (NSMutableURLRequest *)requestToCreateNewImage:(NSString *)imageString forUser:(NSString *)uid {
+  
+  // retrieve named route
+  NSURL *url = [Api fetchUrlForApiNamedRoute:@"api_images_create" withResourceId:nil];
+  
+  // format body content
+  NSData *httpBodyContent = [self jsonFormatNewImageString:imageString forUser:uid];
+  
+  // create and return HTTP request object
+  NSMutableURLRequest *request = [self jsonRequestWithUrl:url
+                                                   ofType:@"POST"
+                                             withHTTPBody:httpBodyContent
+                                      andTimeoutInSeconds:10];
   return request;
   
 }
@@ -61,10 +78,28 @@
 
 #pragma mark - JSON Formatting
 
++ (NSData*)jsonFormatNewImageString:(NSString*)imageString forUser:(NSString*)uid {
+  
+  NSDictionary *dataDictionary = @{ @"image":imageString,
+                                    @"authenticity_token":@"",
+                                    @"utf8":@"✓",
+                                    @"email":uid
+                                    };
+  
+  NSData *serializedJsonData = [NSJSONSerialization dataWithJSONObject:dataDictionary
+                                                               options:0
+                                                                 error:nil];
+  
+  //  NSString *imgStr = [NSString stringWithFormat:@"{\"image\": \"%@\",\"authenticity_token\": \"\", \"utf8\": \"✓\",\"email\":\"%@\"}", imageString, uid];
+  //  NSData *data = [imgStr dataUsingEncoding:NSUTF8StringEncoding];
+  
+  return serializedJsonData;
+}
+
 + (NSMutableURLRequest*)jsonRequestWithUrl:(NSURL*)url
                                     ofType:(NSString*)type
-                       withTimeoutInterval:(int)timeoutInterval
-                      withLoginCredentials:(NSData*)credentials {
+                              withHTTPBody:(NSData*)httpBody
+                       andTimeoutInSeconds:(int)seconds {
   
   // create HTTP request object
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
@@ -74,13 +109,13 @@
   [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
   
   // set timeout of request dynamically
-  [request setTimeoutInterval:timeoutInterval];
+  [request setTimeoutInterval:seconds];
   
   // set type of request dynamically
   request.HTTPMethod = type;
   
   // set login credentials if this is a login request
-  if (credentials) [request setHTTPBody:credentials];
+  if (httpBody) [request setHTTPBody:httpBody];
   
   return request;
   
@@ -168,7 +203,7 @@
 }
 
 + (NSURL *)url:(NSString *)namedRoute withQueryParameterKey:(NSString *)key forValue:(NSString *)value {
-
+  
   // get initial named route string
   NSString *routeString = [NSString stringWithFormat:@"%@",
                            [self fetchUrlForApiNamedRoute:namedRoute withResourceId:nil]];

@@ -67,7 +67,7 @@
   
 }
 
-#pragma mark - AJAX Completion Handlers
+#pragma mark - Async Completion
 
 - (void) userSessionSuccess:(NSData*)data {
   NSData *responseJsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
