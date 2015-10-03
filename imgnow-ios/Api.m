@@ -10,8 +10,12 @@
 
 @implementation Api
 
++ (long)statusCodeForResponse:(NSURLResponse *)response {
+  return (long)[(NSHTTPURLResponse *)response statusCode];
+}
+
 + (NSMutableURLRequest*)loginRequestForUser:(NSString *)uid
-                              identifiedBy:(NSString *)password {
+                               identifiedBy:(NSString *)password {
   
   // get login url
   NSURL *url = [self fetchUrlForApiNamedRoute:@"user_session" withResourceId:nil];
@@ -30,7 +34,9 @@
 }
 
 + (void)fetchContentsOfRequest:(NSMutableURLRequest *)request
-                completion:(void (^)(NSData *data, NSError *error)) completionHandler {
+                completion:(void (^)(NSData *data,
+                                     NSURLResponse *response,
+                                     NSError *error)) completionHandler {
   
   NSURLSessionDataTask *dataTask =
   [[NSURLSession sharedSession] dataTaskWithRequest:request
@@ -41,10 +47,10 @@
      if (completionHandler == nil) return;
      
      if (error) {
-       completionHandler(nil, error);
+       completionHandler(nil, response, error);
        return;
      }
-     completionHandler(data, nil);
+     completionHandler(data, response, nil);
    }];
   
   [dataTask resume];
@@ -64,7 +70,7 @@
   [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
   
   // set timeout of request dynamically
-  [request setTimeoutInterval:*timeoutInterval];
+  [request setTimeoutInterval:10];
   
   // set type of request dynamically
   request.HTTPMethod = type;

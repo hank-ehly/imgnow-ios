@@ -103,7 +103,6 @@ AVCaptureSession *captureSession;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    NSLog(@"view controller");
     
     if (![captureSession isRunning]) {
         [self setupCamera];

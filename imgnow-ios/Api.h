@@ -31,6 +31,10 @@
 
 // takes a request and performs it
 + (void)fetchContentsOfRequest:(NSMutableURLRequest *)request
-                    completion:(void (^)(NSData *data, NSError *error)) completionHandler;
+                    completion:(void (^)(NSData *data,
+                                         NSURLResponse *response,
+                                         NSError *error)) completionHandler;
+
++ (long)statusCodeForResponse:(NSURLResponse*)response;
 
 @end

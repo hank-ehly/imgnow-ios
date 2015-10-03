@@ -16,13 +16,15 @@
 
 @implementation RegistrationViewController
 
+#pragma mark - View Load
+
 - (void)viewDidLoad {
-    [super viewDidLoad];
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"blur-bg-portrait.jpg"]];
+  [super viewDidLoad];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    // this must be here, or else ViewController -> viewWillAppear gets called! (weird..)
+  self.view.backgroundColor =
+  [UIColor colorWithPatternImage:[UIImage imageNamed:@"blur-bg-portrait.jpg"]];
 }
 
 - (void)didReceiveMemoryWarning {[super didReceiveMemoryWarning];}
@@ -30,54 +32,54 @@
 - (IBAction)submitRegistration:(id)sender {
   
   NSURL *url = [Api fetchUrlForApiNamedRoute:@"user_registration" withResourceId:nil];
+  
+  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+  NSURLSession *urlSession = [NSURLSession sharedSession];
+  
+  NSDictionary *credentials = @{@"user":@{@"email":_emailTextField.text,@"password":_passwordTextField.text,@"password_confirmation":_confirmPasswordTextField.text}};
+  NSData *requestJsonData = [NSJSONSerialization dataWithJSONObject:credentials options:0 error:nil];
+  request.HTTPBody = requestJsonData;
+  
+  [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+  [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
+  [request setTimeoutInterval:10];
+  request.HTTPMethod = @"POST";
+  
+  NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
     
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    NSURLSession *urlSession = [NSURLSession sharedSession];
+    NSHTTPURLResponse *res = (NSHTTPURLResponse *)response;
+    long statusCode = [res statusCode];
     
-    NSDictionary *credentials = @{@"user":@{@"email":_emailTextField.text,@"password":_passwordTextField.text,@"password_confirmation":_confirmPasswordTextField.text}};
-    NSData *requestJsonData = [NSJSONSerialization dataWithJSONObject:credentials options:0 error:nil];
-    request.HTTPBody = requestJsonData;
+    dispatch_async(dispatch_get_main_queue(), ^{
+      
+      if (error) {
+        [self presentErrorResponseAlert:error];
+      }
+      
+      NSLog(@"%lu", statusCode);
+      
+      if (statusCode == 201) {
+        NSData *responseJsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+        [[NSUserDefaults sharedInstance] createUserSessionWith:responseJsonData andStatus:@"registered"];
+        [self performSegueWithIdentifier:@"registered" sender:nil];
+      }
+      
+    });
     
-    [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    [request setTimeoutInterval:10];
-    request.HTTPMethod = @"POST";
-    
-    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        
-        NSHTTPURLResponse *res = (NSHTTPURLResponse *)response;
-        long statusCode = [res statusCode];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-
-            if (error) {
-                [self presentErrorResponseAlert:error];
-            }
-            
-            NSLog(@"%lu", statusCode);
-            
-            if (statusCode == 201) {
-                NSData *responseJsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                [[NSUserDefaults sharedInstance] createUserSessionWith:responseJsonData andStatus:@"registered"];
-                [self performSegueWithIdentifier:@"registered" sender:nil];
-            }
-            
-        });
-        
-    }];
-    
-    [dataTask resume];
-    
+  }];
+  
+  [dataTask resume];
+  
 }
 
 - (void)presentErrorResponseAlert:(NSError*)error {
-    
-    NSString *msg = [[error localizedDescription] stringByAppendingString:@" Please try again."];
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Whoops!" message:msg preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault handler:nil];
-    [alertController addAction:ok];
-    [self presentViewController:alertController animated:YES completion:nil];
-    
+  
+  NSString *msg = [[error localizedDescription] stringByAppendingString:@" Please try again."];
+  UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Whoops!" message:msg preferredStyle:UIAlertControllerStyleAlert];
+  UIAlertAction *ok = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault handler:nil];
+  [alertController addAction:ok];
+  [self presentViewController:alertController animated:YES completion:nil];
+  
 }
 
 
