@@ -8,6 +8,7 @@
 
 #import "LoginViewController.h"
 #import "NSUserDefaults+Session.h"
+#import "Api.h"
 
 @interface LoginViewController ()
 
@@ -22,61 +23,58 @@
 
 - (void)didReceiveMemoryWarning {[super didReceiveMemoryWarning];}
 
-- (IBAction)touchedLogin:(id)sender {
-    [self attemptLogin];
-}
-
 - (void)attemptLogin {
     
-    [_activityIndicator startAnimating];
-    
-    NSString *routesFile = [[NSBundle mainBundle] pathForResource:@"api-routes" ofType:@"plist"];
-    NSDictionary *routes = [NSDictionary dictionaryWithContentsOfFile:routesFile];
-    NSString *urlString = [NSString stringWithFormat:@"%@%@", [routes objectForKey:@"base"], [routes objectForKey:@"user_session"]];
-    NSURL *url = [NSURL URLWithString:urlString];
-    
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    NSURLSession *urlSession = [NSURLSession sharedSession];
-    
-    NSString *email = _emailTextField.text;
-    NSString *password = _passwordTextField.text;
-    
-    NSDictionary *loginCredentials = @{@"user":@{@"email":email,@"password":password}};
-    NSData *requestJsonData = [NSJSONSerialization dataWithJSONObject:loginCredentials options:0 error:nil];
-    request.HTTPBody = requestJsonData;
-    
-    [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    [request setTimeoutInterval:10];
-    request.HTTPMethod = @"POST";
-    
-    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (error || data == nil) {
-                [self displayLoginError:error];
-            }
-            
-            NSHTTPURLResponse *res = (NSHTTPURLResponse *)response;
-            long statusCode = [res statusCode];
-            
-            switch (statusCode) {
-                case 201:
-                    [self sessionCreatedSuccessfully:data];
-                    break;
-                case 401:
-                    [self sessionCreationUnauthorized:data];
-                    break;
-                default:
-                    break;
-            }
-            
-        });
-        
-        
-    }];
-    
-    [dataTask resume];
+  [_activityIndicator startAnimating];
+  
+  NSURL *url = [Api fetchUrlForApiNamedRoute:@"user_session" withResourceId:nil];
+  
+  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+  NSURLSession *urlSession = [NSURLSession sharedSession];
+  
+  NSString *email = _emailTextField.text;
+  NSString *password = _passwordTextField.text;
+  
+  NSDictionary *loginCredentials = @{@"user":@{@"email":email,@"password":password}};
+  NSData *requestJsonData = [NSJSONSerialization dataWithJSONObject:loginCredentials options:0 error:nil];
+  request.HTTPBody = requestJsonData;
+  
+  [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+  [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
+  [request setTimeoutInterval:10];
+  request.HTTPMethod = @"POST";
+  
+  NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+      
+      dispatch_async(dispatch_get_main_queue(), ^{
+          if (error || data == nil) {
+              [self displayLoginError:error];
+          }
+          
+          NSHTTPURLResponse *res = (NSHTTPURLResponse *)response;
+          long statusCode = [res statusCode];
+          
+          switch (statusCode) {
+              case 201:
+                  [self sessionCreatedSuccessfully:data];
+                  break;
+              case 401:
+                  [self sessionCreationUnauthorized:data];
+                  break;
+              default:
+                  break;
+          }
+          
+      });
+      
+      
+  }];
+  
+  [dataTask resume];
+}
+
+- (IBAction)handleTouchUpInsideLogin:(id)sender {
+  [self attemptLogin];
 }
 
 - (void) sessionCreatedSuccessfully:(NSData*)data {

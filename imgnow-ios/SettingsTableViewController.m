@@ -7,6 +7,7 @@
 //
 
 #import "SettingsTableViewController.h"
+#import "Api.h"
 
 @interface SettingsTableViewController ()
 
@@ -57,11 +58,8 @@
 }
 
 - (void)logoutUser {
-    
-    NSString *routesFile = [[NSBundle mainBundle] pathForResource:@"api-routes" ofType:@"plist"];
-    NSDictionary *routes = [NSDictionary dictionaryWithContentsOfFile:routesFile];
-    NSString *urlString = [NSString stringWithFormat:@"%@%@", [routes objectForKey:@"base"], [routes objectForKey:@"destroy_user_session"]];
-    NSURL *url = [NSURL URLWithString:urlString];
+  
+  NSURL *url = [Api fetchUrlForApiNamedRoute:@"destroy_user_session" withResourceId:nil];
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     NSURLSession *urlSession = [NSURLSession sharedSession];

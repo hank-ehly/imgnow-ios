@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import <AVFoundation/AVFoundation.h>
+#import "Api.h"
 @import MessageUI;
 
 @interface ViewController ()
@@ -212,12 +213,9 @@ AVCaptureSession *captureSession;
 
 - (IBAction)upload:(id)sender {
     
-    // set url
-    NSString *routesFile = [[NSBundle mainBundle] pathForResource:@"api-routes" ofType:@"plist"];
-    NSDictionary *routes = [NSDictionary dictionaryWithContentsOfFile:routesFile];
-    NSString *urlString = [NSString stringWithFormat:@"%@%@", [routes objectForKey:@"base"], [routes objectForKey:@"api_images_create"]];
-    NSURL *url = [NSURL URLWithString:urlString];
-    
+  // set url
+  NSURL *url = [Api fetchUrlForApiNamedRoute:@"api_images_create" withResourceId:nil];
+  
     // loading wheel
     self.uploadActivityIndicator.hidden = NO;
     [self.uploadActivityIndicator startAnimating];
@@ -241,7 +239,7 @@ AVCaptureSession *captureSession;
         NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
         
         [self.uploadActivityIndicator stopAnimating];
-        [self uploadAlertResultWithHtml:[NSString stringWithFormat:@"%@%@", [routes valueForKey:@"base"], [json valueForKey:@"url"]]];
+        [self uploadAlertResultWithHtml:[NSString stringWithFormat:@"%@%@", [Api fetchBaseRouteString], [json valueForKey:@"url"]]];
         
     }];
     

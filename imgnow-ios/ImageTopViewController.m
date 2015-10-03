@@ -9,6 +9,7 @@
 #import "ImageTopViewController.h"
 #import "ViewController.h"
 #import "ImageDetailViewController.h"
+#import "Api.h"
 
 @interface ImageTopViewController ()
 
@@ -37,18 +38,13 @@ NSMutableArray *images;
 }
 
 - (void) queryForImages {
-    
-    NSString *routesFile = [[NSBundle mainBundle] pathForResource:@"api-routes" ofType:@"plist"];
-    NSDictionary *routes = [NSDictionary dictionaryWithContentsOfFile:routesFile];
-    NSString *queryParams = [NSString stringWithFormat:@"email=%@", [[NSUserDefaults standardUserDefaults] valueForKey:@"user_email"]];
-    NSString *urlString = [NSString stringWithFormat:@"%@%@?%@", [routes objectForKey:@"base"], [routes objectForKey:@"api_images_index"], queryParams];
-    NSURL *url = [NSURL URLWithString:urlString];
+  
+  NSString *userEmail = [[NSUserDefaults standardUserDefaults] valueForKey:@"user_email"];
+  NSURL *url = [Api url:@"api_images_index" withQueryParameterKey:@"user_email" forValue:userEmail];
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     NSURLSession *urlSession = [NSURLSession sharedSession];
-    
-    
-
+  
     NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -135,16 +131,10 @@ NSMutableArray *images;
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        
-        // pressed delete
-        NSString *routesFile = [[NSBundle mainBundle] pathForResource:@"api-routes" ofType:@"plist"];
-        NSDictionary *routes = [NSDictionary dictionaryWithContentsOfFile:routesFile];
-        
-        NSString *img_id = [[images objectAtIndex:indexPath.row] valueForKey:@"id"];
-        
-        NSString *urlString = [NSString stringWithFormat:@"%@%@%@.json", [routes objectForKey:@"base"], [routes objectForKey:@"api_image_delete"], img_id];
-        NSURL *url = [NSURL URLWithString:urlString];
-        
+      
+      NSString *img_id = [[images objectAtIndex:indexPath.row] valueForKey:@"id"];
+      NSURL *url = [Api fetchUrlForApiNamedRoute:@"api_image_delete" withResourceId:img_id];
+    
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
         NSURLSession *urlSession = [NSURLSession sharedSession];
         
@@ -155,16 +145,10 @@ NSMutableArray *images;
         NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
             
             dispatch_async(dispatch_get_main_queue(), ^{
-
-//                NSData *responseJsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                //        NSHTTPURLResponse *res = (NSHTTPURLResponse *)response;
-                //        long statusCode = [res statusCode];
                 
                 if (error) {
                     NSLog(@"%@", error);
                 }
-                
-//                NSLog(@"%@", responseJsonData);
 
                 [self queryForImages];
                 

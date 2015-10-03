@@ -8,6 +8,7 @@
 
 #import "RegistrationViewController.h"
 #import "NSUserDefaults+Session.h"
+#import "Api.h"
 
 @interface RegistrationViewController ()
 
@@ -27,11 +28,8 @@
 - (void)didReceiveMemoryWarning {[super didReceiveMemoryWarning];}
 
 - (IBAction)submitRegistration:(id)sender {
-    
-    NSString *routesFile = [[NSBundle mainBundle] pathForResource:@"api-routes" ofType:@"plist"];
-    NSDictionary *routes = [NSDictionary dictionaryWithContentsOfFile:routesFile];
-    NSString *urlString = [NSString stringWithFormat:@"%@%@", [routes objectForKey:@"base"], [routes objectForKey:@"user_registration"]];
-    NSURL *url = [NSURL URLWithString:urlString];
+  
+  NSURL *url = [Api fetchUrlForApiNamedRoute:@"user_registration" withResourceId:nil];
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     NSURLSession *urlSession = [NSURLSession sharedSession];

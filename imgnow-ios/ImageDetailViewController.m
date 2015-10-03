@@ -8,6 +8,7 @@
 
 #import "ImageDetailViewController.h"
 #import "ImageTopViewController.h"
+#import "Api.h"
 @import MessageUI;
 
 @interface ImageDetailViewController ()
@@ -95,11 +96,8 @@
 
 
 - (void)extendDeletionDateOfImage:(NSString *)id {
-    
-    NSString *routesFile = [[NSBundle mainBundle] pathForResource:@"api-routes" ofType:@"plist"];
-    NSDictionary *routes = [NSDictionary dictionaryWithContentsOfFile:routesFile];
-    NSString *urlString = [NSString stringWithFormat:@"%@%@%@.json", [routes objectForKey:@"base"], [routes objectForKey:@"api_images_update"], id];
-    NSURL *url = [NSURL URLWithString:urlString];
+  
+  NSURL *url = [Api fetchUrlForApiNamedRoute:@"api_images_update" withResourceId:id];
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     NSURLSession *urlSession = [NSURLSession sharedSession];
@@ -245,12 +243,9 @@
 - (IBAction)handleDownloadTouch:(id)sender {
     
     // get img
-    NSString *routesFile = [[NSBundle mainBundle] pathForResource:@"api-routes" ofType:@"plist"];
-    NSDictionary *routes = [NSDictionary dictionaryWithContentsOfFile:routesFile];
-    NSString *url = [NSString stringWithFormat:@"%@%@", [routes objectForKey:@"base"], [_imageObject objectForKey:@"url"]];
+    NSString *url = [NSString stringWithFormat:@"%@%@", [Api fetchBaseRouteString], [_imageObject objectForKey:@"url"]];
     NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
     UIImage *image = [UIImage imageWithData:data];
-
     
     UIImageWriteToSavedPhotosAlbum(image, self, @selector(thisImage:hasBeenSavedInPhotoAlbumWithError:usingContextInfo:), NULL);
     
@@ -288,11 +283,9 @@
 }
 
 - (void) deleteImage {
-    
-    NSString *routesFile = [[NSBundle mainBundle] pathForResource:@"api-routes" ofType:@"plist"];
-    NSDictionary *routes = [NSDictionary dictionaryWithContentsOfFile:routesFile];
-    NSString *urlString = [NSString stringWithFormat:@"%@%@%@.json", [routes objectForKey:@"base"], [routes objectForKey:@"api_image_delete"], [_imageObject objectForKey:@"image_id"]];
-    NSURL *url = [NSURL URLWithString:urlString];
+  
+  NSURL *url = [Api fetchUrlForApiNamedRoute:@"api_image_delete"
+                              withResourceId:[_imageObject objectForKey:@"image_id"]];
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     NSURLSession *urlSession = [NSURLSession sharedSession];

@@ -54,7 +54,7 @@
                                     <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="touchedLogin:" destination="T2P-p9-REv" eventType="touchUpInside" id="QKY-9s-chU"/>
+                                    <action selector="handleTouchUpInsideLogin:" destination="T2P-p9-REv" eventType="touchUpInside" id="ZYj-oh-h8x"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="HTML &lt;img&gt; tags... automagically" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uv2-S6-bXn">
