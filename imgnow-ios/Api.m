@@ -80,20 +80,20 @@
 
 + (NSData*)jsonFormatNewImageString:(NSString*)imageString forUser:(NSString*)uid {
   
+  // create dictionary object of necessary data
   NSDictionary *dataDictionary = @{ @"image":imageString,
                                     @"authenticity_token":@"",
                                     @"utf8":@"✓",
                                     @"email":uid
                                     };
   
+  // serialize it into json so rails can interpret it
   NSData *serializedJsonData = [NSJSONSerialization dataWithJSONObject:dataDictionary
                                                                options:0
                                                                  error:nil];
   
-  //  NSString *imgStr = [NSString stringWithFormat:@"{\"image\": \"%@\",\"authenticity_token\": \"\", \"utf8\": \"✓\",\"email\":\"%@\"}", imageString, uid];
-  //  NSData *data = [imgStr dataUsingEncoding:NSUTF8StringEncoding];
-  
   return serializedJsonData;
+  
 }
 
 + (NSMutableURLRequest*)jsonRequestWithUrl:(NSURL*)url
