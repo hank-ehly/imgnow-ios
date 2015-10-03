@@ -25,9 +25,10 @@
 // returns a url with a single appended query parameter
 + (NSURL*)url:(NSString*)namedRoute withQueryParameterKey:(NSString*)key forValue:(NSString*)value;
 
-// this method returns the login request object used in fetchContentsOfRequest
-+ (NSMutableURLRequest*)loginRequestForUser:(NSString*)uid
-                               identifiedBy:(NSString*)password;
+// this method returns the login/registration request object used in fetchContentsOfRequest
++ (NSMutableURLRequest*)accessRequestForUser:(NSString*)uid
+                                identifiedBy:(NSString*)password
+       isRegisteringWithPasswordConfirmation:(NSString*)passwordConfirmation;
 
 // takes a request and performs it
 + (void)fetchContentsOfRequest:(NSMutableURLRequest *)request
@@ -35,6 +36,7 @@
                                          NSURLResponse *response,
                                          NSError *error)) completionHandler;
 
+// takes an NSURLResponse and returns its status code
 + (long)statusCodeForResponse:(NSURLResponse*)response;
 
 @end

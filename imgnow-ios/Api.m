@@ -10,23 +10,25 @@
 
 @implementation Api
 
-+ (long)statusCodeForResponse:(NSURLResponse *)response {
-  return (long)[(NSHTTPURLResponse *)response statusCode];
-}
+#pragma mark - API Request Builders
 
-+ (NSMutableURLRequest*)loginRequestForUser:(NSString *)uid
-                               identifiedBy:(NSString *)password {
++ (NSMutableURLRequest*)accessRequestForUser:(NSString *)uid
+                                identifiedBy:(NSString *)password
+       isRegisteringWithPasswordConfirmation:(NSString *)passwordConfirmation {
   
-  // get login url
-  NSURL *url = [self fetchUrlForApiNamedRoute:@"user_session" withResourceId:nil];
+  // is it a login or registration request?
+  NSString *namedRoute = passwordConfirmation != nil ? @"user_registration" : @"user_session";
+  NSURL *url = [self fetchUrlForApiNamedRoute:namedRoute withResourceId:nil];
   
   // format login credentials
-  NSData *credentials = [self jsonLoginCredentialsForUser:uid identifiedBy:password];
+  NSData *credentials = [self jsonAccessCredentialsForUser:uid
+                                              identifiedBy:password
+                                               confirmedBy:passwordConfirmation];
   
   // create HTTP request object
   NSMutableURLRequest *request = [self jsonRequestWithUrl:(NSURL*)url
                                                    ofType:@"POST"
-                                      withTimeoutInterval:(NSTimeInterval*)10
+                                      withTimeoutInterval:10
                                      withLoginCredentials:credentials];
   
   return request;
@@ -34,13 +36,13 @@
 }
 
 + (void)fetchContentsOfRequest:(NSMutableURLRequest *)request
-                completion:(void (^)(NSData *data,
-                                     NSURLResponse *response,
-                                     NSError *error)) completionHandler {
+                    completion:(void (^)(NSData *data,
+                                         NSURLResponse *response,
+                                         NSError *error)) completionHandler {
   
   NSURLSessionDataTask *dataTask =
   [[NSURLSession sharedSession] dataTaskWithRequest:request
-                              completionHandler:
+                                  completionHandler:
    
    ^(NSData *data, NSURLResponse *response, NSError *error) {
      
@@ -57,9 +59,11 @@
   
 }
 
+#pragma mark - JSON Formatting
+
 + (NSMutableURLRequest*)jsonRequestWithUrl:(NSURL*)url
                                     ofType:(NSString*)type
-                       withTimeoutInterval:(NSTimeInterval*)timeoutInterval
+                       withTimeoutInterval:(int)timeoutInterval
                       withLoginCredentials:(NSData*)credentials {
   
   // create HTTP request object
@@ -70,7 +74,7 @@
   [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
   
   // set timeout of request dynamically
-  [request setTimeoutInterval:10];
+  [request setTimeoutInterval:timeoutInterval];
   
   // set type of request dynamically
   request.HTTPMethod = type;
@@ -82,15 +86,26 @@
   
 }
 
-+ (NSData*)jsonLoginCredentialsForUser:(NSString*)uid
-                          identifiedBy:(NSString*)password {
++ (NSData*)jsonAccessCredentialsForUser:(NSString*)uid
+                           identifiedBy:(NSString*)password
+                            confirmedBy:(NSString*)passwordConfirmation {
   
-  // create dictionary of login credentials to send as parameters
-  NSDictionary *credentialsDictionaryObject = @{ @"user": @{
-                                                     @"email":uid,
-                                                     @"password":password
-                                                     }
-                                                 };
+  NSDictionary *credentialsDictionaryObject = [[NSDictionary alloc] init];
+  
+  if (passwordConfirmation) {
+    credentialsDictionaryObject = @{ @"user": @{
+                                         @"email":uid,
+                                         @"password":password,
+                                         @"password_confirmation":passwordConfirmation
+                                         }
+                                     };
+  } else {
+    credentialsDictionaryObject = @{ @"user": @{
+                                         @"email":uid,
+                                         @"password":password
+                                         }
+                                     };
+  }
   
   // serialize the login credentials to json
   NSData *credentialsJsonObject = [NSJSONSerialization
@@ -102,7 +117,7 @@
   
 }
 
-#pragma mark - Routes
+#pragma mark - API Routes
 
 + (NSURL *)fetchUrlForApiNamedRoute:(NSString *)namedRoute withResourceId:(NSString *)id {
   
@@ -111,8 +126,8 @@
   
   // create route string
   NSString *fullNamedRouteString = [NSString stringWithFormat:@"%@%@",
-                            [apiRoutesDictionary objectForKey:@"base"],
-                            [apiRoutesDictionary objectForKey:namedRoute]];
+                                    [apiRoutesDictionary objectForKey:@"base"],
+                                    [apiRoutesDictionary objectForKey:namedRoute]];
   
   // append resource id if passed as parameter
   if (id) {
@@ -152,23 +167,27 @@
   
 }
 
-+ (NSURL *)url:(NSString *)namedRoute
-           withQueryParameterKey:(NSString *)key
-           forValue:(NSString *)value {
++ (NSURL *)url:(NSString *)namedRoute withQueryParameterKey:(NSString *)key forValue:(NSString *)value {
 
   // get initial named route string
   NSString *routeString = [NSString stringWithFormat:@"%@",
-                      [self fetchUrlForApiNamedRoute:namedRoute withResourceId:nil]];
+                           [self fetchUrlForApiNamedRoute:namedRoute withResourceId:nil]];
   
   // append query parameter
   routeString = [routeString stringByAppendingString:
-                          [NSString stringWithFormat:@"?%@=%@", key, value]];
+                 [NSString stringWithFormat:@"?%@=%@", key, value]];
   
-  // create url
+  // create NSURL
   NSURL *url = [NSURL URLWithString:routeString];
   
   return url;
   
+}
+
+#pragma mark - Utility Methods
+
++ (long)statusCodeForResponse:(NSURLResponse *)response {
+  return (long)[(NSHTTPURLResponse *)response statusCode];
 }
 
 @end

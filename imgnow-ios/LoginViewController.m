@@ -20,9 +20,6 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
   self.view.backgroundColor =
   [UIColor colorWithPatternImage:[UIImage imageNamed:@"blur-bg-portrait.jpg"]];
 }
@@ -41,25 +38,30 @@
   
   [_activityIndicator startAnimating];
   
-  NSMutableURLRequest *request = [Api loginRequestForUser:_emailTextField.text
-                                             identifiedBy:_passwordTextField.text];
+  NSMutableURLRequest *request = [Api accessRequestForUser:_emailTextField.text
+                                              identifiedBy:_passwordTextField.text
+                     isRegisteringWithPasswordConfirmation:nil];
   
   [Api fetchContentsOfRequest:request
                    completion:^(NSData *data, NSURLResponse *response, NSError *error) {
                      
-                     if (error) [self displayLoginError:error];
-                     
-                     switch ([Api statusCodeForResponse:response]) {
-                       case 201:
-                         [self userSessionSuccess:data];
-                         break;
-                       case 401:
-                         [self userSessionUnauthorized:data];
-                         break;
-                       default:
-                         NSLog(@"%ld", [Api statusCodeForResponse:response]);
-                         break;
-                     }
+                     dispatch_async(dispatch_get_main_queue(), ^{
+                       
+                       if (error) [self displayLoginError:error];
+                       
+                       switch ([Api statusCodeForResponse:response]) {
+                         case 201:
+                           [self userSessionSuccess:data];
+                           break;
+                         case 401:
+                           [self userSessionUnauthorized:data];
+                           break;
+                         default:
+                           NSLog(@"%ld", [Api statusCodeForResponse:response]);
+                           break;
+                       }
+                       
+                     });
                      
                    }];
   
@@ -94,7 +96,6 @@
   [controller addAction:ok];
   [controller addAction:retry];
   [self presentViewController:controller animated:YES completion:nil];
-  
 }
 
 #pragma mark - Navigation
