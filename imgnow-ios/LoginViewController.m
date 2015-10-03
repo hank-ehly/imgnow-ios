@@ -29,20 +29,12 @@
   
   NSURL *url = [Api fetchUrlForApiNamedRoute:@"user_session" withResourceId:nil];
   
-  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-  NSURLSession *urlSession = [NSURLSession sharedSession];
+  NSMutableURLRequest *request = [Api loginRequestForUser:_emailTextField.text
+                                             identifiedBy:_passwordTextField.text];
   
-  NSString *email = _emailTextField.text;
-  NSString *password = _passwordTextField.text;
-  
-  NSDictionary *loginCredentials = @{@"user":@{@"email":email,@"password":password}};
-  NSData *requestJsonData = [NSJSONSerialization dataWithJSONObject:loginCredentials options:0 error:nil];
-  request.HTTPBody = requestJsonData;
-  
-  [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-  [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
-  [request setTimeoutInterval:10];
-  request.HTTPMethod = @"POST";
+  [Api fetchContentsOfRequest:request completion:^(NSData *data, NSError *error) {
+    
+  }];
   
   NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
       

@@ -25,4 +25,12 @@
 // returns a url with a single appended query parameter
 + (NSURL*)url:(NSString*)namedRoute withQueryParameterKey:(NSString*)key forValue:(NSString*)value;
 
+// this method returns the login request object used in fetchContentsOfRequest
++ (NSMutableURLRequest*)loginRequestForUser:(NSString*)uid
+                               identifiedBy:(NSString*)password;
+
+// takes a request and performs it
++ (void)fetchContentsOfRequest:(NSMutableURLRequest *)request
+                    completion:(void (^)(NSData *data, NSError *error)) completionHandler;
+
 @end
