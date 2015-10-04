@@ -10,7 +10,6 @@
 		3309AFE01BBF499C00FDC1C0 /* Api.m in Sources */ = {isa = PBXBuildFile; fileRef = 3309AFDF1BBF499C00FDC1C0 /* Api.m */; settings = {ASSET_TAGS = (); }; };
 		3326F64C1BB0C19800578DEB /* Flash-On-50-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 3326F64B1BB0C19800578DEB /* Flash-On-50-white.png */; settings = {ASSET_TAGS = (); }; };
 		333157391BC0CE0E00B2294C /* AlertStrings.strings in Resources */ = {isa = PBXBuildFile; fileRef = 333157381BC0CE0E00B2294C /* AlertStrings.strings */; settings = {ASSET_TAGS = (); }; };
-		335477311BB21DB8000FABCE /* NSUserDefaults+Session.m in Sources */ = {isa = PBXBuildFile; fileRef = 335477301BB21DB8000FABCE /* NSUserDefaults+Session.m */; settings = {ASSET_TAGS = (); }; };
 		335477341BB23CB1000FABCE /* RegistrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 335477331BB23CB1000FABCE /* RegistrationViewController.m */; settings = {ASSET_TAGS = (); }; };
 		3354773A1BB2AB55000FABCE /* SlideLeftCustomSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 335477391BB2AB55000FABCE /* SlideLeftCustomSegue.m */; settings = {ASSET_TAGS = (); }; };
 		3354773C1BB2AB80000FABCE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3354773B1BB2AB80000FABCE /* QuartzCore.framework */; };
@@ -96,8 +95,6 @@
 		3309AFDF1BBF499C00FDC1C0 /* Api.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Api.m; sourceTree = "<group>"; };
 		3326F64B1BB0C19800578DEB /* Flash-On-50-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Flash-On-50-white.png"; sourceTree = "<group>"; };
 		333157381BC0CE0E00B2294C /* AlertStrings.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = AlertStrings.strings; path = ../AlertStrings.strings; sourceTree = "<group>"; };
-		3354772F1BB21DB8000FABCE /* NSUserDefaults+Session.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+Session.h"; sourceTree = "<group>"; };
-		335477301BB21DB8000FABCE /* NSUserDefaults+Session.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+Session.m"; sourceTree = "<group>"; };
 		335477321BB23CB1000FABCE /* RegistrationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegistrationViewController.h; sourceTree = "<group>"; };
 		335477331BB23CB1000FABCE /* RegistrationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegistrationViewController.m; sourceTree = "<group>"; };
 		335477381BB2AB55000FABCE /* SlideLeftCustomSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlideLeftCustomSegue.h; sourceTree = "<group>"; };
@@ -251,8 +248,6 @@
 				33987D9A1BAF63DD00D728C2 /* Main.storyboard */,
 				33987D911BAF63DD00D728C2 /* Supporting Files */,
 				33CA7D631BB17ED0007B175C /* api-routes.plist */,
-				3354772F1BB21DB8000FABCE /* NSUserDefaults+Session.h */,
-				335477301BB21DB8000FABCE /* NSUserDefaults+Session.m */,
 				335477381BB2AB55000FABCE /* SlideLeftCustomSegue.h */,
 				335477391BB2AB55000FABCE /* SlideLeftCustomSegue.m */,
 			);
@@ -533,7 +528,6 @@
 				33E9159F1BB01BD100A44BE1 /* SettingsTableViewController.m in Sources */,
 				33987D991BAF63DD00D728C2 /* ViewController.m in Sources */,
 				3309AFE01BBF499C00FDC1C0 /* Api.m in Sources */,
-				335477311BB21DB8000FABCE /* NSUserDefaults+Session.m in Sources */,
 				335477341BB23CB1000FABCE /* RegistrationViewController.m in Sources */,
 				33987D961BAF63DD00D728C2 /* AppDelegate.m in Sources */,
 				3354773A1BB2AB55000FABCE /* SlideLeftCustomSegue.m in Sources */,

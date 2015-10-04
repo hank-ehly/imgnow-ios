@@ -7,7 +7,6 @@
 //
 
 #import "LoginViewController.h"
-#import "NSUserDefaults+Session.h"
 #import "Api.h"
 
 @interface LoginViewController ()
@@ -59,7 +58,7 @@
                            [self userSessionUnauthorized:data];
                            break;
                          default:
-                           NSLog(@"Status code %ld wasn't accounted for in LoginViewController.m attemptLogin",
+                           NSLog(@"Status code %ld isn't accounted for in LoginViewController",
                                  [Api statusCodeForResponse:response]);
                            break;
                        }
@@ -73,9 +72,16 @@
 #pragma mark - Async Callbacks
 
 - (void) userSessionSuccess:(NSData*)data {
-  NSData *responseJsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-  [[NSUserDefaults sharedInstance] createUserSessionWith:responseJsonData andStatus:@"loggedin"];
+  
+  NSData *jsonResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+  
+  [[NSUserDefaults standardUserDefaults] setObject:[jsonResponse valueForKey:@"email"]
+                                            forKey:@"user_email"];
+  
+  [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"status"];
+  
   [self performSegueWithIdentifier:@"loggedIn" sender:nil];
+  
   [_activityIndicator stopAnimating];
 }
 

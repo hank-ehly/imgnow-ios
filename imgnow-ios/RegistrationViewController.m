@@ -7,7 +7,6 @@
 //
 
 #import "RegistrationViewController.h"
-#import "NSUserDefaults+Session.h"
 #import "Api.h"
 
 @interface RegistrationViewController ()
@@ -53,7 +52,7 @@
                            [self userRegistrationSuccess:data];
                            break;
                          default:
-                           NSLog(@"Status code %ld wasn't accounted for in RegistrationViewController.m submitRegistration",
+                           NSLog(@"Status code %ld wasn't accounted for in RegistrationViewController",
                                  [Api statusCodeForResponse:response]);
                            break;
                        }
@@ -67,9 +66,16 @@
 #pragma mark - Async Callbacks
 
 - (void)userRegistrationSuccess:(NSData*)data {
-  NSData *responseJsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-  [[NSUserDefaults sharedInstance] createUserSessionWith:responseJsonData andStatus:@"registered"];
+  
+  NSData *jsonResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+  
+  [[NSUserDefaults standardUserDefaults] setObject:[jsonResponse valueForKey:@"email"]
+                                            forKey:@"user_email"];
+  
+  [[NSUserDefaults standardUserDefaults] setObject:@"2" forKey:@"status"];
+  
   [self performSegueWithIdentifier:@"registered" sender:nil];
+  
 }
 
 - (void)userRegistrationError:(NSError*)error {

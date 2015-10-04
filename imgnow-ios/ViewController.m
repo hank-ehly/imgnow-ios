@@ -102,21 +102,46 @@ AVCaptureSession *captureSession;
   
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
   
-  if ([defaults valueForKey:@"welcomeMessage"]) {
+  // If the user has just logged in or registered
+  if ([defaults valueForKey:@"status"] != nil) {
     
-    NSString *msg = [NSString stringWithFormat:@"Welcome, %@", [defaults valueForKey:@"user_email"]];
-    UIAlertController *ac =
-    [UIAlertController alertControllerWithTitle:[[NSUserDefaults standardUserDefaults]
-                                                 valueForKey:@"welcomeMessage"]
-                                        message:msg
-                                 preferredStyle:UIAlertControllerStyleAlert];
+    // configure alert text
+    NSString *alertTitle = [[NSString alloc] init];
+    NSString *uid = [defaults valueForKey:@"user_email"];
+    NSString *alertMessage = [NSString stringWithFormat:@"Welcome, %@", uid];
+    NSString *acceptTitle = NSLocalizedStringFromTable(@"defaultAcceptTitle", @"AlertStrings", nil);
     
-    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"ok"
-                                                 style:UIAlertActionStyleDefault
-                                               handler:nil];
-    [ac addAction:ok];
-    [self presentViewController:ac animated:YES completion:^{
-      [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"welcomeMessage"];
+    // status in integer format
+    long status = [[defaults valueForKey:@"status"] integerValue];
+    
+    // 1 : user just logged in
+    // 2 : user just registered
+    switch (status) {
+      case 1:
+        alertTitle = NSLocalizedStringFromTable(@"loginSuccess", @"AlertStrings", nil);
+        break;
+      case 2:
+        alertTitle = NSLocalizedStringFromTable(@"registrationSuccess", @"AlertStrings", nil);
+        break;
+    }
+    
+    // configure alert controller
+    alertController = [UIAlertController alertControllerWithTitle:alertTitle
+                                                          message:alertMessage
+                                                   preferredStyle:UIAlertControllerStyleAlert];
+    
+    // accept action
+    UIAlertAction *actionAccept = [UIAlertAction actionWithTitle:acceptTitle
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:nil];
+    
+    // add action to alert controller
+    [alertController addAction:actionAccept];
+    
+    // remove 'status' so that the alert doesn't show up
+    // every time you come back to this view
+    [self presentViewController:alertController animated:YES completion:^{
+      [defaults removeObjectForKey:@"status"];
     }];
     
   }
@@ -312,7 +337,7 @@ hasBeenSavedInPhotoAlbumWithError:(NSError *)error
   } else {
     alertTitle = nil;
     alertMessage = NSLocalizedStringFromTable(@"saveToCameraRollSuccess", @"AlertStrings", nil);
-
+    
   }
   
   // configure alert controller
@@ -346,7 +371,7 @@ hasBeenSavedInPhotoAlbumWithError:(NSError *)error
     [self presentViewController:mfvc animated:YES completion:nil];
     
   } else {
-
+    
     // configure alert strings
     NSString *alertTitle = NSLocalizedStringFromTable(@"defaultFailureTitle", @"AlertStrings", nil);
     NSString *alertMessage = NSLocalizedStringFromTable(@"openMailFailureMessage", @"AlertStrings", nil);
@@ -363,7 +388,7 @@ hasBeenSavedInPhotoAlbumWithError:(NSError *)error
                                                          handler:nil];
     
     [alertController addAction:actionAccept];
-
+    
     [self presentViewController:alertController animated:YES completion:nil];
     
   }

@@ -14,3 +14,5 @@
 "saveToCameraRollFailure" = "Unable to save to camera roll. Please try again.";
 "saveToCameraRollSuccess" = "Image has been successfully saved to the camera roll.";
 "openMailFailureMessage"  = "Your device could not send e-mail. Please check your e-mail configuration and try again";
+"loginSuccess"            = "Logged in successfully.";
+"registrationSuccess"     = "Account created successfully.";
