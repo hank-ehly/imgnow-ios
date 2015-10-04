@@ -19,10 +19,7 @@
 
 @synthesize stillImageOutput;
 @synthesize captureSession;
-@synthesize alertActionHtmlOk;
 @synthesize alertController;
-@synthesize alertActionSendEmail;
-@synthesize alertActionEmailOk;
 @synthesize captureDevise;
 
 NSString *imageString;
@@ -255,33 +252,43 @@ AVCaptureSession *captureSession;
 
 - (void)uploadAlertResultWithHtml:(NSString *)html {
   
-  NSString *title   = @"Plug this into your HTML";
-  NSString *message = html;
-  NSString *titleOk = @"OK";
-  NSString *titleEmail = @"Email it to me";
+  // configure alert titles
+  NSString *alertTitle = NSLocalizedStringFromTable(@"uploadSuccessAlertTitle", @"AlertStrings", nil);
+  NSString *acceptTitle = NSLocalizedStringFromTable(@"defaultAcceptTitle", @"AlertStrings", nil);
+  NSString *sendEmailTitle = NSLocalizedStringFromTable(@"sendEmailTitle", @"AlertStrings", nil);
   
-  alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
-  alertActionHtmlOk = [UIAlertAction actionWithTitle:titleOk style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-    // do nothing
-  }];
+  // configure alert controller
+  alertController = [UIAlertController alertControllerWithTitle:alertTitle
+                                                        message:html
+                                                 preferredStyle:UIAlertControllerStyleAlert];
   
-  alertActionSendEmail = [UIAlertAction actionWithTitle:titleEmail style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-    // send email
-    NSString *beg = @"<img src=\"";
-    NSString *end = @"\"></img>";
-    NSString *body = [NSString stringWithFormat:@"%@%@%@", beg, html, end];
-    [self sendEmail:body];
-  }];
+  // accept action
+  UIAlertAction *actionAccept = [UIAlertAction actionWithTitle:acceptTitle
+                                                         style:UIAlertActionStyleDefault
+                                                       handler:nil];
   
-  UIAlertAction *saveToCameraRoll = [UIAlertAction actionWithTitle:@"Save to CameraRoll" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-    
-    // get img
-    UIImageWriteToSavedPhotosAlbum(image, self, @selector(thisImage:hasBeenSavedInPhotoAlbumWithError:usingContextInfo:), NULL);
-  }];
+  // send email action
+  UIAlertAction *actionSendEmail =
+  [UIAlertAction actionWithTitle:sendEmailTitle
+                           style:UIAlertActionStyleDefault
+                         handler:^(UIAlertAction * _Nonnull action) {
+                           
+                           [self sendEmail:[Api imgTagWithSrc:html]];
+                         }];
   
-  [alertController addAction:alertActionHtmlOk];
-  [alertController addAction:alertActionSendEmail];
-  [alertController addAction:saveToCameraRoll];
+  // save to camera roll action
+  UIAlertAction *actionSave =
+  [UIAlertAction actionWithTitle:@"Save to CameraRoll"
+                           style:UIAlertActionStyleDefault
+                         handler:^(UIAlertAction * _Nonnull action) {
+                           
+                           UIImageWriteToSavedPhotosAlbum(image, self, @selector(thisImage:hasBeenSavedInPhotoAlbumWithError:usingContextInfo:), NULL);
+                         }];
+  
+  // add each action to the alert controller
+  [alertController addAction:actionAccept];
+  [alertController addAction:actionSendEmail];
+  [alertController addAction:actionSave];
   
   [self presentViewController:alertController animated:YES completion:nil];
   
@@ -289,41 +296,44 @@ AVCaptureSession *captureSession;
   
 }
 
-- (void)thisImage:(UIImage *)image hasBeenSavedInPhotoAlbumWithError:(NSError *)error usingContextInfo:(void*)ctxInfo {
+- (void)thisImage:(UIImage *)image
+hasBeenSavedInPhotoAlbumWithError:(NSError *)error
+ usingContextInfo:(void*)ctxInfo {
+  
+  // alert controller titles / actions strings
+  NSString *alertTitle = [[NSString alloc] init];
+  NSString *alertMessage = [[NSString alloc] init];
+  NSString *acceptTitle = NSLocalizedStringFromTable(@"defaultAcceptTitle", @"AlertStrings", nil);
+  
+  // set strings based on whether there is an error
   if (error) {
-    NSLog(@"%@", error);
-    // error
-    alertController = [UIAlertController alertControllerWithTitle:@"Error" message:@"Unable to save to camera roll. Please try again." preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction *actionDownloadOk = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-      // did press ok
-    }];
-    
-    [alertController addAction:actionDownloadOk];
-    
-    [self presentViewController:alertController animated:YES completion:^{
-      // presented view controller
-    }];
+    alertTitle = NSLocalizedStringFromTable(@"defaultFailureTitle", @"AlertStrings", nil);
+    alertMessage = NSLocalizedStringFromTable(@"saveToCameraRollFailure", @"AlertStrings", nil);
   } else {
-    // saved successfully
-    alertController = [UIAlertController alertControllerWithTitle:nil message:@"Downloaded to CameraRoll" preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction *actionDownloadOk = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-      // did press ok
-    }];
-    
-    [alertController addAction:actionDownloadOk];
-    
-    [self presentViewController:alertController animated:YES completion:^{
-      // presented view controller
-    }];
+    alertTitle = nil;
+    alertMessage = NSLocalizedStringFromTable(@"saveToCameraRollSuccess", @"AlertStrings", nil);
+
   }
+  
+  // configure alert controller
+  alertController = [UIAlertController alertControllerWithTitle:alertTitle
+                                                        message:alertMessage
+                                                 preferredStyle:UIAlertControllerStyleAlert];
+  
+  // accept action
+  UIAlertAction *actionAccept = [UIAlertAction actionWithTitle:acceptTitle
+                                                         style:UIAlertActionStyleDefault
+                                                       handler:nil];
+  
+  [alertController addAction:actionAccept];
+  
+  [self presentViewController:alertController animated:YES completion:nil];
+  
 }
 
 
 
 - (void)sendEmail:(NSString *)message {
-  
   
   MFMailComposeViewController *mfvc = [[MFMailComposeViewController alloc] init];
   [mfvc setMailComposeDelegate:self];
@@ -332,20 +342,31 @@ AVCaptureSession *captureSession;
   [mfvc setMessageBody:message isHTML:NO];
   
   if ([MFMailComposeViewController canSendMail]) {
+    
     [self presentViewController:mfvc animated:YES completion:nil];
+    
   } else {
-    NSString *title = @"Could Not Send Email";
-    NSString *message = @"Your device could not send e-mail. Please check your e-mail configuration and try again";
-    alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
-    alertActionEmailOk = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-      // pressed ok
-    }];
-    [alertController addAction:alertActionEmailOk];
-    [self presentViewController:alertController animated:YES completion:^{
-      // showed email sent alert
-    }];
+
+    // configure alert strings
+    NSString *alertTitle = NSLocalizedStringFromTable(@"defaultFailureTitle", @"AlertStrings", nil);
+    NSString *alertMessage = NSLocalizedStringFromTable(@"openMailFailureMessage", @"AlertStrings", nil);
+    NSString *acceptTitle = NSLocalizedStringFromTable(@"defaultAcceptTitle", @"AlertStrings", nil);
+    
+    // configure alert controller
+    alertController = [UIAlertController alertControllerWithTitle:alertTitle
+                                                          message:alertMessage
+                                                   preferredStyle:UIAlertControllerStyleAlert];
+    
+    // accept action
+    UIAlertAction *actionAccept = [UIAlertAction actionWithTitle:acceptTitle
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:nil];
+    
+    [alertController addAction:actionAccept];
+
+    [self presentViewController:alertController animated:YES completion:nil];
+    
   }
-  
   
 }
 

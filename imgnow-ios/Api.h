@@ -49,4 +49,6 @@
 // takes an NSURLResponse and returns its status code
 + (long)statusCodeForResponse:(NSURLResponse*)response;
 
++ (NSString*)imgTagWithSrc:(NSString*)src;
+
 @end

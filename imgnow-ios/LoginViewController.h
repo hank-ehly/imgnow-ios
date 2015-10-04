@@ -24,6 +24,9 @@
 
 - (void) displayLoginError:(NSError*)error;
 
+// alert controller for LoginViewController
+@property UIAlertController* alertController;
+
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;

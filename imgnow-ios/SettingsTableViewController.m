@@ -17,19 +17,14 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  
   _emailCell.detailTextLabel.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"user_email"];
-  
 }
 
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
-  // Dispose of any resources that can be recreated.
-  
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
   
   [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -43,7 +38,6 @@
 }
 
 - (void) confirmLogout {
-  
   
   UIAlertController *ac = [UIAlertController alertControllerWithTitle:nil message:@"Are you sure you wanna logout?" preferredStyle:UIAlertControllerStyleAlert];
   UIAlertAction *yes = [UIAlertAction actionWithTitle:@"yeah" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
@@ -92,7 +86,6 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   return 3;
 }
-
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
   return 64.0f;

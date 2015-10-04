@@ -16,6 +16,8 @@
 
 @implementation RegistrationViewController
 
+@synthesize alertController;
+
 #pragma mark - View Load
 
 - (void)viewDidLoad {
@@ -31,7 +33,6 @@
   [super didReceiveMemoryWarning];
 }
 
-
 #pragma mark - API Registration Call
 
 - (IBAction)submitRegistration:(id)sender {
@@ -45,7 +46,7 @@
                      
                      dispatch_async(dispatch_get_main_queue(), ^{
                        
-                       if (error) [self presentErrorResponseAlert:error];
+                       if (error) [self userRegistrationError:error];
                        
                        switch ([Api statusCodeForResponse:response]) {
                          case 201:
@@ -63,7 +64,7 @@
   
 }
 
-#pragma mark - Async Completion
+#pragma mark - Async Callbacks
 
 - (void)userRegistrationSuccess:(NSData*)data {
   NSData *responseJsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
@@ -71,21 +72,23 @@
   [self performSegueWithIdentifier:@"registered" sender:nil];
 }
 
-- (void)presentErrorResponseAlert:(NSError*)error {
+- (void)userRegistrationError:(NSError*)error {
+
+  NSString *alertTitle = NSLocalizedStringFromTable(@"defaultFailureTitle", @"AlertStrings", nil);
+  NSString *acceptTitle = NSLocalizedStringFromTable(@"defaultAcceptTitle", @"AlertStrings", nil);
   
-  NSString *msg = [[error localizedDescription] stringByAppendingString:@" Please try again."];
+  alertController = [UIAlertController alertControllerWithTitle:alertTitle
+                                                        message:[error localizedDescription]
+                                                 preferredStyle:UIAlertControllerStyleAlert];
   
-  UIAlertController *alertController =
-  [UIAlertController alertControllerWithTitle:@"Whoops!"
-                                      message:msg
-                               preferredStyle:UIAlertControllerStyleAlert];
-  
-  UIAlertAction *ok = [UIAlertAction actionWithTitle:@"ok"
+  UIAlertAction *accept = [UIAlertAction actionWithTitle:acceptTitle
                                                style:UIAlertActionStyleDefault
                                              handler:nil];
-  [alertController addAction:ok];
+
+  [alertController addAction:accept];
   
   [self presentViewController:alertController animated:YES completion:nil];
+  
 }
 
 

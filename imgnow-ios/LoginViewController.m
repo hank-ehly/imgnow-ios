@@ -16,6 +16,8 @@
 
 @implementation LoginViewController
 
+@synthesize alertController;
+
 #pragma mark - View Load
 
 - (void)viewDidLoad {
@@ -68,7 +70,7 @@
   
 }
 
-#pragma mark - Async Completion
+#pragma mark - Async Callbacks
 
 - (void) userSessionSuccess:(NSData*)data {
   NSData *responseJsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
@@ -78,12 +80,29 @@
 }
 
 - (void) userSessionUnauthorized:(NSData*)data {
-  NSString *msg = @"Email and/or password is incorrect. Please try again.";
-  UIAlertController *c = [UIAlertController alertControllerWithTitle:@"Whoops!" message:msg preferredStyle:UIAlertControllerStyleAlert];
-  UIAlertAction *a = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault handler:nil];
-  [c addAction:a];
+  
+  // stop the activity indicator
   [_activityIndicator stopAnimating];
-  [self presentViewController:c animated:YES completion:nil];
+  
+  // alert controller text configuration
+  NSString *message = NSLocalizedStringFromTable(@"invalidCredentials", @"AlertStrings", nil);
+  NSString *alertTitle = NSLocalizedStringFromTable(@"defaultFailureTitle", @"AlertStrings", nil);
+  NSString *acceptTitle = NSLocalizedStringFromTable(@"defaultAcceptTitle", @"AlertStrings", nil);
+  
+  // alert controller config
+  alertController = [UIAlertController alertControllerWithTitle:alertTitle
+                                                        message:message
+                                                 preferredStyle:UIAlertControllerStyleAlert];
+  
+  // alert controller "accept" action
+  UIAlertAction *actionAccept = [UIAlertAction actionWithTitle:acceptTitle
+                                                         style:UIAlertActionStyleDefault
+                                                       handler:nil];
+  
+  [alertController addAction:actionAccept];
+  
+  [self presentViewController:alertController animated:YES completion:nil];
+  
 }
 
 - (void)displayLoginError:(NSError *)error {

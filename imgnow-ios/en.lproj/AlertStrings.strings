@@ -1,0 +1,17 @@
+/* 
+  AlertStrings.strings
+  imgnow-ios
+
+  Created by Henry Ehly on 2015/10/04.
+  Copyright © 2015年 Henry Ehly. All rights reserved.
+*/
+
+// login
+"invalidCredentials"      = "Email and/or password is incorrect. Please try again.";
+"defaultFailureTitle"     = "Whoops!";
+"defaultAcceptTitle"      = "Accept";
+"uploadSuccessAlertTitle" = "Plug this into your HTML";
+"sendEmailTitle"          = "Email it to me.";
+"saveToCameraRollFailure" = "Unable to save to camera roll. Please try again.";
+"saveToCameraRollSuccess" = "Image has been successfully saved to the camera roll.";
+"openMailFailureMessage"  = "Your device could not send e-mail. Please check your e-mail configuration and try again"

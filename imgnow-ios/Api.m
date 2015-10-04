@@ -285,4 +285,11 @@
   return (long)[(NSHTTPURLResponse *)response statusCode];
 }
 
++ (NSString *)imgTagWithSrc:(NSString *)src {
+  NSString *beg = @"<img src=\"";
+  NSString *end = @"\"></img>";
+  NSString *concat = [NSString stringWithFormat:@"%@%@%@", beg, src, end];
+  return concat;
+}
+
 @end

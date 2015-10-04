@@ -9,12 +9,14 @@
 #import "ViewController.h"
 
 @interface RegistrationViewController : ViewController
+
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
 @property (weak, nonatomic) IBOutlet UITextField *confirmPasswordTextField;
 @property (weak, nonatomic) IBOutlet UIButton *submitButton;
-- (IBAction)submitRegistration:(id)sender;
+@property UIAlertController *alertController;
 
-- (void) presentErrorResponseAlert:(NSError*)error;
+- (IBAction)submitRegistration:(id)sender;
+- (void) userRegistrationError:(NSError*)error;
 
 @end

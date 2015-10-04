@@ -17,9 +17,6 @@
 @property AVCaptureDevice *captureDevise;
 
 @property UIAlertController *alertController;
-@property UIAlertAction *alertActionHtmlOk;
-@property UIAlertAction *alertActionSendEmail;
-@property UIAlertAction *alertActionEmailOk;
 
 @property bool facingFront;
 @property bool torchIsOn;
