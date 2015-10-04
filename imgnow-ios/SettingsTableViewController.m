@@ -21,11 +21,11 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
+    _emailCell.detailTextLabel.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"user_email"];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-  _emailCell.detailTextLabel.text =
-  [[NSUserDefaults standardUserDefaults] valueForKey:@"user_email"];
+
 }
 
 - (void)didReceiveMemoryWarning {

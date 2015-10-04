@@ -122,7 +122,6 @@
   NSString *acceptTitle = NSLocalizedStringFromTable(@"defaultAcceptTitle", @"AlertStrings", nil);
   UIAlertAction *actionAccept = [[UIAlertAction alloc] init];
   
-  
   if (deletionDateExtendable) {
     
     // accept action that updates view with new deletion date
@@ -132,10 +131,10 @@
                            handler:
      
      ^(UIAlertAction * _Nonnull action) {
-       
-       // configure time_until_deletion string
-       int time = [[[responseJsonData valueForKey:@"image"] valueForKey:@"time_until_deletion"] intValue];
-       NSDictionary *dict = [Api timeUntilDeletion:time];
+
+       float time = [[[responseJsonData valueForKey:@"image"] valueForKey:@"time_until_deletion"] floatValue];
+       int timeUntilDeletion = (int)ceilf(time);
+       NSDictionary *dict = [Api timeUntilDeletion:timeUntilDeletion];
        NSString *amount = [dict valueForKey:@"time"];
        NSString *counter = [dict valueForKey:@"counter"];
        _deletionDateLabel.text = [NSString stringWithFormat:@"Scheduled for deletion in %@ %@", amount, counter];
@@ -214,10 +213,11 @@
 
 - (IBAction)handleExtendDeletionDateTouch:(id)sender {
   
-  NSString *alertMessage = NSLocalizedStringFromTable(@"confirmExtendDeletion", @"AlertStrings", nil);
+  NSString *alertTitle = NSLocalizedStringFromTable(@"confirmExtendDeletion", @"AlertStrings", nil);
+  NSString *alertMessage = NSLocalizedStringFromTable(@"warnExtendDeletion", @"AlertStrings", nil);
   NSString *acceptTitle = NSLocalizedStringFromTable(@"defaultAcceptTitle", @"AlertStrings", nil);
   
-  alertController = [UIAlertController alertControllerWithTitle:nil
+  alertController = [UIAlertController alertControllerWithTitle:alertTitle
                                                         message:alertMessage
                                                  preferredStyle:UIAlertControllerStyleAlert];
   
@@ -296,11 +296,13 @@
   NSString *url = [NSString stringWithFormat:@"%@%@", [Api fetchBaseRouteString], [_imageObject objectForKey:@"url"]];
   NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
   UIImage *image = [UIImage imageWithData:data];
-  UIImageWriteToSavedPhotosAlbum(image, self, @selector(thisImage:hasBeenSavedInPhotoAlbumWithError:), NULL);
+  UIImageWriteToSavedPhotosAlbum(image, self, @selector(thisImage:hasBeenSavedInPhotoAlbumWithError:withContextInfo:), NULL);
   
 }
 
-- (void)thisImage:(UIImage *)image hasBeenSavedInPhotoAlbumWithError:(NSError *)error {
+- (void)thisImage:(UIImage *)image
+hasBeenSavedInPhotoAlbumWithError:(NSError *)error
+  withContextInfo:(void*)contextInfo {
 
   NSString *alertTitle = nil;
   NSString *alertMessage = NSLocalizedStringFromTable(@"saveToCameraRollSuccess", @"AlertStrings", nil);

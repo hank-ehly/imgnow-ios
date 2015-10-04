@@ -297,6 +297,9 @@
          case 200:
            [self imageCreateSuccess:data];
            break;
+         case 500:
+           [self internalServerError:error];
+           break;
          default:
            NSLog(@"Status code %ld wasn't accounted for in ViewController.m upload",
                  [Api statusCodeForResponse:response]);
@@ -310,6 +313,32 @@
 }
 
 #pragma mark - Async Completion
+
+- (void)internalServerError:(NSError*)error {
+  
+  // configure alert controller strings
+  NSString *alertTitle = NSLocalizedStringFromTable(@"defaultFailureTitle", @"AlertStrings", nil);
+  NSString *acceptTitle = NSLocalizedStringFromTable(@"defaultAcceptTitle", @"AlertStrings", nil);
+  NSString *alertMessage = NSLocalizedStringFromTable(@"internalServerError", @"AlertStrings", nil);
+  
+  // configure alert controller
+  alertController = [UIAlertController alertControllerWithTitle:alertTitle
+                                                        message:alertMessage
+                                                 preferredStyle:UIAlertControllerStyleAlert];
+  
+  // accept action
+  UIAlertAction *actionAccept = [UIAlertAction actionWithTitle:acceptTitle
+                                                         style:UIAlertActionStyleDefault
+                                                       handler:nil];
+  
+  [alertController addAction:actionAccept];
+  
+  [self presentViewController:alertController animated:YES completion:^{
+    [_uploadActivityIndicator stopAnimating];
+    [self changeWindowState:@"pretake"];
+  }];
+  
+}
 
 - (void)imageCreateSuccess:(NSData*)data {
   NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];

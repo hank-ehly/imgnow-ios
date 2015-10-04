@@ -24,14 +24,16 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
   _refreshControl = [[UIRefreshControl alloc] init];
   [_refreshControl setBackgroundColor:[UIColor purpleColor]];
   [_refreshControl setTintColor:[UIColor whiteColor]];
-  [_refreshControl addTarget:self action:@selector(queryForImages) forControlEvents:UIControlEventValueChanged];
+  [_refreshControl addTarget:self
+                      action:@selector(queryForImages)
+            forControlEvents:UIControlEventValueChanged];
   [_tableView addSubview:_refreshControl];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
   [self queryForImages];
 }
 
@@ -108,10 +110,10 @@
 - (void)imagesIndexSuccess:(NSData*)data {
   
   // serialize success response into json
-  NSData *responseJsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+  NSData *jsonResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
   
   // set the array of images equal to that of the response
-  images = [responseJsonData valueForKey:@"images"];
+  images = [jsonResponse valueForKey:@"images"];
   
   // reload the table
   [_tableView reloadData];
@@ -156,7 +158,9 @@
   
   NSMutableDictionary *currentRecord = [images objectAtIndex:indexPath.row];
   
-  NSString *url = [[currentRecord valueForKey:@"file"] valueForKey:@"url"];
+  NSString *url =
+  [[Api fetchBaseRouteString] stringByAppendingString:
+   [[currentRecord valueForKey:@"file"] valueForKey:@"url"]];
   
   // format timeObject used to set cell text
   int timeUntilDeletion = [[currentRecord valueForKey:@"time_until_deletion"] intValue];

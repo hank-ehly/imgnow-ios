@@ -12,7 +12,7 @@
 "uploadSuccessAlertTitle" = "Plug this into your HTML";
 "sendEmailTitle"          = "Email it to me.";
 "saveToCameraRollFailure" = "Unable to save to camera roll. Please try again.";
-"saveToCameraRollSuccess" = "Image has been successfully saved to the camera roll.";
+"saveToCameraRollSuccess" = "Saved to Camera Roll";
 "openMailFailureMessage"  = "Your device could not send e-mail. Please check your e-mail configuration and try again";
 "loginSuccess"            = "Logged in successfully.";
 "registrationSuccess"     = "Account created successfully.";
@@ -20,8 +20,10 @@
 "defaultEmailSubject"     = "Here's your img tag";
 "deletionDateExtendable"  = "Deletion date has been moved 30 days from today.";
 "deletionDateFixed"       = "You've already extended the deletion date once.";
-"confirmExtendDeletion"   = "Are you sure you want to extend the deletion date?";
+"confirmExtendDeletion"   = "Extend deletion date";
+"warnExtendDeletion"      = "You can only extendend the deletion date of an image once.";
 "deleteImageTitle"        = "Delete Image";
 "deleteImageConfirmation" = "Are you sure you want to delete this image? You can't get it back.";
 "confirmLogout"           = "Are you sure you want to logout?";
 "logoutTitle"             = "Logout";
+"internalServerError"     = "An internal server error has occurred. Please try again later.";
