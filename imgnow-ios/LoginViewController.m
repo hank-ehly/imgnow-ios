@@ -7,7 +7,7 @@
 //
 
 #import "LoginViewController.h"
-#import "NSUserDefaults+Session.h"
+#import "Api.h"
 
 @interface LoginViewController ()
 
@@ -15,101 +15,151 @@
 
 @implementation LoginViewController
 
+@synthesize alertController;
+
+#pragma mark - View Load
+
 - (void)viewDidLoad {
-    [super viewDidLoad];
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"blur-bg-portrait.jpg"]];
+  [super viewDidLoad];
+  self.view.backgroundColor =
+  [UIColor colorWithPatternImage:[UIImage imageNamed:@"blur-bg-portrait.jpg"]];
 }
 
-- (void)didReceiveMemoryWarning {[super didReceiveMemoryWarning];}
+- (void)didReceiveMemoryWarning {
+  [super didReceiveMemoryWarning];
+}
 
-- (IBAction)touchedLogin:(id)sender {
-    [self attemptLogin];
+// This allows the the user to get rid of the keyboard by
+// touching another part of the screen after editing a text field
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+  [[self view] endEditing:YES];
+}
+
+#pragma mark - API Login Call
+
+- (IBAction)handleTouchUpInsideLogin:(id)sender {
+  [self attemptLogin];
 }
 
 - (void)attemptLogin {
-    
-    NSString *routesFile = [[NSBundle mainBundle] pathForResource:@"api-routes" ofType:@"plist"];
-    NSDictionary *routes = [NSDictionary dictionaryWithContentsOfFile:routesFile];
-    NSString *urlString = [NSString stringWithFormat:@"%@%@", [routes objectForKey:@"base"], [routes objectForKey:@"user_session"]];
-    NSURL *url = [NSURL URLWithString:urlString];
-    
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    NSURLSession *urlSession = [NSURLSession sharedSession];
-    
-    NSString *email = _emailTextField.text;
-    NSString *password = _passwordTextField.text;
-    
-    NSDictionary *loginCredentials = @{@"user":@{@"email":email,@"password":password}};
-    NSData *requestJsonData = [NSJSONSerialization dataWithJSONObject:loginCredentials options:0 error:nil];
-    request.HTTPBody = requestJsonData;
-    
-    [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    [request setTimeoutInterval:7];
-    request.HTTPMethod = @"POST";
-    
-    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (error || data == nil) {
-                [self displayLoginError:error];
-            }
-            
-            NSHTTPURLResponse *res = (NSHTTPURLResponse *)response;
-            long statusCode = [res statusCode];
-            
-            switch (statusCode) {
-                case 201:
-                    [self sessionCreatedSuccessfully:data];
-                    break;
-                case 401:
-                    [self sessionCreationUnauthorized:data];
-                    break;
-                default:
-                    break;
-            }
-            
-        });
-        
-        
-    }];
-    
-    [dataTask resume];
+  
+  [_activityIndicator startAnimating];
+  
+  NSMutableURLRequest *request = [Api sessionRequestForUser:_emailTextField.text
+                                               identifiedBy:_passwordTextField.text
+                      isRegisteringWithPasswordConfirmation:nil];
+  
+  [Api fetchContentsOfRequest:request
+                   completion:
+   
+   ^(NSData *data, NSURLResponse *response, NSError *error) {
+     
+     dispatch_async(dispatch_get_main_queue(), ^{
+       
+       [_activityIndicator stopAnimating];
+       
+       if (error) [self userSessionError:error];
+       
+       switch ([Api statusCodeForResponse:response]) {
+         case 201:
+           [self userSessionSuccess:data];
+           break;
+         case 401:
+           [self userSessionUnauthorized:data];
+           break;
+         default:
+           NSLog(@"Status code %ld isn't accounted for in LoginViewController",
+                 [Api statusCodeForResponse:response]);
+           break;
+       }
+       
+     });
+     
+   }];
+  
 }
 
-- (void) sessionCreatedSuccessfully:(NSData*)data {
-    NSData *responseJsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-    [[NSUserDefaults sharedInstance] createUserSessionWith:responseJsonData andStatus:@"loggedin"];
-    [self performSegueWithIdentifier:@"loggedIn" sender:nil];
-}
-- (void) sessionCreationUnauthorized:(NSData*)data {
-    NSString *msg = @"Email and/or password is incorrect. Please try again.";
-    UIAlertController *c = [UIAlertController alertControllerWithTitle:@"Whoops!" message:msg preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *a = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault handler:nil];
-    [c addAction:a];
-    [self presentViewController:c animated:YES completion:nil];
+#pragma mark - Async Callbacks
+
+- (void) userSessionSuccess:(NSData*)data {
+  
+  // serialize login-success response to json
+  NSData *jsonResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+  
+  // create session for current user
+  [[NSUserDefaults standardUserDefaults] setObject:[jsonResponse valueForKey:@"email"]
+                                            forKey:@"user_email"];
+  
+  // tell ViewController that we just logged in
+  [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"status"];
+  
+  [self performSegueWithIdentifier:@"loggedIn" sender:nil];
+  
 }
 
-- (void)displayLoginError:(NSError *)error {
-    
-    UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"Connection error" message:[error localizedDescription] preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault handler:nil];
-    UIAlertAction *retry = [UIAlertAction actionWithTitle:@"Don't give up!" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self attemptLogin];
-    }];
-    [controller addAction:ok];
-    [controller addAction:retry];
-    [self presentViewController:controller animated:YES completion:nil];
-    
+- (void) userSessionUnauthorized:(NSData*)data {
+  
+  // alert controller text configuration
+  NSString *message = NSLocalizedStringFromTable(@"invalidCredentials", @"AlertStrings", nil);
+  NSString *alertTitle = NSLocalizedStringFromTable(@"defaultFailureTitle", @"AlertStrings", nil);
+  NSString *acceptTitle = NSLocalizedStringFromTable(@"defaultAcceptTitle", @"AlertStrings", nil);
+  
+  // alert controller config
+  alertController = [UIAlertController alertControllerWithTitle:alertTitle
+                                                        message:message
+                                                 preferredStyle:UIAlertControllerStyleAlert];
+  
+  // alert controller "accept" action
+  UIAlertAction *actionAccept = [UIAlertAction actionWithTitle:acceptTitle
+                                                         style:UIAlertActionStyleDefault
+                                                       handler:nil];
+  
+  [alertController addAction:actionAccept];
+  
+  [self presentViewController:alertController animated:YES completion:nil];
+  
 }
+
+- (void)userSessionError:(NSError *)error {
+  
+  [_activityIndicator stopAnimating];
+  
+  // configure alert controller strings
+  NSString *alertTitle = NSLocalizedStringFromTable(@"defaultFailureTitle", @"AlertStrings", nil);
+  NSString *acceptTitle = NSLocalizedStringFromTable(@"defaultAcceptTitle", @"AlertStrings", nil);
+  NSString *retryTitle = NSLocalizedStringFromTable(@"defaultRetryTitle", @"AlertStrings", nil);
+  
+  // configure alert controller
+  alertController = [UIAlertController alertControllerWithTitle:alertTitle
+                                                        message:[error localizedDescription]
+                                                 preferredStyle:UIAlertControllerStyleAlert];
+  
+  // alert controller accept action
+  UIAlertAction *actionAccept = [UIAlertAction actionWithTitle:acceptTitle
+                                                         style:UIAlertActionStyleDefault
+                                                       handler:nil];
+  
+  // alert controller retry login action
+  UIAlertAction *actionRetry = [UIAlertAction actionWithTitle:retryTitle
+                                                        style:UIAlertActionStyleDefault
+                                                      handler:^(UIAlertAction * _Nonnull action) {
+                                                        
+                                                        [_activityIndicator startAnimating];
+                                                        [self attemptLogin];
+                                                        
+                                                      }];
+  // add actions to alert controller
+  [alertController addAction:actionAccept];
+  [alertController addAction:actionRetry];
+  
+  [self presentViewController:alertController animated:YES completion:nil];
+  
+}
+
+#pragma mark - Navigation
 
 - (IBAction)segueToRegistration:(id)sender {
-    [self performSegueWithIdentifier:@"toRegistration" sender:nil];
-    NSLog(@"toRegistration");
-}
-
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    [self.view endEditing:YES];
+  [self performSegueWithIdentifier:@"toRegistration" sender:nil];
 }
 
 @end

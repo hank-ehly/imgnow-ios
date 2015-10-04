@@ -7,6 +7,7 @@
 //
 
 #import "SettingsTableViewController.h"
+#import "Api.h"
 
 @interface SettingsTableViewController ()
 
@@ -14,94 +15,134 @@
 
 @implementation SettingsTableViewController
 
+@synthesize alertController;
+
+#pragma mark - View Load
+
 - (void)viewDidLoad {
-    [super viewDidLoad];
-    
+  [super viewDidLoad];
     _emailCell.detailTextLabel.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"user_email"];
-    
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+
 }
 
 - (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-    
+  [super didReceiveMemoryWarning];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
-    
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    if ([[[selectedCell textLabel] text] isEqualToString:@"logout"] && indexPath.row == 2) {
-        
-        [self confirmLogout];
-        
-    }
-    
-}
+#pragma mark - Table View
 
-- (void) confirmLogout {
-    
-    
-    UIAlertController *ac = [UIAlertController alertControllerWithTitle:nil message:@"Are you sure you wanna logout?" preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *yes = [UIAlertAction actionWithTitle:@"yeah" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-        [self logoutUser];
-    }];
-    UIAlertAction *no = [UIAlertAction actionWithTitle:@"no" style:UIAlertActionStyleCancel handler:nil];
-    
-    [ac addAction:yes];
-    [ac addAction:no];
-    [self presentViewController:ac animated:YES completion:nil];
-    
-}
-
-- (void)logoutUser {
-    
-    NSString *routesFile = [[NSBundle mainBundle] pathForResource:@"api-routes" ofType:@"plist"];
-    NSDictionary *routes = [NSDictionary dictionaryWithContentsOfFile:routesFile];
-    NSString *urlString = [NSString stringWithFormat:@"%@%@", [routes objectForKey:@"base"], [routes objectForKey:@"destroy_user_session"]];
-    NSURL *url = [NSURL URLWithString:urlString];
-    
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    NSURLSession *urlSession = [NSURLSession sharedSession];
-    
-    NSDictionary *loginCredentials = @{@"user":@{@"email":[[NSUserDefaults standardUserDefaults] valueForKey:@"user_email"]}};
-    NSData *requestJsonData = [NSJSONSerialization dataWithJSONObject:loginCredentials options:0 error:nil];
-    request.HTTPBody = requestJsonData;
-    
-    [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    request.HTTPMethod = @"DELETE";
-    
-    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        
-        NSHTTPURLResponse *res = (NSHTTPURLResponse *)response;
-        long statusCode = [res statusCode];
-        
-        if (error) {
-            NSLog(@"%@", error);
-        }
-        
-        if (statusCode == 200) {
-            [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"user_email"];
-            [self performSegueWithIdentifier:@"logout" sender:nil];
-        }
-
-        
-    }];
-    
-    [dataTask resume];
-
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+  
+  // this is the cell that was touched
+  UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
+  
+  // deselect cells automatically so the don't stay highlighted
+  [tableView deselectRowAtIndexPath:indexPath animated:YES];
+  
+  // prompt the user if they touched 'logout'
+  if ([[[selectedCell textLabel] text] isEqualToString:@"logout"] && indexPath.row == 2) {
+    [self confirmLogout];
+  }
+  
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
+  return 3;
 }
 
-
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 64.0f;
+  return 64.0f;
+}
+
+- (void) confirmLogout {
+  
+  // configure alert controller strings
+  NSString *alertTitle = NSLocalizedStringFromTable(@"logoutTitle", @"AlertStrings", nil);
+  NSString *alertMessage = NSLocalizedStringFromTable(@"confirmLogout", @"AlertStrings", nil);
+  NSString *acceptTitle = NSLocalizedStringFromTable(@"defaultAcceptTitle", @"AlertStrings", nil);
+  
+  // configure alert controller
+  alertController = [UIAlertController alertControllerWithTitle:alertTitle
+                                                        message:alertMessage
+                                                 preferredStyle:UIAlertControllerStyleAlert];
+  
+  // accept action logout user
+  UIAlertAction *actionAccept = [UIAlertAction actionWithTitle:acceptTitle
+                                                         style:UIAlertActionStyleDestructive
+                                                       handler:^(UIAlertAction * _Nonnull action) {
+                                                         [self logoutUser];
+                                                       }];
+  // cancel action
+  UIAlertAction *actionCancel = [UIAlertAction actionWithTitle:@"Cancel"
+                                                         style:UIAlertActionStyleCancel
+                                                       handler:nil];
+  // add actions and present alert controller
+  [alertController addAction:actionAccept];
+  [alertController addAction:actionCancel];
+  [self presentViewController:alertController animated:YES completion:nil];
+  
+}
+
+#pragma mark - Api Calls
+
+- (void)logoutUser {
+  
+  NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"user_email"];
+  NSMutableURLRequest *request = [Api sessionRequestForUser:uid
+                                               identifiedBy:nil
+                      isRegisteringWithPasswordConfirmation:nil];
+  
+  [Api fetchContentsOfRequest:request
+                   completion:
+   
+   ^(NSData *data, NSURLResponse *response, NSError *error) {
+     
+     dispatch_async(dispatch_get_main_queue(), ^{
+       
+       if (error) [self asyncError:error];
+       
+       switch ([Api statusCodeForResponse:response]) {
+         case 200:
+           [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"user_email"];
+           [self performSegueWithIdentifier:@"logout" sender:nil];
+           break;
+         default:
+           NSLog(@"Status code %ld wasn't accounted for in SettingsTableViewController logoutUser",
+                 [Api statusCodeForResponse:response]);
+           break;
+       }
+       
+     });
+   }];
+  
+}
+
+#pragma mark - Api Callbacks
+
+- (void)asyncError:(NSError*)error {
+  
+  // configure alert controller strings
+  NSString *alertTitle = NSLocalizedStringFromTable(@"defaultFailureTitle", @"AlertStrings", nil);
+  NSString *acceptTitle = NSLocalizedStringFromTable(@"defaultAcceptTitle", @"AlertStrings", nil);
+  NSString *alertMessage = [error localizedDescription];
+  
+  // configure alert controller
+  alertController = [UIAlertController alertControllerWithTitle:alertTitle
+                                                        message:alertMessage
+                                                 preferredStyle:UIAlertControllerStyleAlert];
+  
+  // configure alert controller accept action
+  UIAlertAction *actionAccept = [UIAlertAction actionWithTitle:acceptTitle
+                                                         style:UIAlertActionStyleDefault
+                                                       handler:nil];
+  
+  [alertController addAction:actionAccept];
+  
+  [self presentViewController:alertController animated:YES completion:nil];
+  
 }
 
 @end

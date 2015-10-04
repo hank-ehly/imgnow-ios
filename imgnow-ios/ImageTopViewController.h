@@ -13,8 +13,10 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property UIRefreshControl *refreshControl;
+@property NSMutableArray *images;
+@property UIAlertController *alertController;
 
-- (IBAction)goBack:(id)sender;
+- (IBAction)returnToCameraView:(id)sender;
 - (void) queryForImages;
 
 @end
