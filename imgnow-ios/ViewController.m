@@ -291,7 +291,10 @@
      
      dispatch_async(dispatch_get_main_queue(), ^{
        
-       if (error) [self createImageError:error];
+       if (error) {
+         [self createImageError:error];
+         return;
+       }
        
        switch ([Api statusCodeForResponse:response]) {
          case 200:

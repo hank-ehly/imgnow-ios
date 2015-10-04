@@ -58,7 +58,10 @@
        
        [_activityIndicator stopAnimating];
        
-       if (error) [self userSessionError:error];
+       if (error) {
+         [self userSessionError:error];
+         return;
+       }
        
        switch ([Api statusCodeForResponse:response]) {
          case 201:

@@ -59,7 +59,10 @@
      
      dispatch_async(dispatch_get_main_queue(), ^{
        
-       if (error) [self asyncError:error];
+       if (error) {
+         [self asyncError:error];
+         return;
+       }
        
        switch ([Api statusCodeForResponse:response]) {
          case 200:
@@ -88,7 +91,10 @@
      
      dispatch_async(dispatch_get_main_queue(), ^{
        
-       if (error) [self asyncError:error];
+       if (error) {
+         [self asyncError:error];
+         return;
+       }
        
        switch ([Api statusCodeForResponse:response]) {
          case 200:
@@ -119,13 +125,19 @@
   [_tableView reloadData];
   
   // hide the refresh control
-  if (_refreshControl) {
+  if ([_refreshControl isRefreshing]) {
     [_refreshControl endRefreshing];
   }
   
 }
 
 - (void)asyncError:(NSError*)error {
+  
+  // hide refresh control if that's what
+  // was used to call queryImages
+  if ([_refreshControl isRefreshing]) {
+    [_refreshControl endRefreshing];
+  }
   
   // configure alert controller strings
   NSString *alertTitle = NSLocalizedStringFromTable(@"defaultFailureTitle", @"AlertStrings", nil);

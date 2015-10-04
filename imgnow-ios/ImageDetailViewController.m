@@ -58,7 +58,10 @@
      
      dispatch_async(dispatch_get_main_queue(), ^{
        
-       if (error) [self asyncError:error];
+       if (error) {
+         [self asyncError:error];
+         return;
+       }
        
        switch([Api statusCodeForResponse:response]) {
          case 200:
@@ -87,7 +90,10 @@
      
      dispatch_async(dispatch_get_main_queue(), ^{
        
-       if (error) [self asyncError:error];
+       if (error) {
+         [self asyncError:error];
+         return;
+       }
        
        switch ([Api statusCodeForResponse:response]) {
          case 200:
