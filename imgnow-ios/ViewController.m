@@ -218,7 +218,7 @@ AVCaptureSession *captureSession;
   [self.uploadActivityIndicator startAnimating];
   
   NSString *uid = [[NSUserDefaults standardUserDefaults] valueForKey:@"user_email"];
-  NSMutableURLRequest *request = [Api requestToCreateNewImage:imageString forUser:uid];
+  NSMutableURLRequest *request = [Api createNewImageRequest:imageString forUser:uid];
   
   [Api fetchContentsOfRequest:request
                    completion:^(NSData *data, NSURLResponse *response, NSError *error) {
