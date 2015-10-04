@@ -41,25 +41,27 @@
                       isRegisteringWithPasswordConfirmation:_confirmPasswordTextField.text];
   
   [Api fetchContentsOfRequest:request
-                   completion:^(NSData *data, NSURLResponse *response, NSError *error) {
-                     
-                     dispatch_async(dispatch_get_main_queue(), ^{
-                       
-                       if (error) [self userRegistrationError:error];
-                       
-                       switch ([Api statusCodeForResponse:response]) {
-                         case 201:
-                           [self userRegistrationSuccess:data];
-                           break;
-                         default:
-                           NSLog(@"Status code %ld wasn't accounted for in RegistrationViewController",
-                                 [Api statusCodeForResponse:response]);
-                           break;
-                       }
-                       
-                     });
-                     
-                   }];
+                   completion:
+   
+   ^(NSData *data, NSURLResponse *response, NSError *error) {
+     
+     dispatch_async(dispatch_get_main_queue(), ^{
+       
+       if (error) [self userRegistrationError:error];
+       
+       switch ([Api statusCodeForResponse:response]) {
+         case 201:
+           [self userRegistrationSuccess:data];
+           break;
+         default:
+           NSLog(@"Status code %ld wasn't accounted for in RegistrationViewController",
+                 [Api statusCodeForResponse:response]);
+           break;
+       }
+       
+     });
+     
+   }];
   
 }
 
@@ -82,7 +84,7 @@
 }
 
 - (void)userRegistrationError:(NSError*)error {
-
+  
   // configure alert controller strings
   NSString *alertTitle = NSLocalizedStringFromTable(@"defaultFailureTitle", @"AlertStrings", nil);
   NSString *acceptTitle = NSLocalizedStringFromTable(@"defaultAcceptTitle", @"AlertStrings", nil);
@@ -96,9 +98,9 @@
   
   // accept action
   UIAlertAction *actionAccept = [UIAlertAction actionWithTitle:acceptTitle
-                                               style:UIAlertActionStyleDefault
-                                             handler:nil];
-
+                                                         style:UIAlertActionStyleDefault
+                                                       handler:nil];
+  
   [alertController addAction:actionAccept];
   
   [self presentViewController:alertController animated:YES completion:nil];

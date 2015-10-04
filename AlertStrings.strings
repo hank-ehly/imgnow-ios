@@ -17,3 +17,4 @@
 "loginSuccess"            = "Logged in successfully.";
 "registrationSuccess"     = "Account created successfully.";
 "defaultRetryTitle"       = "Try Again";
+"defaultEmailSubject"     = "Here's your img tag";

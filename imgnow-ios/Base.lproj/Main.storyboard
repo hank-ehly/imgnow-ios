@@ -290,7 +290,7 @@
                                 </constraints>
                                 <state key="normal" image="Delete-50 (2).png"/>
                                 <connections>
-                                    <action selector="cancel:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Iol-Xl-iF4"/>
+                                    <action selector="retakePicture:" destination="BYZ-38-t0r" eventType="touchUpInside" id="I9s-eZ-Xk3"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Px2-EX-Eik">
@@ -570,7 +570,7 @@
                                         <barButtonItem key="leftBarButtonItem" image="Back-25.png" id="9c4-F2-Kay">
                                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <connections>
-                                                <action selector="goBack:" destination="j5p-qp-wSI" id="Ub8-0T-dtI"/>
+                                                <action selector="returnToCameraView:" destination="j5p-qp-wSI" id="xu8-UX-GG0"/>
                                             </connections>
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" image="Settings-25.png" id="VC9-0I-Lzi">

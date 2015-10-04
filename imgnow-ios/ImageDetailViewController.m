@@ -38,9 +38,7 @@
   _imageView.image = [UIImage imageWithData:data];
   
   // set <img> label
-  NSString *beg = @"<img src=\"";
-  NSString *end = @"\"></img>";
-  _imgSrcLabel.text = [NSString stringWithFormat:@"%@%@%@", beg, url, end];
+  [_imgSrcLabel setText:[Api imgTagWithSrc:url]];
   
   [self updateViewWithTimeUntilDeletion];
   
@@ -100,27 +98,29 @@
   NSMutableURLRequest *request = [Api imageUpdateRequest:id];
   
   [Api fetchContentsOfRequest:request
-                   completion:^(NSData *data, NSURLResponse *response, NSError *error) {
-                     
-                     dispatch_async(dispatch_get_main_queue(), ^{
-                       
-                       if (error) {
-                         // handle error
-                       }
-                       
-                       switch([Api statusCodeForResponse:response]) {
-                         case 200:
-                           [self imageUpdateSuccess:data];
-                           break;
-                         default:
-                           NSLog(@"Status code %ld wasn't accounted for in ImageDetailViewController.m extendDeletionDateOfImage",
-                                 [Api statusCodeForResponse:response]);
-                           break;
-                       }
-                       
-                     });
-                     
-                   }];
+                   completion:
+   
+   ^(NSData *data, NSURLResponse *response, NSError *error) {
+     
+     dispatch_async(dispatch_get_main_queue(), ^{
+       
+       if (error) {
+         // handle error
+       }
+       
+       switch([Api statusCodeForResponse:response]) {
+         case 200:
+           [self imageUpdateSuccess:data];
+           break;
+         default:
+           NSLog(@"Status code %ld wasn't accounted for in ImageDetailViewController.m extendDeletionDateOfImage",
+                 [Api statusCodeForResponse:response]);
+           break;
+       }
+       
+     });
+     
+   }];
   
 }
 
@@ -290,27 +290,29 @@
   NSMutableURLRequest *request = [Api imageDeleteRequest:[_imageObject objectForKey:@"image_id"]];
   
   [Api fetchContentsOfRequest:request
-                   completion:^(NSData *data, NSURLResponse *response, NSError *error) {
-                     
-                     dispatch_async(dispatch_get_main_queue(), ^{
-                       
-                       if (error) {
-                         // handle error
-                       }
-                       
-                       switch ([Api statusCodeForResponse:response]) {
-                         case 200:
-                           [self imageDeleteSuccess:data];
-                           break;
-                         default:
-                           NSLog(@"Status code %ld wasn't accounted for in ImageDetailViewController.m deleteImage",
-                                 [Api statusCodeForResponse:response]);
-                           break;
-                       }
-                       
-                     });
-                     
-                   }];
+                   completion:
+   
+   ^(NSData *data, NSURLResponse *response, NSError *error) {
+     
+     dispatch_async(dispatch_get_main_queue(), ^{
+       
+       if (error) {
+         // handle error
+       }
+       
+       switch ([Api statusCodeForResponse:response]) {
+         case 200:
+           [self imageDeleteSuccess:data];
+           break;
+         default:
+           NSLog(@"Status code %ld wasn't accounted for in ImageDetailViewController.m deleteImage",
+                 [Api statusCodeForResponse:response]);
+           break;
+       }
+       
+     });
+     
+   }];
   
 }
 

@@ -25,46 +25,14 @@
 @synthesize previewLayer;
 @synthesize stillImageOutput;
 
+#pragma mark - View Load
+
 - (void)viewDidLoad {
   [super viewDidLoad];
 }
 
-- (void) setupCamera {
-  
-  _torchIsOn = NO;
-  _facingFront = NO;
-  [self turnTorchOn:NO];
-  [self changeWindowState:@"pretake"];
-  
-  captureSession = [[AVCaptureSession alloc] init];
-  captureSession.sessionPreset = AVCaptureSessionPresetPhoto;
-  
-  NSError *error = nil;
-  captureDevise = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-  
-  AVCaptureDeviceInput *captureDeviseInput = [AVCaptureDeviceInput deviceInputWithDevice:captureDevise error:&error];
-  
-  if ([captureSession canAddInput:captureDeviseInput]) {
-    [captureSession addInput:captureDeviseInput];
-  }
-  
-  previewLayer = [AVCaptureVideoPreviewLayer layerWithSession:captureSession];
-  previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
-  CGRect bounds = self.view.bounds;
-  previewLayer.frame = self.view.bounds;
-  previewLayer.position = CGPointMake(CGRectGetMidX(bounds), CGRectGetMidY(bounds));
-  [self.view.layer insertSublayer:previewLayer atIndex:0];
-  
-  stillImageOutput = [[AVCaptureStillImageOutput alloc] init];
-  NSDictionary *stillImageOutputSettings = [NSDictionary dictionaryWithObjectsAndKeys:AVVideoCodecJPEG, AVVideoCodecKey, nil];
-  stillImageOutput.outputSettings = stillImageOutputSettings;
-  
-  if ([captureSession canAddOutput:stillImageOutput]) {
-    [captureSession addOutput:stillImageOutput];
-  }
-  
-  [captureSession startRunning];
-  
+- (void)didReceiveMemoryWarning {
+  [super didReceiveMemoryWarning];
 }
 
 // gotta have this to fully update previewLayer on screen rotation
@@ -72,7 +40,9 @@
   previewLayer.frame = self.view.bounds;
 }
 
--(void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+-(void)viewWillTransitionToSize:(CGSize)size
+      withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+  
   long orientation = [[UIDevice currentDevice] orientation];
   
   switch (orientation) {
@@ -93,8 +63,10 @@
 
 - (void)viewWillAppear:(BOOL)animated {
   
+  // restart the capture session if it isn't running
+  // so that you don't get a frozen screen
   if (![captureSession isRunning]) {
-    [self setupCamera];
+    [self setupCaptureSession];
   }
   
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -144,19 +116,67 @@
   }
 }
 
-- (IBAction)switchCamera:(id)sender
-{
-  //Change camera source
-  if(captureSession) {
-    //Indicate that some changes will be made to the session
+#pragma mark - Capture Session
+
+- (void) setupCaptureSession {
+  
+  [self changeWindowState:@"pretake"];
+  
+  captureSession = [[AVCaptureSession alloc] init];
+  [captureSession setSessionPreset:AVCaptureSessionPresetPhoto];
+  
+  captureDevise = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+  
+  _facingFront = NO;
+  [self turnFlashOn:NO];
+  
+  NSError *error = nil;
+  AVCaptureDeviceInput *captureDeviseInput =
+  [AVCaptureDeviceInput deviceInputWithDevice:captureDevise error:&error];
+  
+  if ([captureSession canAddInput:captureDeviseInput]) {
+    [captureSession addInput:captureDeviseInput];
+  }
+  
+  [self configurePreviewLayerForCaptureSession:captureSession];
+  
+  stillImageOutput = [[AVCaptureStillImageOutput alloc] init];
+  NSDictionary *stillImageOutputSettings =
+  [NSDictionary dictionaryWithObjectsAndKeys:AVVideoCodecJPEG, AVVideoCodecKey, nil];
+  [stillImageOutput setOutputSettings:stillImageOutputSettings];
+  
+  if ([captureSession canAddOutput:stillImageOutput]) {
+    [captureSession addOutput:stillImageOutput];
+  }
+  
+  [captureSession startRunning];
+  
+}
+
+- (void)configurePreviewLayerForCaptureSession:(AVCaptureSession*)session {
+  previewLayer = [AVCaptureVideoPreviewLayer layerWithSession:session];
+  previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+  CGRect bounds = self.view.bounds;
+  previewLayer.frame = bounds;
+  previewLayer.position = CGPointMake(CGRectGetMidX(bounds), CGRectGetMidY(bounds));
+  [self.view.layer insertSublayer:previewLayer atIndex:0];
+}
+
+- (IBAction)switchCamera:(id)sender {
+  
+  // Change camera source
+  if (captureSession) {
+    
+    // Indicate that some changes will be made to the session
     [captureSession beginConfiguration];
     
-    //Remove existing input
-    AVCaptureInput *currentCameraInput = [captureSession.inputs objectAtIndex:0];
+    // Remove existing input
+    AVCaptureInput *currentCameraInput = [[captureSession inputs] objectAtIndex:0];
     [captureSession removeInput:currentCameraInput];
     
-    //Get new input
+    // Get new input
     AVCaptureDevice *newCamera = nil;
+    
     if(((AVCaptureDeviceInput*)currentCameraInput).device.position == AVCaptureDevicePositionBack) {
       newCamera = [self cameraWithPosition:AVCaptureDevicePositionFront];
       self.imageView.transform = CGAffineTransformMakeScale(-1, 1);
@@ -169,37 +189,58 @@
       _facingFront = NO;
     }
     
-    //Add input to session
-    NSError *err = nil;
-    AVCaptureDeviceInput *newVideoInput = [[AVCaptureDeviceInput alloc] initWithDevice:newCamera error:&err];
-    if(!newVideoInput || err) {
-      NSLog(@"Error creating capture device input: %@", err.localizedDescription);
+    // Add input to session
+    NSError *error = nil;
+    AVCaptureDeviceInput *newVideoInput = [[AVCaptureDeviceInput alloc] initWithDevice:newCamera
+                                                                                 error:&error];
+    if(!newVideoInput || error) {
+      NSLog(@"Error creating capture device input: %@", error.localizedDescription);
     } else {
       [captureSession addInput:newVideoInput];
     }
     
-    //Commit all the configuration changes at once
+    // Commit all the configuration changes at once
     [captureSession commitConfiguration];
+    
   }
 }
 
-// needed for switch camera method
-// Find a camera with the specified AVCaptureDevicePosition, returning nil if one is not found
-- (AVCaptureDevice *) cameraWithPosition:(AVCaptureDevicePosition) position
-{
+- (AVCaptureDevice *)cameraWithPosition:(AVCaptureDevicePosition)position {
+  
   NSArray *devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
   for (AVCaptureDevice *device in devices)
   {
     if ([device position] == position) return device;
   }
   return nil;
+  
 }
 
+- (void)turnFlashOn:(bool)on {
+  
+  Class captureDeviceClass = NSClassFromString(@"AVCaptureDevice");
+  
+  if (captureDeviceClass != nil) {
+    
+    AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    if ([device hasFlash]){
+      [device lockForConfiguration:nil];
+      if (on) {
+        [device setFlashMode:AVCaptureFlashModeOn];
+        _flashIsOn = YES;
+      } else {
+        [device setFlashMode:AVCaptureFlashModeOff];
+        _flashIsOn = NO;
+      }
+      [device unlockForConfiguration];
+    }
+  }
+}
 
 - (IBAction)takePhoto:(id)sender {
   
+  // error checking
   AVCaptureConnection *videoConnection = nil;
-  
   for (AVCaptureConnection *connection in stillImageOutput.connections) {
     for (AVCaptureInputPort *port in connection.inputPorts) {
       if ([[port mediaType] isEqual:AVMediaTypeVideo]) {
@@ -212,22 +253,26 @@
     }
   }
   
-  [stillImageOutput captureStillImageAsynchronouslyFromConnection:videoConnection completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
-    
-    if (imageDataSampleBuffer != NULL) {
-      
-      NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
-      
-      imageString = [NSString stringWithFormat:@"%@", imageData];
-      imageString = [imageString stringByReplacingOccurrencesOfString:@" " withString:@""];
-      imageString = [imageString substringWithRange:NSMakeRange(1, [imageString length] - 2)];
-      
-      image = [UIImage imageWithData:imageData];
-      self.imageView.image = image;
-      [self changeWindowState:@"posttake"];
-      
-    }
-  }];
+  // capture the still image and set it to the previewLayer
+  [stillImageOutput captureStillImageAsynchronouslyFromConnection:videoConnection
+                                                completionHandler:
+   
+   ^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
+     
+     if (imageDataSampleBuffer != NULL) {
+       
+       NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
+       
+       imageString = [NSString stringWithFormat:@"%@", imageData];
+       imageString = [imageString stringByReplacingOccurrencesOfString:@" " withString:@""];
+       imageString = [imageString substringWithRange:NSMakeRange(1, [imageString length] - 2)];
+       
+       image = [UIImage imageWithData:imageData];
+       self.imageView.image = image;
+       [self changeWindowState:@"posttake"];
+       
+     }
+   }];
   
 }
 
@@ -240,27 +285,27 @@
   NSMutableURLRequest *request = [Api createImageRequest:imageString forUser:uid];
   
   [Api fetchContentsOfRequest:request
-                   completion:^(NSData *data, NSURLResponse *response, NSError *error) {
-                     
-                     dispatch_async(dispatch_get_main_queue(), ^{
-                       
-                       if (error) {
-                         // handle error
-                       }
-                       
-                       switch ([Api statusCodeForResponse:response]) {
-                         case 200:
-                           [self imageCreateSuccess:data];
-                           break;
-                         default:
-                           NSLog(@"Status code %ld wasn't accounted for in ViewController.m upload",
-                                 [Api statusCodeForResponse:response]);
-                           break;
-                       }
-                       
-                     });
-                     
-                   }];
+                   completion:
+   
+   ^(NSData *data, NSURLResponse *response, NSError *error) {
+     
+     dispatch_async(dispatch_get_main_queue(), ^{
+       
+       if (error) [self createImageError:error];
+       
+       switch ([Api statusCodeForResponse:response]) {
+         case 200:
+           [self imageCreateSuccess:data];
+           break;
+         default:
+           NSLog(@"Status code %ld wasn't accounted for in ViewController.m upload",
+                 [Api statusCodeForResponse:response]);
+           break;
+       }
+       
+     });
+     
+   }];
   
 }
 
@@ -302,10 +347,11 @@
   UIAlertAction *actionSave =
   [UIAlertAction actionWithTitle:@"Save to CameraRoll"
                            style:UIAlertActionStyleDefault
-                         handler:^(UIAlertAction * _Nonnull action) {
-                           
-                           UIImageWriteToSavedPhotosAlbum(image, self, @selector(thisImage:hasBeenSavedInPhotoAlbumWithError:usingContextInfo:), NULL);
-                         }];
+                         handler:
+   
+   ^(UIAlertAction * _Nonnull action) {
+     UIImageWriteToSavedPhotosAlbum(image, self, @selector(thisImage:hasBeenSavedInPhotoAlbumWithError:usingContextInfo:), NULL);
+   }];
   
   // add each action to the alert controller
   [alertController addAction:actionAccept];
@@ -315,6 +361,29 @@
   [self presentViewController:alertController animated:YES completion:nil];
   
   [self changeWindowState:@"pretake"];
+  
+}
+
+- (void)createImageError:(NSError*)error {
+  
+  // configure alert controller strings
+  NSString *alertTitle = NSLocalizedStringFromTable(@"defaultFailureTitle", @"AlertStrings", nil);
+  NSString *alertMessage = [error localizedDescription];
+  NSString *acceptTitle = NSLocalizedStringFromTable(@"defaultAcceptTitle", @"AlertStrings", nil);
+  
+  // configure alert controller
+  alertController = [UIAlertController alertControllerWithTitle:alertTitle
+                                                        message:alertMessage
+                                                 preferredStyle:UIAlertControllerStyleAlert];
+  
+  // configure alert controller accept action
+  UIAlertAction *actionAccept = [UIAlertAction actionWithTitle:acceptTitle
+                                                         style:UIAlertActionStyleDefault
+                                                       handler:nil];
+  
+  [alertController addAction:actionAccept];
+  
+  [self presentViewController:alertController animated:YES completion:nil];
   
 }
 
@@ -357,16 +426,17 @@ hasBeenSavedInPhotoAlbumWithError:(NSError *)error
 
 - (void)sendEmail:(NSString *)message {
   
+  // configure the Mail View Controller
+  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
   MFMailComposeViewController *mfvc = [[MFMailComposeViewController alloc] init];
   [mfvc setMailComposeDelegate:self];
-  [mfvc setToRecipients:[NSArray arrayWithObject:[[NSUserDefaults standardUserDefaults] valueForKey:@"user_email"]]];
-  [mfvc setSubject:@"message from outer space"];
+  [mfvc setToRecipients:[NSArray arrayWithObject:[defaults valueForKey:@"user_email"]]];
+  [mfvc setSubject:NSLocalizedStringFromTable(@"defaultEmailSubject", @"AlertStrings", nil)];
   [mfvc setMessageBody:message isHTML:NO];
   
+  // checks if this iPhone can send mail
   if ([MFMailComposeViewController canSendMail]) {
-    
     [self presentViewController:mfvc animated:YES completion:nil];
-    
   } else {
     
     // configure alert strings
@@ -392,7 +462,10 @@ hasBeenSavedInPhotoAlbumWithError:(NSError *)error
   
 }
 
-- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
+- (void)mailComposeController:(MFMailComposeViewController *)controller
+          didFinishWithResult:(MFMailComposeResult)result
+                        error:(NSError *)error {
+  
   [controller dismissViewControllerAnimated:YES completion:^{
     
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -400,39 +473,20 @@ hasBeenSavedInPhotoAlbumWithError:(NSError *)error
     });
     
   }];
+  
 }
 
-- (IBAction)cancel:(id)sender {
+- (IBAction)retakePicture:(id)sender {
   [self changeWindowState:@"pretake"];
 }
 
 - (IBAction)toggleFlash:(id)sender {
-  if (!_torchIsOn) {
-    [self turnTorchOn:YES];
+  if (!_flashIsOn) {
+    [self turnFlashOn:YES];
     [_btnToggleFlash setImage:[UIImage imageNamed:@"Flash-On-50-white.png"] forState:UIControlStateNormal];
   } else {
-    [self turnTorchOn:NO];
+    [self turnFlashOn:NO];
     [_btnToggleFlash setImage:[UIImage imageNamed:@"Flash Off-50 (1).png"] forState:UIControlStateNormal];
-  }
-}
-
-- (void) turnTorchOn: (bool) on {
-  
-  Class captureDeviceClass = NSClassFromString(@"AVCaptureDevice");
-  if (captureDeviceClass != nil) {
-    AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-    if ([device hasTorch] && [device hasFlash]){
-      
-      [device lockForConfiguration:nil];
-      if (on) {
-        [device setFlashMode:AVCaptureFlashModeOn];
-        _torchIsOn = YES;
-      } else {
-        [device setFlashMode:AVCaptureFlashModeOff];
-        _torchIsOn = NO;
-      }
-      [device unlockForConfiguration];
-    }
   }
 }
 
@@ -456,10 +510,6 @@ hasBeenSavedInPhotoAlbumWithError:(NSError *)error
     self.btnToggleFlash.hidden = _facingFront ? YES : NO;
   }
   
-}
-
-- (void)didReceiveMemoryWarning {
-  [super didReceiveMemoryWarning];
 }
 
 @end

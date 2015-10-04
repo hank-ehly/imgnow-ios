@@ -17,23 +17,25 @@
 
 @implementation ImageTopViewController
 
-NSMutableArray *images;
+@synthesize images;
+@synthesize alertController;
+
+#pragma mark - View Load
 
 - (void)viewDidLoad {
   [super viewDidLoad];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
   _refreshControl = [[UIRefreshControl alloc] init];
   _refreshControl.backgroundColor = [UIColor purpleColor];
   _refreshControl.tintColor = [UIColor whiteColor];
   [_refreshControl addTarget:self action:@selector(queryForImages) forControlEvents:UIControlEventValueChanged];
   [_tableView addSubview:_refreshControl];
-  
-}
-
-- (void)viewWillAppear:(BOOL)animated {
   [self queryForImages];
 }
 
-- (IBAction)goBack:(id)sender {
+- (IBAction)returnToCameraView:(id)sender {
   [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -43,27 +45,27 @@ NSMutableArray *images;
   NSMutableURLRequest *request = [Api imagesIndexRequestForUser:userEmail];
   
   [Api fetchContentsOfRequest:request
-                   completion:^(NSData *data, NSURLResponse *response, NSError *error) {
-                     
-                     dispatch_async(dispatch_get_main_queue(), ^{
-                       
-                       if (error) {
-                         // handle error
-                       }
-                       
-                       switch ([Api statusCodeForResponse:response]) {
-                         case 200:
-                           [self imagesIndexSuccess:data];
-                           break;
-                         default:
-                           NSLog(@"Status code %ld wasn't accounted for in ImageTopViewController.m queryForImages",
-                                 [Api statusCodeForResponse:response]);
-                           break;
-                       }
-                       
-                     });
-                     
-                   }];
+                   completion:
+   
+   ^(NSData *data, NSURLResponse *response, NSError *error) {
+     
+     dispatch_async(dispatch_get_main_queue(), ^{
+       
+       if (error) [self imagesIndexError:error];
+       
+       switch ([Api statusCodeForResponse:response]) {
+         case 200:
+           [self imagesIndexSuccess:data];
+           break;
+         default:
+           NSLog(@"Status code %ld wasn't accounted for in ImageTopViewController.m queryForImages",
+                 [Api statusCodeForResponse:response]);
+           break;
+       }
+       
+     });
+     
+   }];
   
 }
 
@@ -74,6 +76,29 @@ NSMutableArray *images;
   if (_refreshControl) {
     [_refreshControl endRefreshing];
   }
+}
+
+- (void)imagesIndexError:(NSError*)error {
+  
+  // configure alert controller strings
+  NSString *alertTitle = NSLocalizedStringFromTable(@"defaultFailureTitle", @"AlertStrings", nil);
+  NSString *alertMessage = [error localizedDescription];
+  NSString *acceptTitle = NSLocalizedStringFromTable(@"defaultAcceptTitle", @"AlertStrings", nil);
+  
+  // configure alert controller
+  alertController = [UIAlertController alertControllerWithTitle:alertTitle
+                                                        message:alertMessage
+                                                 preferredStyle:UIAlertControllerStyleAlert];
+  
+  // configure alert controller accept action
+  UIAlertAction *actionAccept = [UIAlertAction actionWithTitle:acceptTitle
+                                                         style:UIAlertActionStyleDefault
+                                                       handler:nil];
+  
+  [alertController addAction:actionAccept];
+  
+  [self presentViewController:alertController animated:YES completion:nil];
+  
 }
 
 - (NSDictionary*)timeLeftString:(int)timeUntilDeletion {
@@ -141,26 +166,28 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     NSMutableURLRequest *request = [Api imageDeleteRequest:imageId];
     
     [Api fetchContentsOfRequest:request
-                     completion:^(NSData *data, NSURLResponse *response, NSError *error) {
-                       
-                       dispatch_async(dispatch_get_main_queue(), ^{
-                         
-                         if (error) {
-                           // handle error
-                         }
-                         
-                         switch ([Api statusCodeForResponse:response]) {
-                           case 200:
-                             [self queryForImages];
-                             break;
-                           default:
-                             NSLog(@"Status code %ld wasn't accounted for in ImageTopViewController.m commitEditingStyle",
-                                   [Api statusCodeForResponse:response]);
-                             break;
-                         }
-                         
-                       });
-                     }];
+                     completion:
+     
+     ^(NSData *data, NSURLResponse *response, NSError *error) {
+       
+       dispatch_async(dispatch_get_main_queue(), ^{
+         
+         if (error) {
+           // handle error
+         }
+         
+         switch ([Api statusCodeForResponse:response]) {
+           case 200:
+             [self queryForImages];
+             break;
+           default:
+             NSLog(@"Status code %ld wasn't accounted for in ImageTopViewController.m commitEditingStyle",
+                   [Api statusCodeForResponse:response]);
+             break;
+         }
+         
+       });
+     }];
     
   }
 }

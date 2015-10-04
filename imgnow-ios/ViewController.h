@@ -22,7 +22,7 @@
 @property UIAlertController *alertController;
 
 @property bool facingFront;
-@property bool torchIsOn;
+@property bool flashIsOn;
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIButton *btnTakePhoto;
@@ -34,14 +34,18 @@
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *uploadActivityIndicator;
 
 - (IBAction)takePhoto:(id)sender;
-- (IBAction)cancel:(id)sender;
 - (IBAction)switchCamera:(id)sender;
 - (IBAction)upload:(id)sender;
 - (IBAction)toggleFlash:(id)sender;
+- (IBAction)retakePicture:(id)sender;
 
 - (void)changeWindowState:(NSString *)state;
 - (void)uploadAlertResultWithHtml:(NSString *)html;
 - (void)sendEmail:(NSString*)message;
+
+// Necessary for switch camera method
+// Find a camera with the specified AVCaptureDevicePosition, returning nil if one is not found
+- (AVCaptureDevice *)cameraWithPosition:(AVCaptureDevicePosition)position;
 
 @end
 

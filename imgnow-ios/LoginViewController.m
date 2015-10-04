@@ -50,30 +50,32 @@
                       isRegisteringWithPasswordConfirmation:nil];
   
   [Api fetchContentsOfRequest:request
-                   completion:^(NSData *data, NSURLResponse *response, NSError *error) {
-                     
-                     dispatch_async(dispatch_get_main_queue(), ^{
-                       
-                       [_activityIndicator stopAnimating];
-                       
-                       if (error) [self userSessionError:error];
-                       
-                       switch ([Api statusCodeForResponse:response]) {
-                         case 201:
-                           [self userSessionSuccess:data];
-                           break;
-                         case 401:
-                           [self userSessionUnauthorized:data];
-                           break;
-                         default:
-                           NSLog(@"Status code %ld isn't accounted for in LoginViewController",
-                                 [Api statusCodeForResponse:response]);
-                           break;
-                       }
-                       
-                     });
-                     
-                   }];
+                   completion:
+   
+   ^(NSData *data, NSURLResponse *response, NSError *error) {
+     
+     dispatch_async(dispatch_get_main_queue(), ^{
+       
+       [_activityIndicator stopAnimating];
+       
+       if (error) [self userSessionError:error];
+       
+       switch ([Api statusCodeForResponse:response]) {
+         case 201:
+           [self userSessionSuccess:data];
+           break;
+         case 401:
+           [self userSessionUnauthorized:data];
+           break;
+         default:
+           NSLog(@"Status code %ld isn't accounted for in LoginViewController",
+                 [Api statusCodeForResponse:response]);
+           break;
+       }
+       
+     });
+     
+   }];
   
 }
 
