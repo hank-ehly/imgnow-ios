@@ -17,7 +17,7 @@
 	<key>api_images_update</key>
 	<string>/api/images/</string>
 	<key>base</key>
-	<string>http://192.168.0.10:3000</string>
+	<string>http://160.16.63.151:70</string>
 	<key>destroy_user_session</key>
 	<string>/users/sign_out.json</string>
 	<key>user_registration</key>

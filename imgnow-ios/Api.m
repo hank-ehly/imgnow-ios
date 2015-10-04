@@ -42,7 +42,7 @@
   NSMutableURLRequest *request = [self jsonRequestWithUrl:(NSURL*)url
                                                    ofType:requestType
                                              withHTTPBody:credentials
-                                      andTimeoutInSeconds:10];
+                                      andTimeoutInSeconds:30];
   
   return request;
   
@@ -60,7 +60,7 @@
   NSMutableURLRequest *request = [self jsonRequestWithUrl:url
                                                    ofType:@"POST"
                                              withHTTPBody:httpBodyContent
-                                      andTimeoutInSeconds:10];
+                                      andTimeoutInSeconds:30];
   return request;
   
 }
@@ -74,7 +74,7 @@
   NSMutableURLRequest *request = [self jsonRequestWithUrl:url
                                                    ofType:@"GET"
                                              withHTTPBody:nil
-                                      andTimeoutInSeconds:10];
+                                      andTimeoutInSeconds:30];
   
   return request;
   
@@ -89,7 +89,7 @@
   NSMutableURLRequest *request = [self jsonRequestWithUrl:url
                                                    ofType:@"DELETE"
                                              withHTTPBody:nil
-                                      andTimeoutInSeconds:10];
+                                      andTimeoutInSeconds:30];
   
   return request;
   
@@ -104,7 +104,7 @@
   NSMutableURLRequest *request = [self jsonRequestWithUrl:url
                                                    ofType:@"PATCH"
                                              withHTTPBody:nil
-                                      andTimeoutInSeconds:10];
+                                      andTimeoutInSeconds:30];
   
   return request;
   

@@ -316,6 +316,9 @@
 
 - (void)internalServerError:(NSError*)error {
   
+  [_uploadActivityIndicator stopAnimating];
+  [self changeWindowState:@"pretake"];
+  
   // configure alert controller strings
   NSString *alertTitle = NSLocalizedStringFromTable(@"defaultFailureTitle", @"AlertStrings", nil);
   NSString *acceptTitle = NSLocalizedStringFromTable(@"defaultAcceptTitle", @"AlertStrings", nil);
@@ -394,6 +397,9 @@
 }
 
 - (void)createImageError:(NSError*)error {
+  
+  [_uploadActivityIndicator stopAnimating];
+  [self changeWindowState:@"pretake"];
   
   // configure alert controller strings
   NSString *alertTitle = NSLocalizedStringFromTable(@"defaultFailureTitle", @"AlertStrings", nil);
