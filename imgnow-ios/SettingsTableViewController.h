@@ -15,5 +15,6 @@
 @property (weak, nonatomic) IBOutlet UITableViewCell *passwordCell;
 @property (weak, nonatomic) IBOutlet UITableViewCell *emailCell;
 @property (weak, nonatomic) IBOutlet UITableViewCell *logoutCell;
+@property UIAlertController *alertController;
 
 @end

@@ -17,6 +17,6 @@
 @property UIAlertController *alertController;
 
 - (IBAction)attemptRegistration:(id)sender;
-- (void) userRegistrationError:(NSError*)error;
+- (void) asyncError:(NSError*)error;
 
 @end

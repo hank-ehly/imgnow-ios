@@ -47,7 +47,7 @@
      
      dispatch_async(dispatch_get_main_queue(), ^{
        
-       if (error) [self userRegistrationError:error];
+       if (error) [self asyncError:error];
        
        switch ([Api statusCodeForResponse:response]) {
          case 201:
@@ -83,7 +83,7 @@
   
 }
 
-- (void)userRegistrationError:(NSError*)error {
+- (void)asyncError:(NSError*)error {
   
   // configure alert controller strings
   NSString *alertTitle = NSLocalizedStringFromTable(@"defaultFailureTitle", @"AlertStrings", nil);

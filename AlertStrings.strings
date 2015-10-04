@@ -23,3 +23,5 @@
 "confirmExtendDeletion"   = "Are you sure you want to extend the deletion date?";
 "deleteImageTitle"        = "Delete Image";
 "deleteImageConfirmation" = "Are you sure you want to delete this image? You can't get it back.";
+"confirmLogout"           = "Are you sure you want to logout?";
+"logoutTitle"             = "Logout";

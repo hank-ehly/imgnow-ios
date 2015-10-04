@@ -43,6 +43,8 @@
   [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+#pragma mark - Api Calls
+
 - (void) queryForImages {
   
   NSString *userEmail = [[NSUserDefaults standardUserDefaults] valueForKey:@"user_email"];
@@ -55,7 +57,7 @@
      
      dispatch_async(dispatch_get_main_queue(), ^{
        
-       if (error) [self imagesIndexError:error];
+       if (error) [self asyncError:error];
        
        switch ([Api statusCodeForResponse:response]) {
          case 200:
@@ -71,6 +73,34 @@
      
    }];
   
+}
+
+- (void)deleteImageWithId:(NSString*)imageId {
+  
+  NSMutableURLRequest *request = [Api imageDeleteRequest:imageId];
+  
+  [Api fetchContentsOfRequest:request
+                   completion:
+   
+   ^(NSData *data, NSURLResponse *response, NSError *error) {
+     
+     dispatch_async(dispatch_get_main_queue(), ^{
+       
+       if (error) [self asyncError:error];
+       
+       switch ([Api statusCodeForResponse:response]) {
+         case 200:
+           [self queryForImages];
+           break;
+         default:
+           NSLog(@"Status code %ld wasn't accounted for in ImageTopViewController.m commitEditingStyle",
+                 [Api statusCodeForResponse:response]);
+           break;
+       }
+       
+     });
+   }];
+
 }
 
 #pragma mark - Async Callbacks
@@ -93,7 +123,7 @@
   
 }
 
-- (void)imagesIndexError:(NSError*)error {
+- (void)asyncError:(NSError*)error {
   
   // configure alert controller strings
   NSString *alertTitle = NSLocalizedStringFromTable(@"defaultFailureTitle", @"AlertStrings", nil);
@@ -137,6 +167,7 @@
                                [timeObject valueForKey:@"time"],
                                [timeObject valueForKey:@"counter"]];
   return cell;
+  
 }
 
 - (void)tableView:(UITableView *)tableView
@@ -146,31 +177,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
   if (editingStyle == UITableViewCellEditingStyleDelete) {
     
     NSString *imageId = [[images objectAtIndex:indexPath.row] valueForKey:@"id"];
-    NSMutableURLRequest *request = [Api imageDeleteRequest:imageId];
-    
-    [Api fetchContentsOfRequest:request
-                     completion:
-     
-     ^(NSData *data, NSURLResponse *response, NSError *error) {
-       
-       dispatch_async(dispatch_get_main_queue(), ^{
-         
-         if (error) {
-           // handle error
-         }
-         
-         switch ([Api statusCodeForResponse:response]) {
-           case 200:
-             [self queryForImages];
-             break;
-           default:
-             NSLog(@"Status code %ld wasn't accounted for in ImageTopViewController.m commitEditingStyle",
-                   [Api statusCodeForResponse:response]);
-             break;
-         }
-         
-       });
-     }];
+    [self deleteImageWithId:imageId];
     
   }
 }

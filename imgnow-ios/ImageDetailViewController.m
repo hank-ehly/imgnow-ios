@@ -58,9 +58,7 @@
      
      dispatch_async(dispatch_get_main_queue(), ^{
        
-       if (error) {
-         // handle error
-       }
+       if (error) [self asyncError:error];
        
        switch([Api statusCodeForResponse:response]) {
          case 200:
@@ -89,9 +87,7 @@
      
      dispatch_async(dispatch_get_main_queue(), ^{
        
-       if (error) {
-         // handle error
-       }
+       if (error) [self asyncError:error];
        
        switch ([Api statusCodeForResponse:response]) {
          case 200:
@@ -184,6 +180,29 @@
   
   // tell ImageTop to update its tableView
   [_delegate removeDeletedImage:[responseJsonData valueForKey:@"destroyed_image"]];
+  
+}
+
+- (void)asyncError:(NSError*)error {
+  
+  // configure alert controller strings
+  NSString *alertTitle = NSLocalizedStringFromTable(@"defaultFailureTitle", @"AlertStrings", nil);
+  NSString *acceptTitle = NSLocalizedStringFromTable(@"defaultAcceptTitle", @"AlertStrings", nil);
+  NSString *alertMessage = [error localizedDescription];
+  
+  // configure alert controller
+  alertController = [UIAlertController alertControllerWithTitle:alertTitle
+                                                        message:alertMessage
+                                                 preferredStyle:UIAlertControllerStyleAlert];
+  
+  // configure alert controller accept action
+  UIAlertAction *actionAccept = [UIAlertAction actionWithTitle:acceptTitle
+                                                         style:UIAlertActionStyleDefault
+                                                       handler:nil];
+  
+  [alertController addAction:actionAccept];
+  
+  [self presentViewController:alertController animated:YES completion:nil];
   
 }
 
