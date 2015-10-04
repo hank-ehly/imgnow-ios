@@ -28,11 +28,15 @@
 
 - (void)viewWillAppear:(BOOL)animated {
   _refreshControl = [[UIRefreshControl alloc] init];
-  _refreshControl.backgroundColor = [UIColor purpleColor];
-  _refreshControl.tintColor = [UIColor whiteColor];
+  [_refreshControl setBackgroundColor:[UIColor purpleColor]];
+  [_refreshControl setTintColor:[UIColor whiteColor]];
   [_refreshControl addTarget:self action:@selector(queryForImages) forControlEvents:UIControlEventValueChanged];
   [_tableView addSubview:_refreshControl];
   [self queryForImages];
+}
+
+- (void)didReceiveMemoryWarning {
+  [super didReceiveMemoryWarning];
 }
 
 - (IBAction)returnToCameraView:(id)sender {
@@ -69,21 +73,32 @@
   
 }
 
+#pragma mark - Async Callbacks
+
 - (void)imagesIndexSuccess:(NSData*)data {
+  
+  // serialize success response into json
   NSData *responseJsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+  
+  // set the array of images equal to that of the response
   images = [responseJsonData valueForKey:@"images"];
+  
+  // reload the table
   [_tableView reloadData];
+  
+  // hide the refresh control
   if (_refreshControl) {
     [_refreshControl endRefreshing];
   }
+  
 }
 
 - (void)imagesIndexError:(NSError*)error {
   
   // configure alert controller strings
   NSString *alertTitle = NSLocalizedStringFromTable(@"defaultFailureTitle", @"AlertStrings", nil);
-  NSString *alertMessage = [error localizedDescription];
   NSString *acceptTitle = NSLocalizedStringFromTable(@"defaultAcceptTitle", @"AlertStrings", nil);
+  NSString *alertMessage = [error localizedDescription];
   
   // configure alert controller
   alertController = [UIAlertController alertControllerWithTitle:alertTitle
@@ -101,59 +116,27 @@
   
 }
 
-- (NSDictionary*)timeLeftString:(int)timeUntilDeletion {
-  
-  NSDate *date = [NSDate dateWithTimeIntervalSinceReferenceDate:timeUntilDeletion];
-  NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-  
-  NSString *format = [[NSString alloc] init];
-  NSString *counter = [[NSString alloc] init];
-  
-  if (timeUntilDeletion >= 86400) {
-    format = @"dd";
-    counter = @"days";
-  } else if (timeUntilDeletion >= 3600 && timeUntilDeletion < 86400) {
-    format = @"hh";
-    counter = @"hours";
-  } else if (timeUntilDeletion >= 60 && timeUntilDeletion < 3600) {
-    format = @"mm";
-    counter = @"minutes";
-  } else if (timeUntilDeletion < 60) {
-    format = @"ss";
-    counter = @"seconds";
-  }
-  
-  [formatter setDateFormat:format];
-  [formatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"]];
-  
-  NSDictionary *result = [NSDictionary dictionaryWithObjectsAndKeys:[formatter stringFromDate:date], @"time", counter, @"counter", nil];
-  return result;
-}
+#pragma mark - Table View
 
-
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {return [images count];}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+- (UITableViewCell *)tableView:(UITableView *)tableView
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+  
+  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"
+                                                          forIndexPath:indexPath];
   
   NSMutableDictionary *currentRecord = [images objectAtIndex:indexPath.row];
-  //    NSString *created_at = [currentRecord valueForKey:@"created_at"];
-  int timeUntilDeletion = [[currentRecord valueForKey:@"time_until_deletion"] intValue];
+  
   NSString *url = [[currentRecord valueForKey:@"file"] valueForKey:@"url"];
   
-  NSDictionary *timeObject = [self timeLeftString:timeUntilDeletion];
+  // format timeObject used to set cell text
+  int timeUntilDeletion = [[currentRecord valueForKey:@"time_until_deletion"] intValue];
+  NSDictionary *timeObject = [Api timeUntilDeletion:timeUntilDeletion];
   
-  cell.textLabel.text = url;
-  cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ %@ left", [timeObject valueForKey:@"time"], [timeObject valueForKey:@"counter"]];
-  
+  cell.textLabel.text = [Api imgTagWithSrc:url];
+  cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ %@ left",
+                               [timeObject valueForKey:@"time"],
+                               [timeObject valueForKey:@"counter"]];
   return cell;
-}
-
-- (void)removeDeletedImage:(NSDictionary *)imageObject {
-  
-  [self queryForImages];
-  
 }
 
 - (void)tableView:(UITableView *)tableView
@@ -192,31 +175,54 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
   }
 }
 
-- (void)didReceiveMemoryWarning {[super didReceiveMemoryWarning];}
--(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {return YES;}
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {return 64.0f;}
+// Called by ImageDetailViewController as delegate method
+- (void)removeDeletedImage:(NSDictionary *)imageObject {
+  [self queryForImages];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+  return [images count];
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+  return YES;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+  return 64.0f;
+}
 
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+  
   if ([segue.identifier isEqualToString:@"imageDetail"]) {
     
+    // set destination VC delegate to self
     ImageDetailViewController *idvc = (ImageDetailViewController *)[segue destinationViewController];
     idvc.delegate = self;
     
-    NSIndexPath *indexPath = [_tableView indexPathForSelectedRow];
-    NSMutableDictionary *currentRecord = [images objectAtIndex:indexPath.row];
-    NSString *created_at = [currentRecord valueForKey:@"created_at"];
-    NSString *url = [[currentRecord valueForKey:@"file"] valueForKey:@"url"];
-    NSString *updated_at = [currentRecord valueForKey:@"updated_at"];
-    NSString *user_id = [currentRecord valueForKey:@"user_id"];
-    NSString *image_id = [currentRecord valueForKey:@"id"];
-    NSString *scheduledDeletionDate = [currentRecord valueForKey:@"scheduled_deletion_date"];
-    NSDictionary *timeUntilDeletionObject = [self timeLeftString:[[currentRecord valueForKey:@"time_until_deletion"]intValue]];
+    // configure params you want to pass to ImageDetail
+    NSIndexPath *indexPath                = [_tableView indexPathForSelectedRow];
+    NSMutableDictionary *currentRecord    = [images objectAtIndex:indexPath.row];
+    NSString *created_at                  = [currentRecord valueForKey:@"created_at"];
+    NSString *url                         = [[currentRecord valueForKey:@"file"] valueForKey:@"url"];
+    NSString *user_id                     = [currentRecord valueForKey:@"user_id"];
+    NSString *image_id                    = [currentRecord valueForKey:@"id"];
+    NSString *scheduledDeletionDate       = [currentRecord valueForKey:@"scheduled_deletion_date"];
+    NSDictionary *timeUntilDeletionObject = [Api timeUntilDeletion:[[currentRecord valueForKey:@"time_until_deletion"]intValue]];
     
+    // create dictionary object with all params
+    idvc.imageObject = [NSDictionary dictionaryWithObjectsAndKeys:
+                        created_at, @"created_at",
+                        url, @"url",
+                        user_id, @"user_id",
+                        image_id, @"image_id",
+                        scheduledDeletionDate, @"scheduledDeletionDate",
+                        timeUntilDeletionObject, @"timeUntilDeletionObject",
+                        nil];
     
-    idvc.imageObject = [NSDictionary dictionaryWithObjectsAndKeys:created_at, @"created_at", url, @"url", updated_at, @"updated_at", user_id, @"user_id", image_id, @"image_id", scheduledDeletionDate, @"scheduledDeletionDate", timeUntilDeletionObject, @"timeUntilDeletionObject", nil];
-    
+    // deselct table view cell so it doesn't stay highlighted
     [_tableView deselectRowAtIndexPath:[_tableView indexPathForSelectedRow] animated:NO];
     
   }

@@ -51,4 +51,6 @@
 
 + (NSString*)imgTagWithSrc:(NSString*)src;
 
++ (NSDictionary*)timeUntilDeletion:(int)time;
+
 @end
