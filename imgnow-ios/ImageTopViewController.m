@@ -148,6 +148,36 @@
   
 }
 
+- (void)confirmDeleteImageWithId:(NSString*)imageId {
+  
+  // configure alert controller strings
+  NSString *alertTitle = NSLocalizedStringFromTable(@"deleteImageTitle", @"AlertStrings", nil);
+  NSString *acceptTitle = NSLocalizedStringFromTable(@"defaultAcceptTitle", @"AlertStrings", nil);
+  NSString *alertMessage = NSLocalizedStringFromTable(@"deleteImageConfirmation", @"AlertStrings", nil);
+  
+  // configure alert controller
+  alertController = [UIAlertController alertControllerWithTitle:alertTitle
+                                                        message:alertMessage
+                                                 preferredStyle:UIAlertControllerStyleAlert];
+  
+  // accept action deletes image
+  UIAlertAction *actionAccept = [UIAlertAction actionWithTitle:acceptTitle
+                                                         style:UIAlertActionStyleDestructive
+                                                       handler:^(UIAlertAction * _Nonnull action) {
+                                                         [self deleteImageWithId:imageId];
+                                                       }];
+  // cancel action
+  UIAlertAction *actionCancel = [UIAlertAction actionWithTitle:@"Cancel"
+                                                         style:UIAlertActionStyleCancel
+                                                       handler:nil];
+  
+  // add actions to alert controller and present
+  [alertController addAction:actionAccept];
+  [alertController addAction:actionCancel];
+  [self presentViewController:alertController animated:YES completion:nil];
+
+}
+
 #pragma mark - Table View
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
@@ -181,8 +211,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
   if (editingStyle == UITableViewCellEditingStyleDelete) {
     
     NSString *imageId = [[images objectAtIndex:indexPath.row] valueForKey:@"id"];
-    [self deleteImageWithId:imageId];
-    
+    [self confirmDeleteImageWithId:imageId];
   }
 }
 

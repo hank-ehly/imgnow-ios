@@ -117,8 +117,8 @@
   BOOL deletionDateExtendable = [[responseJsonData valueForKey:@"success"] intValue] == 1 ? YES : NO;
   
   // configure alert defaults
-  NSString *alertTitle = nil;
-  NSString *alertMessage = NSLocalizedStringFromTable(@"deletionDateExtendable", @"AlertStrings", nil);;
+  NSString *alertTitle = NSLocalizedStringFromTable(@"deletionDateExtendable", @"AlertStrings", nil);
+  NSString *alertMessage = NSLocalizedStringFromTable(@"extendDeletionMessage", @"AlertStrings", nil);
   NSString *acceptTitle = NSLocalizedStringFromTable(@"defaultAcceptTitle", @"AlertStrings", nil);
   UIAlertAction *actionAccept = [[UIAlertAction alloc] init];
   

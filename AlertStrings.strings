@@ -18,7 +18,8 @@
 "registrationSuccess"     = "Account created successfully.";
 "defaultRetryTitle"       = "Try Again";
 "defaultEmailSubject"     = "Here's your img tag";
-"deletionDateExtendable"  = "Deletion date has been moved 30 days from today.";
+"deletionDateExtendable"  = "Deletion date extended";
+"extendDeletionMessage"   = "The deletion date for this image has been moved to 30 days from today.";
 "deletionDateFixed"       = "You've already extended the deletion date once.";
 "confirmExtendDeletion"   = "Extend deletion date";
 "warnExtendDeletion"      = "You can only extendend the deletion date of an image once.";
