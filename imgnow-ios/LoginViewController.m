@@ -48,7 +48,9 @@
                      
                      dispatch_async(dispatch_get_main_queue(), ^{
                        
-                       if (error) [self displayLoginError:error];
+                       [_activityIndicator stopAnimating];
+                       
+                       if (error) [self userSessionError:error];
                        
                        switch ([Api statusCodeForResponse:response]) {
                          case 201:
@@ -73,22 +75,21 @@
 
 - (void) userSessionSuccess:(NSData*)data {
   
+  // serialize login-success response to json
   NSData *jsonResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
   
+  // create session for current user
   [[NSUserDefaults standardUserDefaults] setObject:[jsonResponse valueForKey:@"email"]
                                             forKey:@"user_email"];
   
+  // tell ViewController that we just logged in
   [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"status"];
   
   [self performSegueWithIdentifier:@"loggedIn" sender:nil];
   
-  [_activityIndicator stopAnimating];
 }
 
 - (void) userSessionUnauthorized:(NSData*)data {
-  
-  // stop the activity indicator
-  [_activityIndicator stopAnimating];
   
   // alert controller text configuration
   NSString *message = NSLocalizedStringFromTable(@"invalidCredentials", @"AlertStrings", nil);
@@ -111,17 +112,40 @@
   
 }
 
-- (void)displayLoginError:(NSError *)error {
+- (void)userSessionError:(NSError *)error {
+  
   [_activityIndicator stopAnimating];
-  UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"Connection error" message:[error localizedDescription] preferredStyle:UIAlertControllerStyleAlert];
-  UIAlertAction *ok = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault handler:nil];
-  UIAlertAction *retry = [UIAlertAction actionWithTitle:@"Don't give up!" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-    [_activityIndicator startAnimating];
-    [self attemptLogin];
-  }];
-  [controller addAction:ok];
-  [controller addAction:retry];
-  [self presentViewController:controller animated:YES completion:nil];
+  
+  // configure alert controller strings
+  NSString *alertTitle = NSLocalizedStringFromTable(@"defaultFailureTitle", @"AlertStrings", nil);
+  NSString *acceptTitle = NSLocalizedStringFromTable(@"defaultAcceptTitle", @"AlertStrings", nil);
+  NSString *retryTitle = NSLocalizedStringFromTable(@"defaultRetryTitle", @"AlertStrings", nil);
+  
+  // configure alert controller
+  alertController = [UIAlertController alertControllerWithTitle:alertTitle
+                                                        message:[error localizedDescription]
+                                                 preferredStyle:UIAlertControllerStyleAlert];
+  
+  // alert controller accept action
+  UIAlertAction *actionAccept = [UIAlertAction actionWithTitle:acceptTitle
+                                                         style:UIAlertActionStyleDefault
+                                                       handler:nil];
+  
+  // alert controller retry login action
+  UIAlertAction *actionRetry = [UIAlertAction actionWithTitle:retryTitle
+                                                        style:UIAlertActionStyleDefault
+                                                      handler:^(UIAlertAction * _Nonnull action) {
+                                                        
+                                                        [_activityIndicator startAnimating];
+                                                        [self attemptLogin];
+                                                        
+                                                      }];
+  // add actions to alert controller
+  [alertController addAction:actionAccept];
+  [alertController addAction:actionRetry];
+  
+  [self presentViewController:alertController animated:YES completion:nil];
+  
 }
 
 #pragma mark - Navigation

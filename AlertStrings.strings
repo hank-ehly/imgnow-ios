@@ -16,3 +16,4 @@
 "openMailFailureMessage"  = "Your device could not send e-mail. Please check your e-mail configuration and try again";
 "loginSuccess"            = "Logged in successfully.";
 "registrationSuccess"     = "Account created successfully.";
+"defaultRetryTitle"       = "Try Again";
