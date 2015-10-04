@@ -52,7 +52,8 @@
                            [self userRegistrationSuccess:data];
                            break;
                          default:
-                           NSLog(@"%ld", [Api statusCodeForResponse:response]);
+                           NSLog(@"Status code %ld wasn't accounted for in RegistrationViewController.m submitRegistration",
+                                 [Api statusCodeForResponse:response]);
                            break;
                        }
                        

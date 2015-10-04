@@ -234,7 +234,8 @@ AVCaptureSession *captureSession;
                            [self imageCreateSuccess:data];
                            break;
                          default:
-                           NSLog(@"%ld", [Api statusCodeForResponse:response]);
+                           NSLog(@"Status code %ld wasn't accounted for in ViewController.m upload",
+                                 [Api statusCodeForResponse:response]);
                            break;
                        }
                        

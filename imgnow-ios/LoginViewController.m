@@ -57,7 +57,8 @@
                            [self userSessionUnauthorized:data];
                            break;
                          default:
-                           NSLog(@"%ld", [Api statusCodeForResponse:response]);
+                           NSLog(@"Status code %ld wasn't accounted for in LoginViewController.m attemptLogin",
+                                 [Api statusCodeForResponse:response]);
                            break;
                        }
                        
