@@ -36,9 +36,9 @@
 
 - (IBAction)submitRegistration:(id)sender {
   
-  NSMutableURLRequest *request = [Api accessRequestForUser:_emailTextField.text
-                                              identifiedBy:_passwordTextField.text
-                     isRegisteringWithPasswordConfirmation:_confirmPasswordTextField.text];
+  NSMutableURLRequest *request = [Api sessionRequestForUser:_emailTextField.text
+                                               identifiedBy:_passwordTextField.text
+                      isRegisteringWithPasswordConfirmation:_confirmPasswordTextField.text];
   
   [Api fetchContentsOfRequest:request
                    completion:^(NSData *data, NSURLResponse *response, NSError *error) {

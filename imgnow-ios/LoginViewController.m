@@ -38,9 +38,9 @@
   
   [_activityIndicator startAnimating];
   
-  NSMutableURLRequest *request = [Api accessRequestForUser:_emailTextField.text
-                                              identifiedBy:_passwordTextField.text
-                     isRegisteringWithPasswordConfirmation:nil];
+  NSMutableURLRequest *request = [Api sessionRequestForUser:_emailTextField.text
+                                               identifiedBy:_passwordTextField.text
+                      isRegisteringWithPasswordConfirmation:nil];
   
   [Api fetchContentsOfRequest:request
                    completion:^(NSData *data, NSURLResponse *response, NSError *error) {

@@ -12,22 +12,35 @@
 
 #pragma mark - API Request Builders
 
-+ (NSMutableURLRequest*)accessRequestForUser:(NSString *)uid
-                                identifiedBy:(NSString *)password
-       isRegisteringWithPasswordConfirmation:(NSString *)passwordConfirmation {
++ (NSMutableURLRequest*)sessionRequestForUser:(NSString *)uid
+                                 identifiedBy:(NSString *)password
+        isRegisteringWithPasswordConfirmation:(NSString *)passwordConfirmation {
   
-  // is it a login or registration request?
-  NSString *namedRoute = passwordConfirmation != nil ? @"user_registration" : @"user_session";
+  // determine type of request based on provided information
+  // options: login, logout, registration
+  NSString *namedRoute = [[NSString alloc] init];
+  if (uid != nil && password != nil && passwordConfirmation == nil) {
+    namedRoute = @"user_session"; // login
+  } else if (password == nil) {
+    namedRoute = @"destroy_user_session"; // logout
+  } else if (passwordConfirmation) {
+    namedRoute = @"user_registration"; // registering
+  }
+  
+  // login & registration are POST while logout is DELETE
+  NSString *requestType = [namedRoute isEqualToString:@"destroy_user_session"] ? @"DELETE" : @"POST";
+  
+  // get the full named route as NSURL
   NSURL *url = [self fetchUrlForApiNamedRoute:namedRoute withResourceId:nil];
   
-  // format login credentials
-  NSData *credentials = [self jsonAccessCredentialsForUser:uid
-                                              identifiedBy:password
-                                               confirmedBy:passwordConfirmation];
+  // serialize session credentials
+  NSData *credentials = [self serializedSessionCredentialsForUser:uid
+                                                     identifiedBy:password
+                                                      confirmedBy:passwordConfirmation];
   
   // create HTTP request object
   NSMutableURLRequest *request = [self jsonRequestWithUrl:(NSURL*)url
-                                                   ofType:@"POST"
+                                                   ofType:requestType
                                              withHTTPBody:credentials
                                       andTimeoutInSeconds:10];
   
@@ -166,28 +179,30 @@
   
 }
 
-+ (NSData*)jsonAccessCredentialsForUser:(NSString*)uid
-                           identifiedBy:(NSString*)password
-                            confirmedBy:(NSString*)passwordConfirmation {
++ (NSData*)serializedSessionCredentialsForUser:(NSString*)uid
+                                  identifiedBy:(NSString*)password
+                                   confirmedBy:(NSString*)passwordConfirmation {
   
+  // We put things in this dictionary before serializing it into JSON
   NSDictionary *credentialsDictionaryObject = [[NSDictionary alloc] init];
   
-  if (passwordConfirmation) {
+  // Based on the request type, add certain parameters to the dictionary
+  if (uid != nil && password != nil && passwordConfirmation == nil) { // login
+    credentialsDictionaryObject = @{ @"user": @{ @"email":uid, @"password":password } };
+    
+  } else if (uid != nil && password == nil && passwordConfirmation == nil) { // logout
+    credentialsDictionaryObject = @{ @"user": @{ @"email":uid } };
+    
+  } else if (uid != nil && password != nil && passwordConfirmation != nil) { // registration
     credentialsDictionaryObject = @{ @"user": @{
                                          @"email":uid,
                                          @"password":password,
                                          @"password_confirmation":passwordConfirmation
                                          }
                                      };
-  } else {
-    credentialsDictionaryObject = @{ @"user": @{
-                                         @"email":uid,
-                                         @"password":password
-                                         }
-                                     };
   }
   
-  // serialize the login credentials to json
+  // serialize the dictionary into json and return its
   NSData *credentialsJsonObject = [NSJSONSerialization
                                    dataWithJSONObject:credentialsDictionaryObject
                                    options:0

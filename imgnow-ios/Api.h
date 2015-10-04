@@ -25,10 +25,10 @@
 // returns a url with a single appended query parameter
 + (NSURL*)url:(NSString*)namedRoute withQueryParameterKey:(NSString*)key forValue:(NSString*)value;
 
-// this method returns the login/registration request object used in fetchContentsOfRequest
-+ (NSMutableURLRequest*)accessRequestForUser:(NSString*)uid
-                                identifiedBy:(NSString*)password
-       isRegisteringWithPasswordConfirmation:(NSString*)passwordConfirmation;
+// this method returns the login/logout/registration request object used in fetchContentsOfRequest
++ (NSMutableURLRequest*)sessionRequestForUser:(NSString*)uid
+                                 identifiedBy:(NSString*)password
+        isRegisteringWithPasswordConfirmation:(NSString*)passwordConfirmation;
 
 // this method returns the request object used to create a new image for a user
 + (NSMutableURLRequest*)createImageRequest:(NSString*)imageString forUser:(NSString*)uid;
