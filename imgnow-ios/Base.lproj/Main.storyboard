@@ -191,7 +191,7 @@
                                 <animations/>
                                 <state key="normal" title="Submit"/>
                                 <connections>
-                                    <action selector="submitRegistration:" destination="i3L-7g-zIk" eventType="touchUpInside" id="pVe-pH-92x"/>
+                                    <action selector="attemptRegistration:" destination="i3L-7g-zIk" eventType="touchUpInside" id="67L-PB-4ed"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o7d-hC-pbI">
@@ -810,7 +810,7 @@
         <image name="login-button.jpg" width="388" height="75"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="73f-he-qFX"/>
+        <segue reference="jWY-oW-4va"/>
         <segue reference="TyZ-iJ-7cz"/>
     </inferredMetricsTieBreakers>
 </document>

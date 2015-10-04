@@ -29,6 +29,12 @@
   [super didReceiveMemoryWarning];
 }
 
+// This allows the the user to get rid of the keyboard by
+// touching another part of the screen after editing a text field
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+  [[self view] endEditing:YES];
+}
+
 #pragma mark - API Login Call
 
 - (IBAction)handleTouchUpInsideLogin:(id)sender {
@@ -152,14 +158,6 @@
 
 - (IBAction)segueToRegistration:(id)sender {
   [self performSegueWithIdentifier:@"toRegistration" sender:nil];
-}
-
-#pragma mark - Other
-
-// This allows the the user to get rid of the keyboard by
-// touching another part of the screen after editing a text field
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-  [self.view endEditing:YES];
 }
 
 @end

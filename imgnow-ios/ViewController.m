@@ -17,16 +17,13 @@
 
 @implementation ViewController
 
-@synthesize stillImageOutput;
-@synthesize captureSession;
 @synthesize alertController;
 @synthesize captureDevise;
-
-NSString *imageString;
-UIImage *image;
-AVCaptureVideoPreviewLayer *previewLayer;
-AVCaptureSession *captureSession;
-
+@synthesize captureSession;
+@synthesize image;
+@synthesize imageString;
+@synthesize previewLayer;
+@synthesize stillImageOutput;
 
 - (void)viewDidLoad {
   [super viewDidLoad];

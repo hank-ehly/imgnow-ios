@@ -15,6 +15,9 @@
 @property AVCaptureSession *captureSession;
 @property AVCaptureStillImageOutput *stillImageOutput;
 @property AVCaptureDevice *captureDevise;
+@property NSString *imageString;
+@property UIImage *image;
+@property AVCaptureVideoPreviewLayer *previewLayer;
 
 @property UIAlertController *alertController;
 

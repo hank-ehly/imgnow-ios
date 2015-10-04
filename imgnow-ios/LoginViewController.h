@@ -22,7 +22,8 @@
 // This is the touch handler for the "Login" button
 - (IBAction)handleTouchUpInsideLogin:(id)sender;
 
-- (void) displayLoginError:(NSError*)error;
+// Callback method for generic error upon attemptLogin failure
+- (void) userSessionError:(NSError*)error;
 
 // alert controller for LoginViewController
 @property UIAlertController* alertController;

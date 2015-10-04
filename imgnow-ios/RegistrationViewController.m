@@ -34,7 +34,7 @@
 
 #pragma mark - API Registration Call
 
-- (IBAction)submitRegistration:(id)sender {
+- (IBAction)attemptRegistration:(id)sender {
   
   NSMutableURLRequest *request = [Api sessionRequestForUser:_emailTextField.text
                                                identifiedBy:_passwordTextField.text
@@ -67,11 +67,14 @@
 
 - (void)userRegistrationSuccess:(NSData*)data {
   
+  // serialize successful registration response into json
   NSData *jsonResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
   
+  // create currentuser session
   [[NSUserDefaults standardUserDefaults] setObject:[jsonResponse valueForKey:@"email"]
                                             forKey:@"user_email"];
   
+  // tell ViewController that we just registered
   [[NSUserDefaults standardUserDefaults] setObject:@"2" forKey:@"status"];
   
   [self performSegueWithIdentifier:@"registered" sender:nil];
@@ -80,18 +83,23 @@
 
 - (void)userRegistrationError:(NSError*)error {
 
+  // configure alert controller strings
   NSString *alertTitle = NSLocalizedStringFromTable(@"defaultFailureTitle", @"AlertStrings", nil);
   NSString *acceptTitle = NSLocalizedStringFromTable(@"defaultAcceptTitle", @"AlertStrings", nil);
+  NSString *alertMessage = [error localizedDescription];
   
+  
+  // configure alert controller
   alertController = [UIAlertController alertControllerWithTitle:alertTitle
-                                                        message:[error localizedDescription]
+                                                        message:alertMessage
                                                  preferredStyle:UIAlertControllerStyleAlert];
   
-  UIAlertAction *accept = [UIAlertAction actionWithTitle:acceptTitle
+  // accept action
+  UIAlertAction *actionAccept = [UIAlertAction actionWithTitle:acceptTitle
                                                style:UIAlertActionStyleDefault
                                              handler:nil];
 
-  [alertController addAction:accept];
+  [alertController addAction:actionAccept];
   
   [self presentViewController:alertController animated:YES completion:nil];
   
