@@ -672,7 +672,7 @@
                                         <barButtonItem key="leftBarButtonItem" image="Back-25.png" id="hIh-DC-pQg">
                                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <connections>
-                                                <action selector="goBack:" destination="DzO-Kq-NeS" id="c84-cv-zwt"/>
+                                                <action selector="returnToImageTop:" destination="DzO-Kq-NeS" id="4IA-gg-2Z0"/>
                                             </connections>
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" image="Download-25.png" id="sDD-AX-qIh">

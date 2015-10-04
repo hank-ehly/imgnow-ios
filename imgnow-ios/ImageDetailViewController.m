@@ -18,11 +18,8 @@
 @implementation ImageDetailViewController
 
 @synthesize alertController;
-@synthesize actionEmailOk;
-@synthesize actionDownloadOk;
-@synthesize actionExtendOk;
-@synthesize actionDelete;
-@synthesize actionCancelDelete;
+
+#pragma mark - View Load
 
 - (void)viewDidLoad {
   [super viewDidLoad];
@@ -30,68 +27,25 @@
 
 - (void)viewWillAppear:(BOOL)animated {
   
-  // set bg-image
+  // set the image for the imageView
   NSString *routesFile = [[NSBundle mainBundle] pathForResource:@"api-routes" ofType:@"plist"];
   NSDictionary *routes = [NSDictionary dictionaryWithContentsOfFile:routesFile];
   NSString *url = [NSString stringWithFormat:@"%@%@", [routes objectForKey:@"base"], [_imageObject objectForKey:@"url"]];
   NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
   _imageView.image = [UIImage imageWithData:data];
   
-  // set <img> label
+  // set the img tag text
   [_imgSrcLabel setText:[Api imgTagWithSrc:url]];
   
   [self updateViewWithTimeUntilDeletion];
   
 }
 
-- (IBAction)handleSendEmailTouch:(id)sender {
-  [self sendEmail:_imgSrcLabel.text];
-}
-
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
 }
 
-- (IBAction)goBack:(id)sender {
-  CATransition *transition = [CATransition animation];
-  transition.duration = 0.3;
-  transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-  transition.type = kCATransitionPush;
-  transition.subtype = kCATransitionFromLeft;
-  [self.view.window.layer addAnimation:transition forKey:nil];
-  [self dismissViewControllerAnimated:NO completion:nil];
-}
-
-- (void)sendEmail:(NSString *)message {
-  
-  MFMailComposeViewController *mfvc = [[MFMailComposeViewController alloc] init];
-  [mfvc setMailComposeDelegate:self];
-  [mfvc setToRecipients:[NSArray arrayWithObject:[[NSUserDefaults standardUserDefaults] valueForKey:@"user_email"]]];
-  [mfvc setSubject:@"Your placeholder <img> tag"];
-  [mfvc setMessageBody:message isHTML:NO];
-  
-  if ([MFMailComposeViewController canSendMail]) {
-    [self presentViewController:mfvc animated:YES completion:nil];
-  } else {
-    NSString *title = @"Could Not Send Email";
-    NSString *message = @"Your device could not send e-mail. Please check your e-mail configuration and try again";
-    UIAlertController *ac = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *aok = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-      // pressed ok
-    }];
-    [alertController addAction:aok];
-    [self presentViewController:ac animated:YES completion:^{
-      // showed email sent alert
-    }];
-  }
-  
-  
-}
-
-- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
-  [controller dismissViewControllerAnimated:YES completion:nil];
-}
-
+#pragma mark - Api Calls
 
 - (void)extendDeletionDateOfImage:(NSString *)id {
   
@@ -124,168 +78,7 @@
   
 }
 
-- (void)imageUpdateSuccess:(NSData*)data {
-  NSData *responseJsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-  BOOL condition = [[responseJsonData valueForKey:@"success"] intValue] == 1 ? YES : NO;
-  NSString *msg = [responseJsonData valueForKey:@"response"];
-  NSLog(@"%@", [[responseJsonData valueForKey:@"image"] valueForKey:@"time_until_deletion"]);
-  
-  if (condition) {
-    UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"Success" message:msg preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *done = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-      
-      NSDictionary *dict = [self timeLeftString:[[[responseJsonData valueForKey:@"image"] valueForKey:@"time_until_deletion"] intValue]];
-      
-      NSString *amount = [dict valueForKey:@"time"];
-      NSString *counter = [dict valueForKey:@"counter"];
-      _deletionDateLabel.text = [NSString stringWithFormat:@"Scheduled for deletion in %@ %@", amount, counter];
-      
-    }];
-    [ac addAction:done];
-    [self presentViewController:ac animated:YES completion:nil];
-  } else {
-    UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"Whoops" message:msg preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *done = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault handler:nil];
-    [ac addAction:done];
-    [self presentViewController:ac animated:YES completion:nil];
-  }
-}
-
-- (void) updateViewWithTimeUntilDeletion {
-  NSDictionary *timeUntilDeletionObject = [_imageObject valueForKey:@"timeUntilDeletionObject"];
-  NSString *amountOfTime = [timeUntilDeletionObject valueForKey:@"time"];
-  NSString *counter = [timeUntilDeletionObject valueForKey:@"counter"];
-  _deletionDateLabel.text = [NSString stringWithFormat:@"Scheduled for deletion in %@ %@", amountOfTime, counter];
-}
-
-
-
-- (NSDictionary*)timeLeftString:(int)timeUntilDeletion {
-  
-  NSDate *date = [NSDate dateWithTimeIntervalSinceReferenceDate:timeUntilDeletion];
-  NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-  
-  NSString *format = [[NSString alloc] init];
-  NSString *counter = [[NSString alloc] init];
-  
-  if (timeUntilDeletion >= 86400) {
-    format = @"dd";
-    counter = @"days";
-  } else if (timeUntilDeletion >= 3600 && timeUntilDeletion < 86400) {
-    format = @"hh";
-    counter = @"hours";
-  } else if (timeUntilDeletion >= 60 && timeUntilDeletion < 3600) {
-    format = @"mm";
-    counter = @"minutes";
-  } else if (timeUntilDeletion < 60) {
-    format = @"ss";
-    counter = @"seconds";
-  }
-  
-  [formatter setDateFormat:format];
-  [formatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"]];
-  
-  NSDictionary *result = [NSDictionary dictionaryWithObjectsAndKeys:[formatter stringFromDate:date], @"time", counter, @"counter", nil];
-  return result;
-}
-
-
-
-
-- (IBAction)handleExtendDeletionDateTouch:(id)sender {
-  
-  NSString *msg = @"Are you sure you want to extend the deletion date?";
-  
-  alertController = [UIAlertController alertControllerWithTitle:nil message:msg preferredStyle:UIAlertControllerStyleAlert];
-  
-  actionExtendOk = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-    [self extendDeletionDateOfImage:[_imageObject valueForKey:@"image_id"]];
-  }];
-  UIAlertAction *actionExtendCancel = [UIAlertAction actionWithTitle:@"cancel" style:UIAlertActionStyleCancel handler:nil];
-  
-  [alertController addAction:actionExtendOk];
-  [alertController addAction:actionExtendCancel];
-  
-  [self presentViewController:alertController animated:YES completion:^{
-    // presented view controller
-  }];
-  
-}
-
-- (IBAction)handleDeleteTouch:(id)sender {
-  
-  alertController = [UIAlertController alertControllerWithTitle:@"Delete this photo" message:@"you sure?" preferredStyle:UIAlertControllerStyleAlert];
-  
-  actionCancelDelete = [UIAlertAction actionWithTitle:@"cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-    // did cancel
-  }];
-  actionDelete = [UIAlertAction actionWithTitle:@"yea" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-    // did delete
-    
-    [self deleteImage];
-    
-    CATransition *transition = [CATransition animation];
-    transition.duration = 0.3;
-    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    transition.type = kCATransitionPush;
-    transition.subtype = kCATransitionFromLeft;
-    [self.view.window.layer addAnimation:transition forKey:nil];
-    [self dismissViewControllerAnimated:NO completion:nil];
-    
-  }];
-  
-  [alertController addAction:actionCancelDelete];
-  [alertController addAction:actionDelete];
-  
-  [self presentViewController:alertController animated:YES completion:^{
-    // presented view controller
-  }];
-  
-}
-
-- (IBAction)handleDownloadTouch:(id)sender {
-  
-  // get img
-  NSString *url = [NSString stringWithFormat:@"%@%@", [Api fetchBaseRouteString], [_imageObject objectForKey:@"url"]];
-  NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
-  UIImage *image = [UIImage imageWithData:data];
-  
-  UIImageWriteToSavedPhotosAlbum(image, self, @selector(thisImage:hasBeenSavedInPhotoAlbumWithError:usingContextInfo:), NULL);
-  
-}
-
-- (void)thisImage:(UIImage *)image hasBeenSavedInPhotoAlbumWithError:(NSError *)error usingContextInfo:(void*)ctxInfo {
-  if (error) {
-    NSLog(@"%@", error);
-    // error
-    alertController = [UIAlertController alertControllerWithTitle:@"Error" message:@"Unable to save to camera roll. Please try again." preferredStyle:UIAlertControllerStyleAlert];
-    
-    actionDownloadOk = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-      // did press ok
-    }];
-    
-    [alertController addAction:actionDownloadOk];
-    
-    [self presentViewController:alertController animated:YES completion:^{
-      // presented view controller
-    }];
-  } else {
-    // saved successfully
-    alertController = [UIAlertController alertControllerWithTitle:nil message:@"Downloaded to CameraRoll" preferredStyle:UIAlertControllerStyleAlert];
-    
-    actionDownloadOk = [UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-      // did press ok
-    }];
-    
-    [alertController addAction:actionDownloadOk];
-    
-    [self presentViewController:alertController animated:YES completion:^{
-      // presented view controller
-    }];
-  }
-}
-
-- (void) deleteImage {
+- (void)deleteImage {
   
   NSMutableURLRequest *request = [Api imageDeleteRequest:[_imageObject objectForKey:@"image_id"]];
   
@@ -316,10 +109,260 @@
   
 }
 
-- (void)imageDeleteSuccess:(NSData*)data {
+#pragma mark - Async Handlers
+
+- (void)imageUpdateSuccess:(NSData*)data {
+  
+  // serialize success response into json
   NSData *responseJsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-  [_delegate removeDeletedImage:[responseJsonData valueForKey:@"destroyed_image"]];
+  
+  // if "success" is true, then we are able to grant 30 more days
+  // because the time_until_deletion has not previously been set
+  BOOL deletionDateExtendable = [[responseJsonData valueForKey:@"success"] intValue] == 1 ? YES : NO;
+  
+  // configure alert defaults
+  NSString *alertTitle = nil;
+  NSString *alertMessage = NSLocalizedStringFromTable(@"deletionDateExtendable", @"AlertStrings", nil);;
+  NSString *acceptTitle = NSLocalizedStringFromTable(@"defaultAcceptTitle", @"AlertStrings", nil);
+  UIAlertAction *actionAccept = [[UIAlertAction alloc] init];
+  
+  
+  if (deletionDateExtendable) {
+    
+    // accept action that updates view with new deletion date
+    actionAccept =
+    [UIAlertAction actionWithTitle:acceptTitle
+                             style:UIAlertActionStyleDefault
+                           handler:
+     
+     ^(UIAlertAction * _Nonnull action) {
+       
+       // configure time_until_deletion string
+       int time = [[[responseJsonData valueForKey:@"image"] valueForKey:@"time_until_deletion"] intValue];
+       NSDictionary *dict = [Api timeUntilDeletion:time];
+       NSString *amount = [dict valueForKey:@"time"];
+       NSString *counter = [dict valueForKey:@"counter"];
+       _deletionDateLabel.text = [NSString stringWithFormat:@"Scheduled for deletion in %@ %@", amount, counter];
+       
+     }];
+    
+  } else {
+    
+    alertMessage = NSLocalizedStringFromTable(@"deletionDateFixed", @"AlertStrings", nil);
+    alertTitle = NSLocalizedStringFromTable(@"defaultFailureTitle", @"AlertStrings", nil);
+    
+    // accept action that does nothing
+    actionAccept = [UIAlertAction actionWithTitle:acceptTitle
+                                            style:UIAlertActionStyleDefault
+                                          handler:nil];
+  }
+  
+  // configure alert controller with above preferences
+  alertController = [UIAlertController alertControllerWithTitle:alertTitle
+                                                        message:alertMessage
+                                                 preferredStyle:UIAlertControllerStyleAlert];
+  
+  // add dynamically generated accept action
+  [alertController addAction:actionAccept];
+  
+  // present the alert
+  [self presentViewController:alertController animated:YES completion:nil];
+  
 }
 
+- (void) updateViewWithTimeUntilDeletion {
+  NSDictionary *timeUntilDeletionObject = [_imageObject valueForKey:@"timeUntilDeletionObject"];
+  NSString *amountOfTime = [timeUntilDeletionObject valueForKey:@"time"];
+  NSString *counter = [timeUntilDeletionObject valueForKey:@"counter"];
+  _deletionDateLabel.text = [NSString stringWithFormat:@"Scheduled for deletion in %@ %@", amountOfTime, counter];
+}
+
+- (void)imageDeleteSuccess:(NSData*)data {
+  
+  // serialize success response to json
+  NSData *responseJsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+  
+  // tell ImageTop to update its tableView
+  [_delegate removeDeletedImage:[responseJsonData valueForKey:@"destroyed_image"]];
+  
+}
+
+#pragma mark - Touch Handlers
+
+- (IBAction)handleSendEmailTouch:(id)sender {
+  [self sendEmail:_imgSrcLabel.text];
+}
+
+- (IBAction)handleExtendDeletionDateTouch:(id)sender {
+  
+  NSString *alertMessage = NSLocalizedStringFromTable(@"confirmExtendDeletion", @"AlertStrings", nil);
+  NSString *acceptTitle = NSLocalizedStringFromTable(@"defaultAcceptTitle", @"AlertStrings", nil);
+  
+  alertController = [UIAlertController alertControllerWithTitle:nil
+                                                        message:alertMessage
+                                                 preferredStyle:UIAlertControllerStyleAlert];
+  
+  // accept action with handler
+  UIAlertAction *actionAccept =
+  [UIAlertAction actionWithTitle:acceptTitle
+                           style:UIAlertActionStyleDefault
+                         handler:
+   ^(UIAlertAction * _Nonnull action) {
+     [self extendDeletionDateOfImage:[_imageObject valueForKey:@"image_id"]];
+   }];
+  
+  // cancel action
+  UIAlertAction *actionCancel = [UIAlertAction actionWithTitle:@"Cancel"
+                                                         style:UIAlertActionStyleCancel
+                                                       handler:nil];
+  
+  // add actions to alert controller
+  [alertController addAction:actionAccept];
+  [alertController addAction:actionCancel];
+  
+  // present alert controller
+  [self presentViewController:alertController animated:YES completion:nil];
+  
+}
+
+- (IBAction)handleDeleteTouch:(id)sender {
+  
+  // configure alert controller strings
+  NSString *alertTitle = NSLocalizedStringFromTable(@"deleteImageTitle", @"AlertStrings", nil);
+  NSString *alertMessage = NSLocalizedStringFromTable(@"deleteImageConfirmation", @"AlertStrings", nil);
+  NSString *acceptTitle = NSLocalizedStringFromTable(@"defaultAcceptTitle", @"AlertStrings", nil);
+  
+  // configure alert controller
+  alertController = [UIAlertController alertControllerWithTitle:alertTitle
+                                                        message:alertMessage
+                                                 preferredStyle:UIAlertControllerStyleAlert];
+  
+  // accept action deletes the image
+  UIAlertAction *actionAccept =
+  [UIAlertAction actionWithTitle:acceptTitle
+                           style:UIAlertActionStyleDestructive
+                         handler:
+   ^(UIAlertAction * _Nonnull action) {
+
+     [self deleteImage];
+
+     // return to ImageTop with sliding motion
+     CATransition *transition = [CATransition animation];
+     transition.duration = 0.3;
+     transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+     transition.type = kCATransitionPush;
+     transition.subtype = kCATransitionFromLeft;
+     [self.view.window.layer addAnimation:transition forKey:nil];
+     [self dismissViewControllerAnimated:NO completion:nil];
+     
+   }];
+  
+  // cancel action
+  UIAlertAction *actionCancel = [UIAlertAction actionWithTitle:@"Cancel"
+                                                         style:UIAlertActionStyleCancel
+                                                       handler:nil];
+  
+  // add actions to alert controller
+  [alertController addAction:actionAccept];
+  [alertController addAction:actionCancel];
+  
+  // present alert controller
+  [self presentViewController:alertController animated:YES completion:nil];
+  
+}
+
+- (IBAction)handleDownloadTouch:(id)sender {
+  
+  // get image from url and save it to camera roll
+  NSString *url = [NSString stringWithFormat:@"%@%@", [Api fetchBaseRouteString], [_imageObject objectForKey:@"url"]];
+  NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
+  UIImage *image = [UIImage imageWithData:data];
+  UIImageWriteToSavedPhotosAlbum(image, self, @selector(thisImage:hasBeenSavedInPhotoAlbumWithError:), NULL);
+  
+}
+
+- (void)thisImage:(UIImage *)image hasBeenSavedInPhotoAlbumWithError:(NSError *)error {
+
+  NSString *alertTitle = nil;
+  NSString *alertMessage = NSLocalizedStringFromTable(@"saveToCameraRollSuccess", @"AlertStrings", nil);
+  NSString *acceptTitle = NSLocalizedStringFromTable(@"defaultAcceptTitle", @"AlertStrings", nil);
+
+  if (error) {
+
+    // configure alert controller strings when you couldn't save to camera roll
+    alertTitle = NSLocalizedStringFromTable(@"defaultFailureTitle", @"AlertStrings", nil);
+    alertMessage = NSLocalizedStringFromTable(@"saveToCameraRollFailure", @"AlertStrings", nil);
+
+  }
+  
+  // configure alert controller
+  alertController = [UIAlertController alertControllerWithTitle:alertTitle
+                                                        message:alertMessage
+                                                 preferredStyle:UIAlertControllerStyleAlert];
+  
+  // accept action
+  UIAlertAction *actionAccept = [UIAlertAction actionWithTitle:acceptTitle
+                                                         style:UIAlertActionStyleDefault
+                                                       handler:nil];
+  
+  [alertController addAction:actionAccept];
+  
+  [self presentViewController:alertController animated:YES completion:nil];
+  
+}
+
+#pragma mark - Email
+
+- (void)sendEmail:(NSString *)message {
+  
+  // configure the email view controller
+  MFMailComposeViewController *mfvc = [[MFMailComposeViewController alloc] init];
+  [mfvc setMailComposeDelegate:self];
+  [mfvc setToRecipients:[NSArray arrayWithObject:[[NSUserDefaults standardUserDefaults] valueForKey:@"user_email"]]];
+  [mfvc setSubject:NSLocalizedStringFromTable(@"defaultEmailSubject", @"AlertStrings", nil)];
+  [mfvc setMessageBody:message isHTML:NO];
+  
+  // open the mail controller if you can
+  // otherwise, let the user know they can't
+  if ([MFMailComposeViewController canSendMail]) {
+    [self presentViewController:mfvc animated:YES completion:nil];
+    
+  } else {
+    // configure alert controller strings
+    NSString *alertTitle = NSLocalizedStringFromTable(@"defaultFailureTitle", @"AlertStrings", nil);
+    NSString *alertMessage = NSLocalizedStringFromTable(@"openMailFailureMessage", @"AlertStrings", nil);
+    NSString *acceptTitle = NSLocalizedStringFromTable(@"defaultAcceptTitle", @"AlertStrings", nil);
+    
+    // configure alert controller
+    alertController = [UIAlertController alertControllerWithTitle:alertTitle
+                                                          message:alertMessage
+                                                   preferredStyle:UIAlertControllerStyleAlert];
+    // configure accept action
+    UIAlertAction *actionAccept = [UIAlertAction actionWithTitle:acceptTitle
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:nil];
+    [alertController addAction:actionAccept];
+    [self presentViewController:alertController animated:YES completion:nil];
+  }
+  
+}
+
+- (void)mailComposeController:(MFMailComposeViewController *)controller
+          didFinishWithResult:(MFMailComposeResult)result
+                        error:(NSError *)error {
+  [controller dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - Navigation
+
+- (IBAction)returnToImageTop:(id)sender {
+  CATransition *transition = [CATransition animation];
+  transition.duration = 0.3;
+  transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+  transition.type = kCATransitionPush;
+  transition.subtype = kCATransitionFromLeft;
+  [self.view.window.layer addAnimation:transition forKey:nil];
+  [self dismissViewControllerAnimated:NO completion:nil];
+}
 
 @end

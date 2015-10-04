@@ -13,22 +13,15 @@
 
 @interface ImageDetailViewController : UIViewController <MFMailComposeViewControllerDelegate>
 
+@property (weak, nonatomic) IBOutlet UINavigationItem *navTitle;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UILabel *imgSrcLabel;
 @property (weak, nonatomic) IBOutlet UILabel *deletionDateLabel;
-@property NSDictionary *imageObject;
-
-// delegate
 @property (weak, nonatomic) id <ImageDetailViewControllerDelegate> delegate;
-
+@property NSDictionary *imageObject;
 @property UIAlertController *alertController;
-@property UIAlertAction *actionEmailOk;
-@property UIAlertAction *actionDownloadOk;
-@property UIAlertAction *actionExtendOk;
-@property UIAlertAction *actionDelete;
-@property UIAlertAction *actionCancelDelete;
 
-- (IBAction)goBack:(id)sender;
+- (IBAction)returnToImageTop:(id)sender;
 - (IBAction)handleSendEmailTouch:(id)sender;
 - (IBAction)handleExtendDeletionDateTouch:(id)sender;
 - (IBAction)handleDeleteTouch:(id)sender;
@@ -36,12 +29,8 @@
 - (void)sendEmail:(NSString *)message;
 - (void)extendDeletionDateOfImage:(NSString*)id;
 
-@property (weak, nonatomic) IBOutlet UINavigationItem *navTitle;
-
 @end
 
 @protocol ImageDetailViewControllerDelegate <NSObject>
-
 - (void) removeDeletedImage:(NSDictionary *)imageObject;
-
 @end
