@@ -35,7 +35,7 @@
   
 }
 
-+ (NSMutableURLRequest *)createNewImageRequest:(NSString *)imageString forUser:(NSString *)uid {
++ (NSMutableURLRequest *)createImageRequest:(NSString *)imageString forUser:(NSString *)uid {
   
   // retrieve named route
   NSURL *url = [Api fetchUrlForApiNamedRoute:@"api_images_create" withResourceId:nil];

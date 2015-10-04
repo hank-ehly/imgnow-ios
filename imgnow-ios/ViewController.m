@@ -218,7 +218,7 @@ AVCaptureSession *captureSession;
   [self.uploadActivityIndicator startAnimating];
   
   NSString *uid = [[NSUserDefaults standardUserDefaults] valueForKey:@"user_email"];
-  NSMutableURLRequest *request = [Api createNewImageRequest:imageString forUser:uid];
+  NSMutableURLRequest *request = [Api createImageRequest:imageString forUser:uid];
   
   [Api fetchContentsOfRequest:request
                    completion:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -233,7 +233,6 @@ AVCaptureSession *captureSession;
                          case 200:
                            [self imageCreateSuccess:data];
                            break;
-                           
                          default:
                            NSLog(@"%ld", [Api statusCodeForResponse:response]);
                            break;
