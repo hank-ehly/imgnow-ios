@@ -153,15 +153,11 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
                            case 200:
                              [self queryForImages];
                              break;
-                           case 500:
-                             // handle internal error
-                             break;
                            default:
                              NSLog(@"Status code %ld wasn't accounted for in ImageTopViewController.m commitEditingStyle",
                                    [Api statusCodeForResponse:response]);
                              break;
                          }
-                         
                          
                        });
                      }];
