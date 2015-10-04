@@ -82,6 +82,21 @@
   
 }
 
++ (NSMutableURLRequest *)imageUpdateRequest:(NSString *)imageId {
+  
+  // retrieve named route
+  NSURL *url = [self fetchUrlForApiNamedRoute:@"api_images_update" withResourceId:imageId];
+  
+  // create and return HTTP request object
+  NSMutableURLRequest *request = [self jsonRequestWithUrl:url
+                                                   ofType:@"PATCH"
+                                             withHTTPBody:nil
+                                      andTimeoutInSeconds:10];
+  
+  return request;
+  
+}
+
 + (void)fetchContentsOfRequest:(NSMutableURLRequest *)request
                     completion:(void (^)(NSData *data,
                                          NSURLResponse *response,

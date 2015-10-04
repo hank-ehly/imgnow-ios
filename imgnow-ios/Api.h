@@ -38,6 +38,8 @@
 
 + (NSMutableURLRequest*)imageDeleteRequest:(NSString*)imageId;
 
++ (NSMutableURLRequest*)imageUpdateRequest:(NSString*)imageId;
+
 // takes a request and performs it
 + (void)fetchContentsOfRequest:(NSMutableURLRequest *)request
                     completion:(void (^)(NSData *data,
