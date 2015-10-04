@@ -52,11 +52,12 @@ NSMutableArray *images;
                        }
                        
                        switch ([Api statusCodeForResponse:response]) {
-                         case 201:
+                         case 200:
                            [self imagesIndexSuccess:data];
                            break;
                          default:
-                           NSLog(@"%ld", [Api statusCodeForResponse:response]);
+                           NSLog(@"Status code %ld wasn't accounted for in ImageTopViewController.m queryForImages",
+                                 [Api statusCodeForResponse:response]);
                            break;
                        }
                        
@@ -130,35 +131,40 @@ NSMutableArray *images;
   
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView
+commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
+forRowAtIndexPath:(NSIndexPath *)indexPath {
+  
   if (editingStyle == UITableViewCellEditingStyleDelete) {
     
-    NSString *img_id = [[images objectAtIndex:indexPath.row] valueForKey:@"id"];
-    NSURL *url = [Api fetchUrlForApiNamedRoute:@"api_image_delete" withResourceId:img_id];
+    NSString *imageId = [[images objectAtIndex:indexPath.row] valueForKey:@"id"];
+    NSMutableURLRequest *request = [Api imageDeleteRequest:imageId];
     
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    NSURLSession *urlSession = [NSURLSession sharedSession];
-    
-    [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    request.HTTPMethod = @"DELETE";
-    
-    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-      
-      dispatch_async(dispatch_get_main_queue(), ^{
-        
-        if (error) {
-          NSLog(@"%@", error);
-        }
-        
-        [self queryForImages];
-        
-      });
-      
-      
-    }];
-    
-    [dataTask resume];
+    [Api fetchContentsOfRequest:request
+                     completion:^(NSData *data, NSURLResponse *response, NSError *error) {
+                       
+                       dispatch_async(dispatch_get_main_queue(), ^{
+                         
+                         if (error) {
+                           // handle error
+                         }
+                         
+                         switch ([Api statusCodeForResponse:response]) {
+                           case 200:
+                             [self queryForImages];
+                             break;
+                           case 500:
+                             // handle internal error
+                             break;
+                           default:
+                             NSLog(@"Status code %ld wasn't accounted for in ImageTopViewController.m commitEditingStyle",
+                                   [Api statusCodeForResponse:response]);
+                             break;
+                         }
+                         
+                         
+                       });
+                     }];
     
   }
 }

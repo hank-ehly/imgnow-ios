@@ -36,6 +36,8 @@
 // returns the request object used to find all images for a user
 + (NSMutableURLRequest*)imagesIndexRequestForUser:(NSString*)uid;
 
++ (NSMutableURLRequest*)imageDeleteRequest:(NSString*)imageId;
+
 // takes a request and performs it
 + (void)fetchContentsOfRequest:(NSMutableURLRequest *)request
                     completion:(void (^)(NSData *data,

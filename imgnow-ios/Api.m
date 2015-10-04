@@ -55,11 +55,26 @@
 + (NSMutableURLRequest *)imagesIndexRequestForUser:(NSString *)uid {
   
   // retrieve named route
-  NSURL *url = [self url:@"api_images_index" withQueryParameterKey:@"user_email" forValue:uid];
+  NSURL *url = [self url:@"api_images_index" withQueryParameterKey:@"email" forValue:uid];
   
   // create and return HTTP request object
   NSMutableURLRequest *request = [self jsonRequestWithUrl:url
                                                    ofType:@"GET"
+                                             withHTTPBody:nil
+                                      andTimeoutInSeconds:10];
+  
+  return request;
+  
+}
+
++ (NSMutableURLRequest *)imageDeleteRequest:(NSString *)imageId {
+  
+  // retrieve named route
+  NSURL *url = [self fetchUrlForApiNamedRoute:@"api_image_delete" withResourceId:imageId];
+  
+  // create and return HTTP request object
+  NSMutableURLRequest *request = [self jsonRequestWithUrl:url
+                                                   ofType:@"DELETE"
                                              withHTTPBody:nil
                                       andTimeoutInSeconds:10];
   
