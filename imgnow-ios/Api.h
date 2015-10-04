@@ -33,6 +33,9 @@
 // this method returns the request object used to create a new image for a user
 + (NSMutableURLRequest*)createImageRequest:(NSString*)imageString forUser:(NSString*)uid;
 
+// returns the request object used to find all images for a user
++ (NSMutableURLRequest*)imagesIndexRequestForUser:(NSString*)uid;
+
 // takes a request and performs it
 + (void)fetchContentsOfRequest:(NSMutableURLRequest *)request
                     completion:(void (^)(NSData *data,

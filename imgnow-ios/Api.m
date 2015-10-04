@@ -52,6 +52,21 @@
   
 }
 
++ (NSMutableURLRequest *)imagesIndexRequestForUser:(NSString *)uid {
+  
+  // retrieve named route
+  NSURL *url = [self url:@"api_images_index" withQueryParameterKey:@"user_email" forValue:uid];
+  
+  // create and return HTTP request object
+  NSMutableURLRequest *request = [self jsonRequestWithUrl:url
+                                                   ofType:@"GET"
+                                             withHTTPBody:nil
+                                      andTimeoutInSeconds:10];
+  
+  return request;
+  
+}
+
 + (void)fetchContentsOfRequest:(NSMutableURLRequest *)request
                     completion:(void (^)(NSData *data,
                                          NSURLResponse *response,
