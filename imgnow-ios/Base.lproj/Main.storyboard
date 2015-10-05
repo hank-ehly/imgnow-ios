@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="T2P-p9-REv">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -8,7 +8,7 @@
         <!--Login View Controller-->
         <scene sceneID="7r9-XF-XLm">
             <objects>
-                <viewController id="T2P-p9-REv" customClass="LoginViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginView" id="T2P-p9-REv" customClass="LoginViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="DLc-p7-h0S"/>
                         <viewControllerLayoutGuide type="bottom" id="Rbq-P4-fyL"/>
@@ -256,7 +256,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CameraView" id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -810,7 +810,7 @@
         <image name="login-button.jpg" width="388" height="75"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="jWY-oW-4va"/>
+        <segue reference="73f-he-qFX"/>
         <segue reference="5OX-vb-IRx"/>
     </inferredMetricsTieBreakers>
 </document>

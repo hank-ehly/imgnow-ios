@@ -293,33 +293,82 @@
 }
 
 + (NSDictionary*)timeUntilDeletion:(int)time {
-    
-    NSDate *date = [NSDate dateWithTimeIntervalSinceReferenceDate:time];
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    
-    NSString *format = [[NSString alloc] init];
-    NSString *counter = [[NSString alloc] init];
-    
-    if (time >= 86400) {
-      format = @"dd";
-      counter = @"days";
-    } else if (time >= 3600 && time < 86400) {
-      format = @"hh";
-      counter = @"hours";
-    } else if (time >= 60 && time < 3600) {
-      format = @"mm";
-      counter = @"minutes";
-    } else if (time < 60) {
-      format = @"ss";
-      counter = @"seconds";
+  
+  NSDate *date = [NSDate dateWithTimeIntervalSinceReferenceDate:time];
+  NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+  
+  NSString *format = [[NSString alloc] init];
+  NSString *counter = [[NSString alloc] init];
+  
+  if (time >= 86400) {
+    format = @"dd";
+    counter = @"days";
+  } else if (time >= 3600 && time < 86400) {
+    format = @"hh";
+    counter = @"hours";
+  } else if (time >= 60 && time < 3600) {
+    format = @"mm";
+    counter = @"minutes";
+  } else if (time < 60) {
+    format = @"ss";
+    counter = @"seconds";
+  }
+  
+  [formatter setDateFormat:format];
+  [formatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"]];
+  
+  NSDictionary *result = [NSDictionary dictionaryWithObjectsAndKeys:
+                          [formatter stringFromDate:date], @"time", counter, @"counter", nil];
+  return result;
+  
+}
+
++ (NSURLProtectionSpace *)sharedProtectionSpace {
+  
+  NSURL *url = [NSURL URLWithString:[Api fetchBaseRouteString]];
+  
+  static NSURLProtectionSpace *singleton = nil;
+  
+  @synchronized(self) {
+    if (singleton == nil) {
+      singleton = [[NSURLProtectionSpace alloc] initWithHost:url.host
+                                                        port:[url.port integerValue]
+                                                    protocol:url.scheme
+                                                       realm:nil
+                                        authenticationMethod:NSURLAuthenticationMethodHTTPDigest];
     }
-    
-    [formatter setDateFormat:format];
-    [formatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"]];
-    
-    NSDictionary *result = [NSDictionary dictionaryWithObjectsAndKeys:
-                            [formatter stringFromDate:date], @"time", counter, @"counter", nil];
-    return result;
+  }
+  
+  return singleton;
+  
+}
+
++ (BOOL)checkLoggedIn {
+  
+  NSURLCredential *urlCredential;
+  NSDictionary *credentialStorage;
+  
+  credentialStorage = [[NSURLCredentialStorage sharedCredentialStorage] credentialsForProtectionSpace:[self sharedProtectionSpace]];
+  urlCredential = [credentialStorage.objectEnumerator nextObject];
+  
+  if (urlCredential.user && [urlCredential hasPassword]) {
+    [[NSUserDefaults standardUserDefaults] setObject:urlCredential.user forKey:@"user_email"];
+    return YES;
+  } else {
+    return NO;
+  }
+  
+}
+
++ (void)clearCredentials {
+  
+  NSURLCredential *urlCredential;
+  NSDictionary *credentialStorage;
+  
+  credentialStorage = [[NSURLCredentialStorage sharedCredentialStorage] credentialsForProtectionSpace:[self sharedProtectionSpace]];
+  urlCredential = [credentialStorage.objectEnumerator nextObject];
+  
+  [[NSURLCredentialStorage sharedCredentialStorage] removeCredential:urlCredential forProtectionSpace:[self sharedProtectionSpace]];
   
 }
 

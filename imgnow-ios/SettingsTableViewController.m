@@ -109,6 +109,7 @@
        
        switch ([Api statusCodeForResponse:response]) {
          case 200:
+           [Api clearCredentials];
            [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"user_email"];
            [self performSegueWithIdentifier:@"logout" sender:nil];
            break;

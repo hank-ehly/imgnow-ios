@@ -65,6 +65,7 @@
        
        switch ([Api statusCodeForResponse:response]) {
          case 201:
+           [self storeCredentials];
            [self userSessionSuccess:data];
            break;
          case 401:
@@ -84,8 +85,19 @@
 
 #pragma mark - Async Callbacks
 
-- (void) userSessionSuccess:(NSData*)data {
+- (void)storeCredentials {
   
+  NSURLCredential *credential = [NSURLCredential credentialWithUser:_emailTextField.text
+                                                           password:_passwordTextField.text
+                                                        persistence:NSURLCredentialPersistencePermanent];
+  
+  [[NSURLCredentialStorage sharedCredentialStorage] setCredential:credential
+                                               forProtectionSpace:[Api sharedProtectionSpace]];
+  
+}
+
+- (void) userSessionSuccess:(NSData*)data {
+
   // serialize login-success response to json
   NSData *jsonResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
   

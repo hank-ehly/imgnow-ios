@@ -53,4 +53,10 @@
 
 + (NSDictionary*)timeUntilDeletion:(int)time;
 
++ (NSURLProtectionSpace*)sharedProtectionSpace;
+
++ (BOOL)checkLoggedIn;
+
++ (void)clearCredentials;
+
 @end
