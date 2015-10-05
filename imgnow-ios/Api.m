@@ -279,49 +279,7 @@
   
 }
 
-#pragma mark - Utility Methods
-
-+ (long)statusCodeForResponse:(NSURLResponse *)response {
-  return (long)[(NSHTTPURLResponse *)response statusCode];
-}
-
-+ (NSString *)imgTagWithSrc:(NSString *)src {
-  NSString *beg = @"<img src=\"";
-  NSString *end = @"\"></img>";
-  NSString *concat = [NSString stringWithFormat:@"%@%@%@", beg, src, end];
-  return concat;
-}
-
-+ (NSDictionary*)timeUntilDeletion:(int)time {
-  
-  NSDate *date = [NSDate dateWithTimeIntervalSinceReferenceDate:time];
-  NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-  
-  NSString *format = [[NSString alloc] init];
-  NSString *counter = [[NSString alloc] init];
-  
-  if (time >= 86400) {
-    format = @"dd";
-    counter = @"days";
-  } else if (time >= 3600 && time < 86400) {
-    format = @"hh";
-    counter = @"hours";
-  } else if (time >= 60 && time < 3600) {
-    format = @"mm";
-    counter = @"minutes";
-  } else if (time < 60) {
-    format = @"ss";
-    counter = @"seconds";
-  }
-  
-  [formatter setDateFormat:format];
-  [formatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"]];
-  
-  NSDictionary *result = [NSDictionary dictionaryWithObjectsAndKeys:
-                          [formatter stringFromDate:date], @"time", counter, @"counter", nil];
-  return result;
-  
-}
+#pragma mark - User credentials
 
 + (NSURLProtectionSpace *)sharedProtectionSpace {
   
@@ -369,6 +327,50 @@
   urlCredential = [credentialStorage.objectEnumerator nextObject];
   
   [[NSURLCredentialStorage sharedCredentialStorage] removeCredential:urlCredential forProtectionSpace:[self sharedProtectionSpace]];
+  
+}
+
+#pragma mark - Utility Methods
+
++ (long)statusCodeForResponse:(NSURLResponse *)response {
+  return (long)[(NSHTTPURLResponse *)response statusCode];
+}
+
++ (NSString *)imgTagWithSrc:(NSString *)src {
+  NSString *beg = @"<img src=\"";
+  NSString *end = @"\"></img>";
+  NSString *concat = [NSString stringWithFormat:@"%@%@%@", beg, src, end];
+  return concat;
+}
+
++ (NSDictionary*)timeUntilDeletion:(int)time {
+  
+  NSDate *date = [NSDate dateWithTimeIntervalSinceReferenceDate:time];
+  NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+  
+  NSString *format = [[NSString alloc] init];
+  NSString *counter = [[NSString alloc] init];
+  
+  if (time >= 86400) {
+    format = @"dd";
+    counter = @"days";
+  } else if (time >= 3600 && time < 86400) {
+    format = @"hh";
+    counter = @"hours";
+  } else if (time >= 60 && time < 3600) {
+    format = @"mm";
+    counter = @"minutes";
+  } else if (time < 60) {
+    format = @"ss";
+    counter = @"seconds";
+  }
+  
+  [formatter setDateFormat:format];
+  [formatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"]];
+  
+  NSDictionary *result = [NSDictionary dictionaryWithObjectsAndKeys:
+                          [formatter stringFromDate:date], @"time", counter, @"counter", nil];
+  return result;
   
 }
 
