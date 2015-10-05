@@ -502,6 +502,9 @@
                                             <animations/>
                                         </tableViewCellContentView>
                                         <animations/>
+                                        <connections>
+                                            <segue destination="xgR-qc-Bxa" kind="custom" customClass="SlideLeftCustomSegue" id="BO7-IK-p9t"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" textLabel="x3M-gK-hBj" style="IBUITableViewCellStyleDefault" id="Mrj-0M-vJZ">
                                         <rect key="frame" x="0.0" y="88" width="600" height="44"/>
@@ -542,6 +545,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XyG-SE-79o" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2595" y="-314"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="wOK-jF-vof">
+            <objects>
+                <viewController id="xgR-qc-Bxa" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="x9l-hb-lb4"/>
+                        <viewControllerLayoutGuide type="bottom" id="q5X-ZE-E5X"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Nb4-QQ-lA4">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dxU-3l-mPo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3361" y="-314"/>
         </scene>
         <!--Image Top View Controller-->
         <scene sceneID="yRG-A3-68h">
