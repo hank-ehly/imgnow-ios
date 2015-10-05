@@ -10,4 +10,11 @@
 
 @interface ChangePasswordViewController : UIViewController
 
+- (IBAction)handleTouchBack:(id)sender;
+- (IBAction)handleTouchSave:(id)sender;
+
+@property (weak, nonatomic) IBOutlet UITextField *oldPasswordTextField;
+@property (weak, nonatomic) IBOutlet UITextField *passwordNewTextField;
+@property (weak, nonatomic) IBOutlet UITextField *confirmNewPasswordTextField;
+
 @end
