@@ -27,7 +27,7 @@
 }
 
 - (IBAction)dimissViewController:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
+  [self performSegueWithIdentifier:@"returnToImageTop" sender:nil];
 }
 
 @end

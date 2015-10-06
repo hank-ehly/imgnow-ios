@@ -42,7 +42,7 @@
 }
 
 - (IBAction)returnToCameraView:(id)sender {
-  [self dismissViewControllerAnimated:YES completion:nil];
+  [self performSegueWithIdentifier:@"returnToCameraView" sender:nil];
 }
 
 #pragma mark - Api Calls

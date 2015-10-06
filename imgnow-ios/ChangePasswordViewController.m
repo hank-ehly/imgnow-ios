@@ -23,6 +23,7 @@
 }
 
 - (IBAction)handleTouchBack:(id)sender {
+  [self performSegueWithIdentifier:@"returnToSettings" sender:nil];
 }
 
 - (IBAction)handleTouchSave:(id)sender {

@@ -413,6 +413,7 @@
                                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <connections>
                                                 <action selector="dimissViewController:" destination="oT7-aW-AQ6" id="GpK-bK-ZlS"/>
+                                                <segue destination="j5p-qp-wSI" kind="showDetail" identifier="returnToImageTop" id="EwE-1F-ljW"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
@@ -441,14 +442,14 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DLJ-fh-4QW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1849" y="-334"/>
+            <point key="canvasLocation" x="1823" y="-390"/>
         </scene>
         <!--Settings Table View Controller-->
         <scene sceneID="CPm-fc-MV3">
             <objects>
                 <tableViewController id="4OB-gL-XMX" customClass="SettingsTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" sectionIndexMinimumDisplayRowCount="3" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="L3V-Ns-7EU">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="540"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -544,7 +545,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XyG-SE-79o" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2595" y="-314"/>
+            <point key="canvasLocation" x="2613" y="-334"/>
         </scene>
         <!--Change Password View Controller-->
         <scene sceneID="wOK-jF-vof">
@@ -574,6 +575,7 @@
                                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <connections>
                                                 <action selector="handleTouchBack:" destination="xgR-qc-Bxa" id="cQe-Ff-g8O"/>
+                                                <segue destination="oT7-aW-AQ6" kind="show" identifier="returnToSettings" id="2k1-Rh-mof"/>
                                             </connections>
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="7cJ-zP-h5I">
@@ -585,7 +587,7 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="••••••••" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FwJ-D0-Vlg">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FwJ-D0-Vlg">
                                 <rect key="frame" x="30" y="115" width="540" height="50"/>
                                 <animations/>
                                 <constraints>
@@ -594,7 +596,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" secureTextEntry="YES"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="••••••••" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ono-R0-ec3">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ono-R0-ec3">
                                 <rect key="frame" x="30" y="211" width="540" height="50"/>
                                 <animations/>
                                 <constraints>
@@ -603,7 +605,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" secureTextEntry="YES"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="••••••••" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xMh-XV-Z3C">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xMh-XV-Z3C">
                                 <rect key="frame" x="30" y="306.5" width="540" height="50"/>
                                 <animations/>
                                 <constraints>
@@ -668,7 +670,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dxU-3l-mPo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3361" y="-314"/>
+            <point key="canvasLocation" x="3330" y="-1074"/>
         </scene>
         <!--Image Top View Controller-->
         <scene sceneID="yRG-A3-68h">
@@ -698,6 +700,7 @@
                                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <connections>
                                                 <action selector="returnToCameraView:" destination="j5p-qp-wSI" id="xu8-UX-GG0"/>
+                                                <segue destination="BYZ-38-t0r" kind="show" identifier="returnToCameraView" id="M3O-a4-EcA"/>
                                             </connections>
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" image="Settings-25.png" id="VC9-0I-Lzi">
@@ -770,7 +773,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="imY-C4-eaf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1125" y="377"/>
+            <point key="canvasLocation" x="1142" y="370"/>
         </scene>
         <!--Image Detail View Controller-->
         <scene sceneID="1MF-cd-Zq8">
@@ -937,7 +940,9 @@
         <image name="login-button.jpg" width="388" height="75"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="73f-he-qFX"/>
+        <segue reference="Egt-J6-uAE"/>
+        <segue reference="M3O-a4-EcA"/>
+        <segue reference="U5X-g7-FH7"/>
         <segue reference="5OX-vb-IRx"/>
     </inferredMetricsTieBreakers>
 </document>
