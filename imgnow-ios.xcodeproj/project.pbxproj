@@ -22,6 +22,7 @@
 		33987DA41BAF63DD00D728C2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33987DA21BAF63DD00D728C2 /* LaunchScreen.storyboard */; };
 		33987DAF1BAF63DD00D728C2 /* imgnow_iosTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 33987DAE1BAF63DD00D728C2 /* imgnow_iosTests.m */; };
 		33987DBA1BAF63DD00D728C2 /* imgnow_iosUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 33987DB91BAF63DD00D728C2 /* imgnow_iosUITests.m */; };
+		33A9305A1BC37A35003F3A46 /* SlideRightCustomSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A930591BC37A35003F3A46 /* SlideRightCustomSegue.m */; settings = {ASSET_TAGS = (); }; };
 		33CA7D621BB170AE007B175C /* login-button.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 33CA7D611BB170AE007B175C /* login-button.jpg */; settings = {ASSET_TAGS = (); }; };
 		33CA7D641BB17ED0007B175C /* api-routes.plist in Resources */ = {isa = PBXBuildFile; fileRef = 33CA7D631BB17ED0007B175C /* api-routes.plist */; settings = {ASSET_TAGS = (); }; };
 		33E9155E1BAFAB7700A44BE1 /* Arrow-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 33E915421BAFAB7700A44BE1 /* Arrow-50.png */; settings = {ASSET_TAGS = (); }; };
@@ -118,6 +119,8 @@
 		33987DB51BAF63DD00D728C2 /* imgnow-iosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "imgnow-iosUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		33987DB91BAF63DD00D728C2 /* imgnow_iosUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = imgnow_iosUITests.m; sourceTree = "<group>"; };
 		33987DBB1BAF63DD00D728C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		33A930581BC37A35003F3A46 /* SlideRightCustomSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlideRightCustomSegue.h; sourceTree = "<group>"; };
+		33A930591BC37A35003F3A46 /* SlideRightCustomSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlideRightCustomSegue.m; sourceTree = "<group>"; };
 		33CA7D611BB170AE007B175C /* login-button.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "login-button.jpg"; sourceTree = "<group>"; };
 		33CA7D631BB17ED0007B175C /* api-routes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "api-routes.plist"; sourceTree = "<group>"; };
 		33E915421BAFAB7700A44BE1 /* Arrow-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Arrow-50.png"; sourceTree = "<group>"; };
@@ -255,6 +258,8 @@
 				33CA7D631BB17ED0007B175C /* api-routes.plist */,
 				335477381BB2AB55000FABCE /* SlideLeftCustomSegue.h */,
 				335477391BB2AB55000FABCE /* SlideLeftCustomSegue.m */,
+				33A930581BC37A35003F3A46 /* SlideRightCustomSegue.h */,
+				33A930591BC37A35003F3A46 /* SlideRightCustomSegue.m */,
 			);
 			path = "imgnow-ios";
 			sourceTree = "<group>";
@@ -533,6 +538,7 @@
 				33E9159F1BB01BD100A44BE1 /* SettingsTableViewController.m in Sources */,
 				33987D991BAF63DD00D728C2 /* ViewController.m in Sources */,
 				3309AFE01BBF499C00FDC1C0 /* Api.m in Sources */,
+				33A9305A1BC37A35003F3A46 /* SlideRightCustomSegue.m in Sources */,
 				335477341BB23CB1000FABCE /* RegistrationViewController.m in Sources */,
 				33987D961BAF63DD00D728C2 /* AppDelegate.m in Sources */,
 				3354773A1BB2AB55000FABCE /* SlideLeftCustomSegue.m in Sources */,

@@ -314,7 +314,7 @@
                                 </constraints>
                                 <state key="normal" image="Menu-50 (1).png"/>
                                 <connections>
-                                    <segue destination="j5p-qp-wSI" kind="showDetail" identifier="" id="Egt-J6-uAE"/>
+                                    <segue destination="j5p-qp-wSI" kind="custom" identifier="" customClass="SlideLeftCustomSegue" id="Egt-J6-uAE"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ST8-Wg-7Pa">
@@ -413,7 +413,7 @@
                                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <connections>
                                                 <action selector="dimissViewController:" destination="oT7-aW-AQ6" id="GpK-bK-ZlS"/>
-                                                <segue destination="j5p-qp-wSI" kind="showDetail" identifier="returnToImageTop" id="EwE-1F-ljW"/>
+                                                <segue destination="j5p-qp-wSI" kind="presentation" identifier="returnToImageTop" modalTransitionStyle="crossDissolve" id="EwE-1F-ljW"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
@@ -545,7 +545,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XyG-SE-79o" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2613" y="-334"/>
+            <point key="canvasLocation" x="2541" y="-390"/>
         </scene>
         <!--Change Password View Controller-->
         <scene sceneID="wOK-jF-vof">
@@ -575,7 +575,7 @@
                                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <connections>
                                                 <action selector="handleTouchBack:" destination="xgR-qc-Bxa" id="cQe-Ff-g8O"/>
-                                                <segue destination="oT7-aW-AQ6" kind="show" identifier="returnToSettings" id="2k1-Rh-mof"/>
+                                                <segue destination="oT7-aW-AQ6" kind="custom" identifier="returnToSettings" customClass="SlideRightCustomSegue" id="2k1-Rh-mof"/>
                                             </connections>
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="7cJ-zP-h5I">
@@ -700,7 +700,7 @@
                                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <connections>
                                                 <action selector="returnToCameraView:" destination="j5p-qp-wSI" id="xu8-UX-GG0"/>
-                                                <segue destination="BYZ-38-t0r" kind="show" identifier="returnToCameraView" id="M3O-a4-EcA"/>
+                                                <segue destination="BYZ-38-t0r" kind="custom" identifier="returnToCameraView" customClass="SlideRightCustomSegue" id="M3O-a4-EcA"/>
                                             </connections>
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" image="Settings-25.png" id="VC9-0I-Lzi">
@@ -921,7 +921,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PoH-Wt-Xyl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1849" y="377"/>
+            <point key="canvasLocation" x="1854" y="453"/>
         </scene>
     </scenes>
     <resources>
@@ -940,9 +940,9 @@
         <image name="login-button.jpg" width="388" height="75"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Egt-J6-uAE"/>
-        <segue reference="M3O-a4-EcA"/>
+        <segue reference="EwE-1F-ljW"/>
         <segue reference="U5X-g7-FH7"/>
         <segue reference="5OX-vb-IRx"/>
+        <segue reference="M3O-a4-EcA"/>
     </inferredMetricsTieBreakers>
 </document>
