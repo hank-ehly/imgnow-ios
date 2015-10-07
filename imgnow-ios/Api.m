@@ -36,7 +36,8 @@
   // serialize session credentials
   NSData *credentials = [self serializedSessionCredentialsForUser:uid
                                                      identifiedBy:password
-                                                      confirmedBy:passwordConfirmation];
+                                                      confirmedBy:passwordConfirmation
+                                                             with:nil];
   
   // create HTTP request object
   NSMutableURLRequest *request = [self jsonRequestWithUrl:(NSURL*)url
@@ -104,6 +105,30 @@
   NSMutableURLRequest *request = [self jsonRequestWithUrl:url
                                                    ofType:@"PATCH"
                                              withHTTPBody:nil
+                                      andTimeoutInSeconds:30];
+  
+  return request;
+  
+}
+
++ (NSMutableURLRequest *)changePasswordRequestForUser:(NSString *)userEmail
+                                         identifiedBy:(NSString *)currentPassword
+                                      withNewPassword:(NSString *)password
+                                        confirmedWith:(NSString *)passwordConfirmation {
+  
+  // retrieve named route
+  NSURL *url = [self fetchUrlForApiNamedRoute:@"update_password_api_user" withResourceId:nil];
+  
+  // serialize session credentials
+  NSData *credentials = [self serializedSessionCredentialsForUser:userEmail
+                                                     identifiedBy:password
+                                                      confirmedBy:passwordConfirmation
+                                                             with:currentPassword];
+  
+  // create and return HTTP request object
+  NSMutableURLRequest *request = [self jsonRequestWithUrl:url
+                                                   ofType:@"PATCH"
+                                             withHTTPBody:credentials
                                       andTimeoutInSeconds:30];
   
   return request;
@@ -181,23 +206,32 @@
 
 + (NSData*)serializedSessionCredentialsForUser:(NSString*)uid
                                   identifiedBy:(NSString*)password
-                                   confirmedBy:(NSString*)passwordConfirmation {
+                                   confirmedBy:(NSString*)passwordConfirmation
+                                          with:(NSString*)currentPassword {
   
   // We put things in this dictionary before serializing it into JSON
   NSDictionary *credentialsDictionaryObject = [[NSDictionary alloc] init];
   
   // Based on the request type, add certain parameters to the dictionary
-  if (uid != nil && password != nil && passwordConfirmation == nil) { // login
+  if (uid != nil && password != nil && passwordConfirmation == nil && currentPassword == nil) { // login
     credentialsDictionaryObject = @{ @"user": @{ @"email":uid, @"password":password } };
     
-  } else if (uid != nil && password == nil && passwordConfirmation == nil) { // logout
+  } else if (uid != nil && password == nil && passwordConfirmation == nil && currentPassword == nil) { // logout
     credentialsDictionaryObject = @{ @"user": @{ @"email":uid } };
     
-  } else if (uid != nil && password != nil && passwordConfirmation != nil) { // registration
+  } else if (uid != nil && password != nil && passwordConfirmation != nil && currentPassword == nil) { // registration
     credentialsDictionaryObject = @{ @"user": @{
                                          @"email":uid,
                                          @"password":password,
                                          @"password_confirmation":passwordConfirmation
+                                         }
+                                     };
+  } else if (uid != nil && password != nil && passwordConfirmation != nil && currentPassword != nil) { // change password
+    credentialsDictionaryObject = @{ @"user": @{
+                                         @"email":uid,
+                                         @"password":password,
+                                         @"password_confirmation":passwordConfirmation,
+                                         @"current_password":currentPassword
                                          }
                                      };
   }
@@ -284,7 +318,6 @@
 + (NSURLProtectionSpace *)sharedProtectionSpace {
   
   NSURL *url = [NSURL URLWithString:[Api fetchBaseRouteString]];
-  
   static NSURLProtectionSpace *singleton = nil;
   
   @synchronized(self) {

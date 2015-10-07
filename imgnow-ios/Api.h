@@ -40,6 +40,11 @@
 
 + (NSMutableURLRequest*)imageUpdateRequest:(NSString*)imageId;
 
++ (NSMutableURLRequest*)changePasswordRequestForUser:(NSString*)userEmail
+                                        identifiedBy:(NSString*)currentPassword
+                                     withNewPassword:(NSString*)password
+                                       confirmedWith:(NSString*)passwordConfirmation;
+
 // takes a request and performs it
 + (void)fetchContentsOfRequest:(NSMutableURLRequest *)request
                     completion:(void (^)(NSData *data,

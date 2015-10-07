@@ -449,7 +449,7 @@
             <objects>
                 <tableViewController id="4OB-gL-XMX" customClass="SettingsTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" sectionIndexMinimumDisplayRowCount="3" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="L3V-Ns-7EU">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="540"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -940,9 +940,9 @@
         <image name="login-button.jpg" width="388" height="75"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="2k1-Rh-mof"/>
         <segue reference="EwE-1F-ljW"/>
-        <segue reference="U5X-g7-FH7"/>
-        <segue reference="5OX-vb-IRx"/>
         <segue reference="M3O-a4-EcA"/>
+        <segue reference="5OX-vb-IRx"/>
     </inferredMetricsTieBreakers>
 </document>

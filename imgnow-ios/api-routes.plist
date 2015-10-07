@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>update_password_api_user</key>
+	<string>/api/user/update_password.json</string>
 	<key>sakura</key>
 	<string>http://160.16.63.151:70</string>
 	<key>home</key>
